@@ -39,8 +39,8 @@ class GameViewController: UIViewController, GADInterstitialDelegate {
     }
     
     func createAndLoadInterstitial() -> GADInterstitial {
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-7621248326587252/5220265808") //real
-//        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910") //test
+//        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-7621248326587252/5220265808") //real
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910") //test
 
         interstitial.delegate = self
         interstitial.load(GADRequest())
