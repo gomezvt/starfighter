@@ -1855,7 +1855,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if sentinelDur > 0 {
             availableWeps = availableWeps.filter({$0.texture != Textures.sentineltexture})
         }
-        if let texture = availableWeps.randomElement()?.texture {
+        if var texture = availableWeps.randomElement()?.texture {
+            texture = Textures.megabombtexture;
+            if (texture == Textures.megabombtexture && boss != nil) {
+                return;
+            }
             let weapon = SKSpriteNode(texture: texture)
             let width = UIScreen.main.bounds.width
             

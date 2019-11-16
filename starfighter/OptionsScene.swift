@@ -139,7 +139,7 @@ class OptionsScene: SKScene {
             if touchedNode == backLabel,
                 let view = self.view as SKView?,
                 let menuScene = SKScene(fileNamed: "MenuScene") {
-                let transition = SKTransition.fade(withDuration: 1)
+                let transition = SKTransition.fade(withDuration: 1.5)
                 menuScene.scaleMode = .aspectFit
                 view.ignoresSiblingOrder = true
                 backLabel.alpha = 0.5

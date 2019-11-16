@@ -173,14 +173,14 @@ class MenuScene: SKScene {
             let touchedNode = self.atPoint(positionInScene)
             if touchedNode.isKind(of: SKLabelNode.self) && touchedNode != titleLabel,
                 let view = self.view as SKView? {
-                let transition = SKTransition.fade(withDuration: 3)
+                let transition = SKTransition.fade(withDuration: 1.5)
                 if touchedNode == newGameLabel {
                     newGameLabel?.alpha = 0.5
                     guard let didAcknowledge = UserDefaults.standard.value(forKey: "acknowledgedTutorial") as? Bool,
                         didAcknowledge == true else {
                             if let tutorialScene = SKScene(fileNamed: "TutorialScene") {
                                 tutorialScene.scaleMode = .aspectFit
-                                let transition = SKTransition.fade(withDuration: 2)
+                                let transition = SKTransition.fade(withDuration: 1.5)
                                 view.presentScene(tutorialScene, transition: transition)
                             }
                             

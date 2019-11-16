@@ -58,7 +58,7 @@ class TutorialScene: SKScene {
         for _: AnyObject in touches {
             if let gameScene = SKScene(fileNamed: "GameScene") {
                 gameScene.scaleMode = .aspectFit
-                let transition = SKTransition.fade(withDuration: 2)
+                let transition = SKTransition.fade(withDuration: 1.5)
                 view?.presentScene(gameScene, transition: transition)
                 UserDefaults.standard.setValue(true, forKey: "acknowledgedTutorial")
             }
