@@ -12,10 +12,12 @@ import GameplayKit
 class AboutScene: SKScene {
     
     var backLabel = SKLabelNode()
+    var privacy = SKLabelNode()
     
     override func sceneDidLoad() {
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         self.backLabel = self.childNode(withName: "//backLabel") as! SKLabelNode
+        self.privacy = self.childNode(withName: "//privacy") as! SKLabelNode
         let createStarAction = SKAction.sequence([SKAction.run(self.createStar), SKAction.wait(forDuration: 3)])
         self.run(SKAction.repeatForever(createStarAction), withKey: "createstar")
     }
@@ -51,6 +53,10 @@ class AboutScene: SKScene {
                 view.ignoresSiblingOrder = true
                 backLabel.alpha = 0.5
                 view.presentScene(menuScene, transition: transition)
+            } else if touchedNode == privacy,
+                let url = URL(string: "https://www.facebook.com/notes/star-fighter-ios-app/star-fighter-privacy-policy/650652012018608/") {
+                
+                UIApplication.shared.open(url, options: [:], completionHandler: nil);
             }
         }
     }
