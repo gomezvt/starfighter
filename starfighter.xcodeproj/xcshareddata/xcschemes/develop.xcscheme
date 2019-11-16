@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6497436A2123A7C4008D74BB"
-               BuildableName = "starfighter.app"
+               BuildableName = "Star Fighter.app"
                BlueprintName = "starfighter"
                ReferencedContainer = "container:starfighter.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6497436A2123A7C4008D74BB"
-            BuildableName = "starfighter.app"
+            BuildableName = "Star Fighter.app"
             BlueprintName = "starfighter"
             ReferencedContainer = "container:starfighter.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6497436A2123A7C4008D74BB"
-            BuildableName = "starfighter.app"
+            BuildableName = "Star Fighter.app"
             BlueprintName = "starfighter"
             ReferencedContainer = "container:starfighter.xcodeproj">
          </BuildableReference>
