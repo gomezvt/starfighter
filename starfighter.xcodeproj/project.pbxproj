@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		013FD39B82618B5280A82BC1 /* Pods_starfighter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E5B5EB182AB7AE9C60C3C3 /* Pods_starfighter.framework */; };
 		6403D8DE220672CC00BD27DF /* enemyExhaust2.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8DD220672CC00BD27DF /* enemyExhaust2.atlas */; };
 		6403D8E0220692A400BD27DF /* enemyExhaust3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8DF220692A400BD27DF /* enemyExhaust3.atlas */; };
 		6403D8E222069BD200BD27DF /* enemyExhaust4.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8E122069BD100BD27DF /* enemyExhaust4.atlas */; };
@@ -110,7 +111,7 @@
 		64401C832207D66D0090C30A /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = player.atlas; sourceTree = "<group>"; };
 		6470382A21C35F8E00EC53B3 /* fireballwep.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fireballwep.atlas; sourceTree = "<group>"; };
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
-		6497436B2123A7C4008D74BB /* starfighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = starfighter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6497436B2123A7C4008D74BB /* Star Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6497436E2123A7C4008D74BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		649743702123A7C4008D74BB /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		649743722123A7C4008D74BB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -143,6 +144,9 @@
 		64F8D31322092AE8000DCBDE /* boss2Exhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = boss2Exhaust.atlas; sourceTree = "<group>"; };
 		64F8D31522093140000DCBDE /* boss3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = boss3.atlas; sourceTree = "<group>"; };
 		64F8D3172209423F000DCBDE /* star.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = star.atlas; sourceTree = "<group>"; };
+		808A6CB0ED5CBE68CE5C8698 /* Pods-starfighter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starfighter.debug.xcconfig"; path = "Target Support Files/Pods-starfighter/Pods-starfighter.debug.xcconfig"; sourceTree = "<group>"; };
+		A9E5B5EB182AB7AE9C60C3C3 /* Pods_starfighter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_starfighter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4086612DBF3889AB46BE457 /* Pods-starfighter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starfighter.release.xcconfig"; path = "Target Support Files/Pods-starfighter/Pods-starfighter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				013FD39B82618B5280A82BC1 /* Pods_starfighter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,18 +175,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1198A9996CB19A6056A0A1E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9E5B5EB182AB7AE9C60C3C3 /* Pods_starfighter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		649743622123A7C4008D74BB = {
 			isa = PBXGroup;
 			children = (
 				6497436D2123A7C4008D74BB /* starfighter */,
 				6497436C2123A7C4008D74BB /* Products */,
+				C89BFDC1E28B0888539AF431 /* Pods */,
+				1198A9996CB19A6056A0A1E2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		6497436C2123A7C4008D74BB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6497436B2123A7C4008D74BB /* starfighter.app */,
+				6497436B2123A7C4008D74BB /* Star Fighter.app */,
 				649743852123A7C5008D74BB /* starfighterTests.xctest */,
 				649743902123A7C5008D74BB /* starfighterUITests.xctest */,
 			);
@@ -260,6 +275,15 @@
 			path = atlases;
 			sourceTree = "<group>";
 		};
+		C89BFDC1E28B0888539AF431 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				808A6CB0ED5CBE68CE5C8698 /* Pods-starfighter.debug.xcconfig */,
+				C4086612DBF3889AB46BE457 /* Pods-starfighter.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -267,6 +291,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 649743992123A7C5008D74BB /* Build configuration list for PBXNativeTarget "starfighter" */;
 			buildPhases = (
+				21ACFE558315C27B7A85D332 /* [CP] Check Pods Manifest.lock */,
 				649743672123A7C4008D74BB /* Sources */,
 				649743682123A7C4008D74BB /* Frameworks */,
 				649743692123A7C4008D74BB /* Resources */,
@@ -277,7 +302,7 @@
 			);
 			name = starfighter;
 			productName = "Echo-9";
-			productReference = 6497436B2123A7C4008D74BB /* starfighter.app */;
+			productReference = 6497436B2123A7C4008D74BB /* Star Fighter.app */;
 			productType = "com.apple.product-type.application";
 		};
 		649743842123A7C5008D74BB /* starfighterTests */ = {
@@ -431,6 +456,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		21ACFE558315C27B7A85D332 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-starfighter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		649743672123A7C4008D74BB /* Sources */ = {
@@ -613,20 +663,21 @@
 		};
 		6497439A2123A7C5008D74BB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 808A6CB0ED5CBE68CE5C8698 /* Pods-starfighter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
-				INFOPLIST_FILE = "Echo-9/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/starfighter/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = gms.burlingtonian;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.starfight;
+				PRODUCT_NAME = "Star Fighter";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -634,20 +685,21 @@
 		};
 		6497439B2123A7C5008D74BB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4086612DBF3889AB46BE457 /* Pods-starfighter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
-				INFOPLIST_FILE = "Echo-9/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/starfighter/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = gms.burlingtonian;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.starfight;
+				PRODUCT_NAME = "Star Fighter";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
