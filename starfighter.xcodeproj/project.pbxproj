@@ -110,7 +110,7 @@
 		64401C832207D66D0090C30A /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = player.atlas; sourceTree = "<group>"; };
 		6470382A21C35F8E00EC53B3 /* fireballwep.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fireballwep.atlas; sourceTree = "<group>"; };
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
-		6497436B2123A7C4008D74BB /* Echo-9.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Echo-9.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6497436B2123A7C4008D74BB /* starfighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = starfighter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6497436E2123A7C4008D74BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		649743702123A7C4008D74BB /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		649743722123A7C4008D74BB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -120,8 +120,8 @@
 		6497437B2123A7C5008D74BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6497437E2123A7C5008D74BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		649743802123A7C5008D74BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		649743852123A7C5008D74BB /* Echo-9Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Echo-9Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		649743902123A7C5008D74BB /* Echo-9UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Echo-9UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		649743852123A7C5008D74BB /* starfighterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		649743902123A7C5008D74BB /* starfighterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6498A37A21A5000600AE5CDC /* TutorialScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
 		6498A37E21A5002900AE5CDC /* TutorialScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TutorialScene.sks; sourceTree = "<group>"; };
 		649CBE0B22016EDB00B10BA2 /* playerdown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = playerdown.atlas; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 		649743622123A7C4008D74BB = {
 			isa = PBXGroup;
 			children = (
-				6497436D2123A7C4008D74BB /* Echo-9 */,
+				6497436D2123A7C4008D74BB /* starfighter */,
 				6497436C2123A7C4008D74BB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -181,14 +181,14 @@
 		6497436C2123A7C4008D74BB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6497436B2123A7C4008D74BB /* Echo-9.app */,
-				649743852123A7C5008D74BB /* Echo-9Tests.xctest */,
-				649743902123A7C5008D74BB /* Echo-9UITests.xctest */,
+				6497436B2123A7C4008D74BB /* starfighter.app */,
+				649743852123A7C5008D74BB /* starfighterTests.xctest */,
+				649743902123A7C5008D74BB /* starfighterUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6497436D2123A7C4008D74BB /* Echo-9 */ = {
+		6497436D2123A7C4008D74BB /* starfighter */ = {
 			isa = PBXGroup;
 			children = (
 				643D6B372124EE8800EF8B6F /* AboutScene.sks */,
@@ -214,7 +214,7 @@
 				6498A37E21A5002900AE5CDC /* TutorialScene.sks */,
 				6498A37A21A5000600AE5CDC /* TutorialScene.swift */,
 			);
-			path = "Echo-9";
+			path = starfighter;
 			sourceTree = "<group>";
 		};
 		64FEDAF221F64F1B0014C9D4 /* atlases */ = {
@@ -263,9 +263,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6497436A2123A7C4008D74BB /* Echo-9 */ = {
+		6497436A2123A7C4008D74BB /* starfighter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 649743992123A7C5008D74BB /* Build configuration list for PBXNativeTarget "Echo-9" */;
+			buildConfigurationList = 649743992123A7C5008D74BB /* Build configuration list for PBXNativeTarget "starfighter" */;
 			buildPhases = (
 				649743672123A7C4008D74BB /* Sources */,
 				649743682123A7C4008D74BB /* Frameworks */,
@@ -275,14 +275,14 @@
 			);
 			dependencies = (
 			);
-			name = "Echo-9";
+			name = starfighter;
 			productName = "Echo-9";
-			productReference = 6497436B2123A7C4008D74BB /* Echo-9.app */;
+			productReference = 6497436B2123A7C4008D74BB /* starfighter.app */;
 			productType = "com.apple.product-type.application";
 		};
-		649743842123A7C5008D74BB /* Echo-9Tests */ = {
+		649743842123A7C5008D74BB /* starfighterTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6497439C2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "Echo-9Tests" */;
+			buildConfigurationList = 6497439C2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "starfighterTests" */;
 			buildPhases = (
 				649743812123A7C5008D74BB /* Sources */,
 				649743822123A7C5008D74BB /* Frameworks */,
@@ -293,14 +293,14 @@
 			dependencies = (
 				649743872123A7C5008D74BB /* PBXTargetDependency */,
 			);
-			name = "Echo-9Tests";
+			name = starfighterTests;
 			productName = "Echo-9Tests";
-			productReference = 649743852123A7C5008D74BB /* Echo-9Tests.xctest */;
+			productReference = 649743852123A7C5008D74BB /* starfighterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		6497438F2123A7C5008D74BB /* Echo-9UITests */ = {
+		6497438F2123A7C5008D74BB /* starfighterUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6497439F2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "Echo-9UITests" */;
+			buildConfigurationList = 6497439F2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "starfighterUITests" */;
 			buildPhases = (
 				6497438C2123A7C5008D74BB /* Sources */,
 				6497438D2123A7C5008D74BB /* Frameworks */,
@@ -311,9 +311,9 @@
 			dependencies = (
 				649743922123A7C5008D74BB /* PBXTargetDependency */,
 			);
-			name = "Echo-9UITests";
+			name = starfighterUITests;
 			productName = "Echo-9UITests";
-			productReference = 649743902123A7C5008D74BB /* Echo-9UITests.xctest */;
+			productReference = 649743902123A7C5008D74BB /* starfighterUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -340,7 +340,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 649743662123A7C4008D74BB /* Build configuration list for PBXProject "Echo-9" */;
+			buildConfigurationList = 649743662123A7C4008D74BB /* Build configuration list for PBXProject "starfighter" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -353,9 +353,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6497436A2123A7C4008D74BB /* Echo-9 */,
-				649743842123A7C5008D74BB /* Echo-9Tests */,
-				6497438F2123A7C5008D74BB /* Echo-9UITests */,
+				6497436A2123A7C4008D74BB /* starfighter */,
+				649743842123A7C5008D74BB /* starfighterTests */,
+				6497438F2123A7C5008D74BB /* starfighterUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -467,12 +467,12 @@
 /* Begin PBXTargetDependency section */
 		649743872123A7C5008D74BB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6497436A2123A7C4008D74BB /* Echo-9 */;
+			target = 6497436A2123A7C4008D74BB /* starfighter */;
 			targetProxy = 649743862123A7C5008D74BB /* PBXContainerItemProxy */;
 		};
 		649743922123A7C5008D74BB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6497436A2123A7C4008D74BB /* Echo-9 */;
+			target = 6497436A2123A7C4008D74BB /* starfighter */;
 			targetProxy = 649743912123A7C5008D74BB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -616,7 +616,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
 				INFOPLIST_FILE = "Echo-9/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -624,7 +624,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.05;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = gms.burlingtonian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -637,7 +637,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
 				INFOPLIST_FILE = "Echo-9/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -645,7 +645,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.05;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = gms.burlingtonian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -738,7 +738,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		649743662123A7C4008D74BB /* Build configuration list for PBXProject "Echo-9" */ = {
+		649743662123A7C4008D74BB /* Build configuration list for PBXProject "starfighter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				649743972123A7C5008D74BB /* Debug */,
@@ -747,7 +747,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		649743992123A7C5008D74BB /* Build configuration list for PBXNativeTarget "Echo-9" */ = {
+		649743992123A7C5008D74BB /* Build configuration list for PBXNativeTarget "starfighter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6497439A2123A7C5008D74BB /* Debug */,
@@ -756,7 +756,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6497439C2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "Echo-9Tests" */ = {
+		6497439C2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "starfighterTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6497439D2123A7C5008D74BB /* Debug */,
@@ -765,7 +765,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6497439F2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "Echo-9UITests" */ = {
+		6497439F2123A7C5008D74BB /* Build configuration list for PBXNativeTarget "starfighterUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				649743A02123A7C5008D74BB /* Debug */,
