@@ -1865,7 +1865,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if sentinelDur > 0 {
             availableWeps = availableWeps.filter({$0.texture != Textures.sentineltexture})
         }
-        if var texture = availableWeps.randomElement()?.texture {
+        if let texture = availableWeps.randomElement()?.texture {
             if (texture == Textures.megabombtexture && boss != nil) {
                 return;
             }
@@ -3398,6 +3398,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ship.run(SKAction.repeatForever(animateexhaust), withKey: "shipanimation")
     }
     
+    func deductPlayerLife() {
+        lives -= 1
+        UserDefaults.standard.setValue(lives, forKey: "lives")
+        ship.run(fadeOut) {
+            self.ship.run(self.fadeIn, completion: {
+                self.ship.run(self.fadeOut, completion: {
+                    self.ship.run(self.fadeIn, completion: {
+                        self.playerHit = false
+                    })
+                })
+            })
+        }
+    }
+    
     func getNodeForCollision(first: SKPhysicsBody, second: SKPhysicsBody, name: String) -> SKNode? {
         var node: SKNode?
         if first.node?.name == name {
@@ -3409,16 +3423,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func destroyPlayer() {
-        lives -= 1
-        UserDefaults.standard.setValue(lives, forKey: "lives")
-        ship.run(fadeOut) {
-            self.ship.run(self.fadeIn, completion: {
-                self.ship.run(self.fadeOut, completion: {
-                    self.ship.run(self.fadeIn, completion: {
-                        self.playerHit = false
-                    })
-                })
-            })
+        if (lives == 1) {
+            let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
+            ship.run(SKAction.repeatForever(explosion), withKey: "explosion")
+            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(1)) {
+                self.ship.removeFromParent()
+                self.deductPlayerLife()
+            }
+        } else {
+            self.deductPlayerLife()
         }
     }
     
