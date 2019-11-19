@@ -254,7 +254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func adWasDismissed(_ notification: Notification) {
         if let menuScene = GKScene(fileNamed: "MenuScene") {
-            if let _ = menuScene.rootNode as! MenuScene? {
+            if let _ = menuScene.rootNode as! MenuScene?, lives <= 0 {
                 SKStoreReviewController.requestReview()
             }
         }
