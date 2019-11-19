@@ -82,6 +82,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var buzzBossAttackArray = Array<SKTexture>()
     let buzzBossAttackAtlas = SKTextureAtlas(named:"buzzBossAttack")
     
+    var expArray = Array<SKTexture>()
+    let expAtlas = SKTextureAtlas(named:"explode")
+    
     var enemy1Array = Array<SKTexture>()
     let enemy1Atlas = SKTextureAtlas(named:"enemy1")
     
@@ -428,6 +431,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         brainBossAttackArray.append(brainBossAttackAtlas.textureNamed("15"))
         brainBossAttackArray.append(brainBossAttackAtlas.textureNamed("16"))
         
+        expArray.append(expAtlas.textureNamed("explosion"))
+        expArray.append(expAtlas.textureNamed("explosion2"))
+        expArray.append(expAtlas.textureNamed("explosion3"))
+        expArray.append(expAtlas.textureNamed("explosion4"))
+        expArray.append(expAtlas.textureNamed("explosion5"))
+        expArray.append(expAtlas.textureNamed("explosion6"))
+        expArray.append(expAtlas.textureNamed("explosion7"))
+        expArray.append(expAtlas.textureNamed("explosion8"))
+        expArray.append(expAtlas.textureNamed("explosion9"))
+        expArray.append(expAtlas.textureNamed("explosion10"))
+        expArray.append(expAtlas.textureNamed("explosion11"))
+
         enemy1Array.append(enemy1Atlas.textureNamed("enemy"))
         enemy1Array.append(enemy1Atlas.textureNamed("enemy2"))
         enemy1Array.append(enemy1Atlas.textureNamed("enemy3"))
@@ -1377,7 +1392,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if weapon == .Gun {
-                fire.size = CGSize(width: 35, height: 35)
+                fire.size = CGSize(width: 50, height: 50)
                 setEnemyAndBossFirePhysics(for: fire)
                 fire.name = self.boss != nil ? "bossfire" : "enemyfire"
                 if let boss = self.boss, level == 1 {
@@ -1398,11 +1413,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             } else if weapon == .Fireball {
                 fire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
-                if let _ = self.boss {
-                    fire.size = CGSize(width: 50, height: 50)
-                } else {
-                    fire.size = CGSize(width: 30, height: 30)
-                }
+                fire.size = CGSize(width: 40, height: 40)
+
                 setEnemyAndBossFirePhysics(for: fire)
                 fire.name = self.boss != nil ? "bossfire" : "enemyfire"
                 fire.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY)
@@ -1457,30 +1469,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func getNode() -> SKSpriteNode? {
         var nodeToFire = SKSpriteNode(imageNamed: "gun")
-        nodeToFire.size = CGSize(width: 24, height: 24)
+        nodeToFire.size = CGSize(width: 50, height: 50)
         if weaponType == .Gun {
             if wepCount == 3 || wepCount == 4 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun2")
-                nodeToFire.size = CGSize(width: 28, height: 28)
             } else if wepCount == 5 {
-                nodeToFire.size = CGSize(width: 26, height: 26)
                 nodeToFire = SKSpriteNode(imageNamed: "gun3")
             }
         } else if weaponType == .Fireball {
             nodeToFire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
             if wepCount < 3 {
-                nodeToFire.size = CGSize(width: 25, height: 25)
+                nodeToFire.size = CGSize(width: 50, height: 50)
             } else if wepCount < 5 {
-                nodeToFire.size = CGSize(width: 30, height: 30)
+                nodeToFire.size = CGSize(width: 55, height: 55)
             } else {
-                nodeToFire.size = CGSize(width: 35, height: 35)
+                nodeToFire.size = CGSize(width: 60, height: 60)
             }
             
             let animate = SKAction.animate(with: self.fireballSprites, timePerFrame: 0.1)
             nodeToFire.run(SKAction.repeatForever(animate), withKey: "fireballaction")
         } else if weaponType == .Spread {
             nodeToFire = SKSpriteNode(imageNamed: "spread")
-            nodeToFire.size = CGSize(width: 25, height: 25)
+            nodeToFire.size = CGSize(width: 40, height: 40)
         } else if weaponType == .Tomahawk {
             nodeToFire = SKSpriteNode(imageNamed: "tomahawk")
             nodeToFire.accessibilityLabel = "tomahawk"
@@ -1548,7 +1558,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setSpreadAction() {
         let rotateAction = SKAction.rotate(byAngle: -45, duration: 10)
-        if wepCount < 3 {
+        if wepCount == 1 || wepCount == 2 {
             if let node = getNode() {
                 addChild(node)
                 let toppoint: CGPoint!
@@ -1578,7 +1588,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let nextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNode.run(nextactions)
             }
-        } else if wepCount < 5 {
+        } else if wepCount == 3 || wepCount == 4 {
             if let node = getNode() {
                 node.colorBlendFactor = 0.7
                 node.color = UIColor.blue
@@ -1856,7 +1866,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             availableWeps = availableWeps.filter({$0.texture != Textures.sentineltexture})
         }
         if var texture = availableWeps.randomElement()?.texture {
-            texture = Textures.megabombtexture;
             if (texture == Textures.megabombtexture && boss != nil) {
                 return;
             }
@@ -3540,6 +3549,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         showKillScore(node: enemy)
         enemy.physicsBody = nil
         enemy.removeAllActions()
+        
+        let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
+        enemy.run(SKAction.repeatForever(explosion), withKey: "explosion")
+        
         enemy.run(fadeOut) {
             enemy.run(self.fadeIn, completion: {
                 enemy.run(self.fadeOut, completion: {
@@ -3569,9 +3582,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         for sprite in self.children {
                             if sprite.name == "enemy",
                                 let enemy = sprite as? SKSpriteNode {
-                                self.score += 50
-                                self.showKillScore(node: enemy)
-                                sprite.removeFromParent()
+                                self.destroyEnemy(enemy)
                             }
                         }
                         self.playKill()
@@ -3685,9 +3696,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if isBoss && isShipFire,
-            let boss = getNodeForCollision(first: firstBody, second: secondBody, name: "boss") as? SKSpriteNode,
-            let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") {
-            shipfire.removeFromParent()
+            let boss = getNodeForCollision(first: firstBody, second: secondBody, name: "boss") as? SKSpriteNode {
             playHit()
             destroyBoss(boss)
         }
@@ -3715,9 +3724,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if isEnemy && isShipFire,
-            let enemy = getNodeForCollision(first: firstBody, second: secondBody, name: "enemy") as? SKSpriteNode,
-            let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") {
-            shipfire.removeFromParent()
+            let enemy = getNodeForCollision(first: firstBody, second: secondBody, name: "enemy") as? SKSpriteNode {
             destroyEnemy(enemy)
         }
         

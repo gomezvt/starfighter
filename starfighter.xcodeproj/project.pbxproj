@@ -35,6 +35,7 @@
 		64401C842207D66D0090C30A /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C832207D66D0090C30A /* player.atlas */; };
 		6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6470382A21C35F8E00EC53B3 /* fireballwep.atlas */; };
 		647F573221FEAE600060A3A7 /* blob.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 647F573121FEAE600060A3A7 /* blob.atlas */; };
+		648C0448238388E500F707E0 /* explode.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 648C0447238388E500F707E0 /* explode.atlas */; };
 		6497436F2123A7C4008D74BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6497436E2123A7C4008D74BB /* AppDelegate.swift */; };
 		649743712123A7C4008D74BB /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 649743702123A7C4008D74BB /* MenuScene.sks */; };
 		649743732123A7C4008D74BB /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 649743722123A7C4008D74BB /* Actions.sks */; };
@@ -111,6 +112,7 @@
 		64401C832207D66D0090C30A /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = player.atlas; sourceTree = "<group>"; };
 		6470382A21C35F8E00EC53B3 /* fireballwep.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fireballwep.atlas; sourceTree = "<group>"; };
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
+		648C0447238388E500F707E0 /* explode.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = explode.atlas; sourceTree = "<group>"; };
 		6497436B2123A7C4008D74BB /* Star Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6497436E2123A7C4008D74BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		649743702123A7C4008D74BB /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 		64FEDAF221F64F1B0014C9D4 /* atlases */ = {
 			isa = PBXGroup;
 			children = (
+				648C0447238388E500F707E0 /* explode.atlas */,
 				641D6840237CEEFA00E8C5EA /* buzzBossAttack.atlas */,
 				641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */,
 				641D683C237CEC8E00E8C5EA /* brainBossAttack.atlas */,
@@ -409,6 +412,7 @@
 				641457C221E1B82900EE98DA /* enemyLightningUp.atlas in Resources */,
 				64401C792207D51C0090C30A /* enemy2.atlas in Resources */,
 				64F8D31622093140000DCBDE /* boss3.atlas in Resources */,
+				648C0448238388E500F707E0 /* explode.atlas in Resources */,
 				64401C802207D5EF0090C30A /* shipexhaust.atlas in Resources */,
 				6422729521FD863C00685076 /* enemy7.atlas in Resources */,
 				6403D8E0220692A400BD27DF /* enemyExhaust3.atlas in Resources */,
