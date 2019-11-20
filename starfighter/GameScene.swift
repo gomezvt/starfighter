@@ -1791,8 +1791,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
             }
             self.addChild(node)
+            setTracer(node: node, action: moveAction)
             let actions = SKAction.group([rotateAction, moveAction])
             node.run(actions)
+
             playWeaponShot()
         }
         
@@ -1813,6 +1815,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
                 }
                 self.addChild(node)
+                setTracer(node: node, action: moveAction)
                 let actions = SKAction.group([rotateAction, moveAction])
                 node.run(actions)
                 playWeaponShot()
@@ -1826,6 +1829,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.sentinel = nil
                 }
             }
+        }
+    }
+    
+    func setTracer(node: SKSpriteNode, action: SKAction) {
+        if let tracer = node.copy() as? SKSpriteNode {
+            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
+            let fadeIn = SKAction.fadeAlpha(to: 0.5 , duration: 1.0)
+            self.addChild(tracer)
+            tracer.position.y = node.position.y
+            tracer.position.x = node.position.x - 30
+            tracer.run(action)
+            tracer.size = CGSize(width: node.size.width * 2, height: node.size.height)
+            tracer.alpha = 0.5
+            let action2 = SKAction.sequence([SKAction.run({
+                tracer.run(fadeOut, completion: {
+                    tracer.run(fadeIn, completion: {
+                        tracer.run(fadeOut, completion: {
+                            tracer.run(fadeIn, completion: {
+                            })
+                        })
+                    })
+                })
+            }), SKAction.wait(forDuration: 0.1)])
+            self.run(SKAction.repeatForever(action2), withKey: "tracerAction")
         }
     }
     
