@@ -893,7 +893,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hiLabel.isHidden = true
             hiScoreLabel.isHidden = true
         }
-        
+
         setBG()
         
         let buttonFadeAction = SKAction.sequence([SKAction.run(buttonFade), SKAction.wait(forDuration: 0.5)])
@@ -1802,7 +1802,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 setSpreadAction()
                 playWeaponShot()
                 
-            } else if weaponType == .Lightning{
+            } else if weaponType == .Lightning {
                 setLightningAction()
                 playWeaponShot()
                 
