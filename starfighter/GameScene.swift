@@ -893,7 +893,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hiLabel.isHidden = true
             hiScoreLabel.isHidden = true
         }
-
+        
         setBG()
         
         let buttonFadeAction = SKAction.sequence([SKAction.run(buttonFade), SKAction.wait(forDuration: 0.5)])
@@ -2586,6 +2586,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 boss.size = CGSize(width: 256, height: 256)
                 boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.run( {self.fireEnemyAndBossWeapon(boss) } )]), count: 5)
+                enemyExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"enemyExhaust6").textureNamed("thrust_gunner"))
+                enemyExhaust.position = CGPoint(x: 150, y: 0)
+                enemyExhaust.size = CGSize(width: 200, height: 160)
+                boss.addChild(enemyExhaust)
+                
+                let animateexhaust = SKAction.animate(with: self.enemyExhaust6Array, timePerFrame: 0.1)
+                enemyExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
             }
         } else if level == 3 {
             let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(1)
@@ -3709,7 +3716,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if isBoss && isShipFire,
-            let boss = getNodeForCollision(first: firstBody, second: secondBody, name: "boss") as? SKSpriteNode {
+            let boss = getNodeForCollision(first: firstBody, second: secondBody, name: "boss") as? SKSpriteNode,
+            let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") {
+            shipfire.removeFromParent()
             playHit()
             destroyBoss(boss)
         }
@@ -3737,7 +3746,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if isEnemy && isShipFire,
-            let enemy = getNodeForCollision(first: firstBody, second: secondBody, name: "enemy") as? SKSpriteNode {
+            let enemy = getNodeForCollision(first: firstBody, second: secondBody, name: "enemy") as? SKSpriteNode,
+            let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") {
+            if (weaponType == .Tomahawk) {
+                shipfire.removeFromParent()
+            }
             destroyEnemy(enemy)
         }
         
