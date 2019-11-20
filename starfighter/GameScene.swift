@@ -3430,13 +3430,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func destroyPlayer() {
-        if (lives == 1) {
+        if lives == 1 {
+            playKill()
             let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
-            ship.run(SKAction.repeatForever(explosion), withKey: "explosion")
-            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(1)) {
+            ship.run(explosion, completion: {
                 self.ship.removeFromParent()
-                self.deductPlayerLife()
-            }
+                self.lives -= 1
+            })
         } else {
             self.deductPlayerLife()
         }
@@ -3570,22 +3570,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody = nil
         enemy.removeAllActions()
         
+        playKill()
         let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
-        enemy.run(SKAction.repeatForever(explosion), withKey: "explosion")
-        
-        enemy.run(fadeOut) {
-            enemy.run(self.fadeIn, completion: {
-                enemy.run(self.fadeOut, completion: {
-                    enemy.run(self.fadeIn, completion: {
-                        self.score += 50
-                        DispatchQueue.global().async {
-                            self.playKill()
-                        }
-                        enemy.removeFromParent()
-                    })
-                })
-            })
-        }
+        enemy.run(explosion, completion: {
+            self.score += 50
+            enemy.removeFromParent()
+        });
     }
     
     func setWeapon(_ weapon: SKSpriteNode) {
@@ -3748,9 +3738,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if isEnemy && isShipFire,
             let enemy = getNodeForCollision(first: firstBody, second: secondBody, name: "enemy") as? SKSpriteNode,
             let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") {
-            if (weaponType == .Tomahawk) {
-                shipfire.removeFromParent()
-            }
+            shipfire.removeFromParent()
             destroyEnemy(enemy)
         }
         
