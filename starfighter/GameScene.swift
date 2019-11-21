@@ -1569,6 +1569,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
+                setTracer(node: node, action: topmoveAction)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1585,6 +1586,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
+                setTracer(node: nextNode, action: bottommoveAction)
                 let nextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNode.run(nextactions)
             }
@@ -1602,10 +1604,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
+                setTracer(node: node, action: topmoveAction)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
-            
             
             if let nextNode = getNode() {
                 nextNode.colorBlendFactor = 0.7
@@ -1613,6 +1615,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(nextNode)
                 let moveAction = SKAction.moveTo(x: size.width, duration: 4)
                 moveAction.timingMode = .linear
+                setTracer(node: nextNode, action: moveAction)
                 let nextactions = SKAction.group([rotateAction, moveAction])
                 nextNode.run(nextactions)
             }
@@ -1630,6 +1633,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
+                setTracer(node: nextNextNode, action: bottommoveAction)
                 let nextNextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNextNode.run(nextNextactions)
             }
@@ -1646,6 +1650,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
+                setTracer(node: node, action: topmoveAction)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1663,6 +1668,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
+                setTracer(node: node3, action: topmoveAction)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node3.run(actions)
             }
@@ -1679,6 +1685,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
+                setTracer(node: node4, action: topmoveAction)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node4.run(actions)
             }
@@ -1695,6 +1702,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
+                setTracer(node: nextNextNode, action: bottommoveAction)
                 let nextNextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNextNode.run(nextNextactions)
             }
@@ -1707,13 +1715,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             node.zPosition = 5
             node.name = "playerfire"
             if wepCount < 3 {
-                node.size = CGSize(width: 40, height: 40)
+                node.size = CGSize(width: 60, height: 60)
             } else if wepCount < 5 {
-                node.size = CGSize(width: 50, height: 50)
+                node.size = CGSize(width: 75, height: 75)
                 node.colorBlendFactor = 0.6
                 node.color = UIColor.purple
             } else {
-                node.size = CGSize(width: 60, height: 60)
+                node.size = CGSize(width: 90, height: 90)
                 node.colorBlendFactor = 0.6
                 node.color = UIColor.red
             }
@@ -1741,13 +1749,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nextNode.zPosition = 5
             nextNode.name = "playerfire"
             if wepCount < 3 {
-                nextNode.size = CGSize(width: 40, height: 40)
+                nextNode.size = CGSize(width: 60, height: 60)
             } else if wepCount < 5 {
-                nextNode.size = CGSize(width: 50, height: 50)
+                nextNode.size = CGSize(width: 75, height: 75)
                 nextNode.colorBlendFactor = 0.6
                 nextNode.color = UIColor.purple
             } else {
-                nextNode.size = CGSize(width: 60, height: 60)
+                nextNode.size = CGSize(width: 90, height: 90)
                 nextNode.colorBlendFactor = 0.6
                 nextNode.color = UIColor.red
             }
@@ -1779,7 +1787,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if weaponType == .Spread {
             setSpreadAction()
             playWeaponShot()
-            
         } else if weaponType == .Lightning {
             setLightningAction()
             playWeaponShot()
@@ -1837,6 +1844,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
             let fadeIn = SKAction.fadeAlpha(to: 0.5 , duration: 1.0)
             self.addChild(tracer)
+            tracer.physicsBody = nil
             tracer.position.y = node.position.y
             tracer.position.x = node.position.x - 30
             tracer.run(action)
@@ -3764,7 +3772,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if isEnemy && isShipFire,
             let enemy = getNodeForCollision(first: firstBody, second: secondBody, name: "enemy") as? SKSpriteNode,
-            let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") {
+            let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") as? SKSpriteNode {
             shipfire.removeFromParent()
             destroyEnemy(enemy)
         }
