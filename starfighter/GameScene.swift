@@ -1469,23 +1469,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func getNode() -> SKSpriteNode? {
         var nodeToFire = SKSpriteNode(imageNamed: "gun")
-        nodeToFire.size = CGSize(width: 50, height: 50)
         if weaponType == .Gun {
             if wepCount == 3 || wepCount == 4 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun2")
             } else if wepCount == 5 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun3")
             }
+            nodeToFire.size = CGSize(width: 50, height: 50)
         } else if weaponType == .Fireball {
             nodeToFire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
-            if wepCount < 3 {
-                nodeToFire.size = CGSize(width: 50, height: 50)
-            } else if wepCount < 5 {
+            nodeToFire.size = CGSize(width: 50, height: 50)
+            if wepCount == 3 || wepCount == 4 {
                 nodeToFire.size = CGSize(width: 55, height: 55)
-            } else {
+            } else if wepCount == 5 {
                 nodeToFire.size = CGSize(width: 60, height: 60)
             }
-            
             let animate = SKAction.animate(with: self.fireballSprites, timePerFrame: 0.1)
             nodeToFire.run(SKAction.repeatForever(animate), withKey: "fireballaction")
         } else if weaponType == .Spread {
@@ -1801,7 +1799,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             setTracer(node: node, action: moveAction)
             let actions = SKAction.group([rotateAction, moveAction])
             node.run(actions)
-
+            
             playWeaponShot()
         }
         
@@ -3766,6 +3764,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemyfire.removeFromParent()
             if playerHit == false {
                 playerHit = true
+                playHit()
                 destroyPlayer()
             }
         }
