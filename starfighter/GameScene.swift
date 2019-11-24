@@ -187,6 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var weaponType: WeaponType = .Gun
     var app: AppDelegate?
     
+    var isRequestingReview: Bool = false
     var scoreLabel = SKLabelNode()
     var levelLabel = SKLabelNode()
     var hiScoreLabel = SKLabelNode()
@@ -254,7 +255,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func adWasDismissed(_ notification: Notification) {
         if let menuScene = GKScene(fileNamed: "MenuScene") {
-            if let _ = menuScene.rootNode as! MenuScene?, lives <= 0 {
+            if let _ = menuScene.rootNode as! MenuScene?, lives <= 0, isRequestingReview == false {
+                isRequestingReview = true
                 SKStoreReviewController.requestReview()
             }
         }
@@ -895,6 +897,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         setBG()
+        isRequestingReview = false
         
         let buttonFadeAction = SKAction.sequence([SKAction.run(buttonFade), SKAction.wait(forDuration: 0.5)])
         run(SKAction.repeatForever(buttonFadeAction))
@@ -3440,6 +3443,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func deductPlayerLife() {
         lives -= 1
+        playHit()
         UserDefaults.standard.setValue(lives, forKey: "lives")
         ship.run(fadeOut) {
             self.ship.run(self.fadeIn, completion: {
