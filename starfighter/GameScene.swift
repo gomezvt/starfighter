@@ -1405,9 +1405,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 fire.zPosition = 2
                 self.addChild(fire)
-                
                 let action = SKAction.moveTo(x: -width * 2, duration: 4)
                 action.timingMode = .linear
+                setTracer(node: fire, action: action, isEnemy: true)
+
                 if let _ = self.boss, level == 3 {
                     fire.run(action)
                 } else {
@@ -1426,6 +1427,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let action = SKAction.moveTo(x: -width * 2, duration: 4)
                 action.timingMode = .linear
+                setTracer(node: fire, action: action, isEnemy: true)
+                
                 let actions = SKAction.group([action, rotateAction])
                 fire.run(actions)
             } else if weapon == .Lightning {
@@ -1438,36 +1441,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-    }
-    
-    @objc func fireEnemy2Weapon(_ enemy: SKSpriteNode) {
-        let width = UIScreen.main.bounds.width
-        let action = SKAction.moveTo(x: -width * 2, duration: 4)
-        action.timingMode = .linear
-        let rotateAction = SKAction.rotate(byAngle: 45, duration: 10)
-        let actions = SKAction.group([action, rotateAction])
-        
-        // Create top shot
-        let top = SKSpriteNode(imageNamed: "gun2")
-        top.size = CGSize(width: 35, height: 35)
-        setEnemyAndBossFirePhysics(for: top)
-        top.name = "enemyfire"
-        top.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY + 40)
-        top.zPosition = 2
-        self.addChild(top)
-        top.run(actions)
-        
-        // Create bottom shot
-        let bottom = SKSpriteNode(imageNamed: "gun2")
-        bottom.size = CGSize(width: 35, height: 35)
-        setEnemyAndBossFirePhysics(for: bottom)
-        bottom.name = "enemyfire"
-        bottom.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY - 40)
-        bottom.zPosition = 2
-        self.addChild(bottom)
-        bottom.run(actions)
-        
-        playWeaponShot()
     }
     
     func getNode() -> SKSpriteNode? {
@@ -1570,7 +1543,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node, action: topmoveAction)
+                setTracer(node: node, action: topmoveAction, isEnemy: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1587,7 +1560,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
-                setTracer(node: nextNode, action: bottommoveAction)
+                setTracer(node: nextNode, action: bottommoveAction, isEnemy: false)
                 let nextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNode.run(nextactions)
             }
@@ -1605,7 +1578,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node, action: topmoveAction)
+                setTracer(node: node, action: topmoveAction, isEnemy: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1616,7 +1589,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(nextNode)
                 let moveAction = SKAction.moveTo(x: size.width, duration: 4)
                 moveAction.timingMode = .linear
-                setTracer(node: nextNode, action: moveAction)
+                setTracer(node: nextNode, action: moveAction, isEnemy: false)
                 let nextactions = SKAction.group([rotateAction, moveAction])
                 nextNode.run(nextactions)
             }
@@ -1634,7 +1607,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
-                setTracer(node: nextNextNode, action: bottommoveAction)
+                setTracer(node: nextNextNode, action: bottommoveAction, isEnemy: false)
                 let nextNextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNextNode.run(nextNextactions)
             }
@@ -1651,7 +1624,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node, action: topmoveAction)
+                setTracer(node: node, action: topmoveAction, isEnemy: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1669,7 +1642,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node3, action: topmoveAction)
+                setTracer(node: node3, action: topmoveAction, isEnemy: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node3.run(actions)
             }
@@ -1686,7 +1659,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node4, action: topmoveAction)
+                setTracer(node: node4, action: topmoveAction, isEnemy: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node4.run(actions)
             }
@@ -1703,7 +1676,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
-                setTracer(node: nextNextNode, action: bottommoveAction)
+                setTracer(node: nextNextNode, action: bottommoveAction, isEnemy: false)
                 let nextNextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNextNode.run(nextNextactions)
             }
@@ -1799,7 +1772,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
             }
             self.addChild(node)
-            setTracer(node: node, action: moveAction)
+            setTracer(node: node, action: moveAction, isEnemy: false)
             let actions = SKAction.group([rotateAction, moveAction])
             node.run(actions)
             
@@ -1823,7 +1796,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
                 }
                 self.addChild(node)
-                setTracer(node: node, action: moveAction)
+                setTracer(node: node, action: moveAction, isEnemy: false)
                 let actions = SKAction.group([rotateAction, moveAction])
                 node.run(actions)
                 playWeaponShot()
@@ -1840,28 +1813,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func setTracer(node: SKSpriteNode, action: SKAction) {
+    func setTracer(node: SKSpriteNode, action: SKAction, isEnemy: Bool) {
         if let tracer = node.copy() as? SKSpriteNode {
-            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
-            let fadeIn = SKAction.fadeAlpha(to: 0.5 , duration: 1.0)
             self.addChild(tracer)
             tracer.physicsBody = nil
             tracer.position.y = node.position.y
-            tracer.position.x = node.position.x - 30
+            tracer.position.x = isEnemy ? node.position.x + 30 : node.position.x - 30
             tracer.run(action)
-            tracer.size = CGSize(width: node.size.width * 2, height: node.size.height)
+            tracer.size = CGSize(width: node.size.width * 3, height: node.size.height)
             tracer.alpha = 0.5
-            let action2 = SKAction.sequence([SKAction.run({
-                tracer.run(fadeOut, completion: {
-                    tracer.run(fadeIn, completion: {
-                        tracer.run(fadeOut, completion: {
-                            tracer.run(fadeIn, completion: {
-                            })
-                        })
-                    })
-                })
-            }), SKAction.wait(forDuration: 0.1)])
-            self.run(SKAction.repeatForever(action2), withKey: "tracerAction")
+            
+            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2.5)
+            tracer.run(fadeOut)
         }
     }
     
@@ -2279,15 +2242,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let width = UIScreen.main.bounds.width
         let fire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
         let rotateAction = SKAction.rotate(byAngle: 45, duration: 10)
-        fire.size = CGSize(width: 30, height: 30)
+        fire.size = CGSize(width: 40, height: 40)
         setEnemyAndBossFirePhysics(for: fire)
         fire.name = "enemyfire"
         fire.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY)
         fire.zPosition = 2
         self.addChild(fire)
-        
         let action = SKAction.moveTo(x: -width * 2, duration: 4)
         action.timingMode = .linear
+        setTracer(node: fire, action: action, isEnemy: true)
+
         let actions = SKAction.group([action, rotateAction])
         fire.run(actions)
     }
@@ -2297,7 +2261,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let fire = SKSpriteNode(imageNamed: "gun2")
         let rotateAction = SKAction.rotate(byAngle: 45, duration: 10)
         
-        fire.size = CGSize(width: 35, height: 35)
+        fire.size = CGSize(width: 50, height: 50)
         setEnemyAndBossFirePhysics(for: fire)
         fire.name = "enemyfire"
         
@@ -2307,6 +2271,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let action = SKAction.moveTo(x: -width * 2, duration: 4)
         action.timingMode = .linear
+        setTracer(node: fire, action: action, isEnemy: true)
+
         let actions = SKAction.group([action, rotateAction])
         fire.run(actions)
     }
