@@ -3330,42 +3330,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     DispatchQueue.global().async {
                         self.app?.playIntro()
                     }
-                    //                }
-                    //                else if touchedNode == shipIcon {
-                    //                    #if DEBUG
-                    //                    if level != 10 {
-                    //                        level += 1
-                    //                        setBG()
-                    //                        setEnemyActions()
-                    //                        playMusic(isBoss: false)
-                    //                    }
-                    //                    #endif
-                    //                }  else if touchedNode == sentinelIcon {
-                    //                    #if DEBUG
-                    //                    if level != 1 {
-                    //                        level -= 1
-                    //                        setBG()
-                    //                        setEnemyActions()
-                    //                        playMusic(isBoss: false)
-                    //                    }
-                    //                    #endif
-                    //                } else if touchedNode == timeLabel {
-                    //                    #if DEBUG
-                    //                    minute = 0
-                    //                    seconds = 00
-                    //                    #endif
-                    //                }  else if touchedNode == staticLevelLabel {
-                    //                    #if DEBUG
-                    //                    if level == 3 || level == 6 || level == 9 {
-                    //                        minute = 0
-                    //                        seconds = 00
-                    //                    } else if let _ = self.boss {
-                    //                        self.boss?.removeAllActions()
-                    //                        self.boss?.removeFromParent()
-                    //                        self.boss = nil
-                    //                        self.transitionLevel()
-                    //                    }
-                    //                    #endif
                 } else if let savedControls = UserDefaults.standard.object(forKey: "savedControls") as? String {
                     if savedControls == "YES" {
                         moveShip(node: touchedNode)
