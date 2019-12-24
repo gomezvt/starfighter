@@ -49,6 +49,10 @@ struct CollisionBitMask {
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    var isShipUp: Bool = false
+    var isShipDown: Bool = false
+
     var boss1Array = Array<SKTexture>()
     let boss1Atlas = SKTextureAtlas(named:"boss1")
     
@@ -133,6 +137,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyExhaust6Array = Array<SKTexture>()
     let enemyExhaust6Atlas = SKTextureAtlas(named:"enemyExhaust6")
     
+    var previousTranslateX: CGFloat = 0.0
+    var previousTranslateY: CGFloat = 0.0
     //    var boss2ExhaustArray = Array<SKTexture>()
     //    let boss2ExhaustAtlas = SKTextureAtlas(named:"boss2Exhaust")
     
@@ -173,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wepCount: Int = 1
     var seconds = Int(00)
     var bossLife = Int(100)
-    
+        
     var isAsteroidBoss: Bool = false
     var didBeatGame: Bool = false
     var isContinuing: Bool = false
@@ -183,7 +189,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var died = Bool(false)
     var playerHit: Bool = false
     var isAddingSentinelFire: Bool = false
-    var fireRateDuration = Float(2.0)
     var weaponType: WeaponType = .Gun
     var app: AppDelegate?
     
@@ -217,8 +222,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bossStar: SKSpriteNode?
     
     var headerView: SKSpriteNode!
-    var upNode: SKSpriteNode!
-    var downNode: SKSpriteNode!
     var pauseBtn: SKSpriteNode!
     var sentinel: SKSpriteNode?
     var pausedLabelBG: SKSpriteNode!
@@ -306,8 +309,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hiLabel = self.childNode(withName: "//hiLabel") as! SKLabelNode
         bar = self.childNode(withName: "//bar") as? SKSpriteNode
         headerView = self.childNode(withName: "//headerView") as? SKSpriteNode
-        upNode = self.childNode(withName: "//upNode") as? SKSpriteNode
-        downNode = self.childNode(withName: "//downNode") as? SKSpriteNode
         lifeLabel = self.childNode(withName: "//lifeLabel") as! SKLabelNode
         levelLabel = self.childNode(withName: "//levelLabel") as! SKLabelNode
         scoreLabel = self.childNode(withName: "//scoreLabel") as! SKLabelNode
@@ -330,20 +331,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid2texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid4texture))
-        
-        if let savedControls = UserDefaults.standard.object(forKey: "savedControls") as? String {
-            if savedControls == "YES" {
-                upNode.isHidden = false
-                downNode.isHidden = false
-            } else {
-                upNode.isHidden = true
-                downNode.isHidden = true
-                
-                weaponPowerLabel.position = CGPoint(x: -548, y: -325)
-                selectedWeapon.position = CGPoint(x: -421, y: -316)
-                bar.position = CGPoint(x: -252, y: -316)
-            }
-        }
         
         weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
         weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
@@ -899,15 +886,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setBG()
         isRequestingReview = false
         
-        let buttonFadeAction = SKAction.sequence([SKAction.run(buttonFade), SKAction.wait(forDuration: 0.5)])
-        run(SKAction.repeatForever(buttonFadeAction))
-        
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
         self.run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
         
         let satelliteAction = SKAction.sequence([SKAction.run(self.createSatellite), SKAction.wait(forDuration: 60)])
         self.run(SKAction.repeatForever(satelliteAction), withKey: "createsatellite")
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if let ready = self.childNode(withName: "//ready"),
                 let set = self.childNode(withName: "//set"),
@@ -927,54 +911,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         }
                                     }
                                     
-                                    var fireRate = Float(2.0)
-                                    if self.weaponType == .Lightning {
-                                        fireRate = 3.5
-                                    } else if self.weaponType == .Spread ||
-                                        self.weaponType == .Tomahawk {
-                                        fireRate = 3
-                                    } else {
-                                        fireRate = 2
-                                    }
-                                    
+                                    let pan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
+                                    view.addGestureRecognizer(pan)
+
+                                    var fireRate = Float(2.5)
                                     if self.wepCount == 2 {
-                                        if self.weaponType == .Gun {
-                                            fireRate = 1.7
-                                        } else if self.weaponType == .Spread ||
-                                            self.weaponType == .Tomahawk {
-                                            fireRate = 2.8
-                                        } else if self.weaponType == .Lightning {
-                                            fireRate = 3.3
-                                        }
+                                        fireRate -= 0.5
                                     } else if self.wepCount == 3 {
-                                        if self.weaponType == .Gun {
-                                            fireRate = 1.4
-                                        } else if self.weaponType == .Spread ||
-                                            self.weaponType == .Tomahawk {
-                                            fireRate = 2.6
-                                        } else if self.weaponType == .Lightning {
-                                            fireRate = 3.1
-                                        }
+                                        fireRate -= 1.0
                                     } else if self.wepCount == 4 {
-                                        if self.weaponType == .Gun {
-                                            fireRate = 1.1
-                                        } else if self.weaponType == .Spread ||
-                                            self.weaponType == .Tomahawk {
-                                            fireRate = 2.4
-                                        } else if self.weaponType == .Lightning {
-                                            fireRate = 2.9
-                                        }
+                                        fireRate -= 1.5
                                     } else if self.wepCount == 5 {
-                                        if self.weaponType == .Gun {
-                                            fireRate = 0.8
-                                        } else if self.weaponType == .Spread ||
-                                            self.weaponType == .Tomahawk {
-                                            fireRate = 2.2
-                                        } else if self.weaponType == .Lightning {
-                                            fireRate = 2.7
-                                        }
+                                        fireRate -= 2.0
                                     }
-                                    
+
                                     let fireWeaponAction = SKAction.sequence([SKAction.run {
                                         self.fireShipWeapon()
                                         }, SKAction.wait(forDuration: TimeInterval(fireRate))])
@@ -1011,20 +961,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func buttonFade() {
-        let buttonFadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
-        let buttonFadeOut = SKAction.fadeAlpha(to: 0.7, duration: 0.3)
-        if let up = upNode, let down = downNode {
-            up.run(buttonFadeOut) {
-                up.run(buttonFadeIn) {
+    @objc func handleShipPan(gestureReconizer: UIPanGestureRecognizer) {
+        guard didBeatGame == false else { return }
+
+        let currentTranslateX = gestureReconizer.translation(in: view!).x
+        let currentTranslateY = gestureReconizer.translation(in: view!).y
+        let translateX = currentTranslateX - previousTranslateX
+        let translateY = currentTranslateY - previousTranslateY
+
+        let newShapeX = ship.position.x + translateX
+        let newShapeY = ship.position.y + translateY
+        
+        guard (newShapeX <= pauseBtn.frame.minX && newShapeX >= scoreLabel.position.x) &&
+            (newShapeY <= headerView.frame.minY && newShapeY >= grayBar.frame.maxY) else { return }
+
+            if newShapeY < ship.position.y && !isShipDown {
+                isShipUp = false
+                isShipDown = true
+                let down = SKAction.animate(with: self.playerDownArray, timePerFrame: 0.2)
+                ship.run(down) {
+                    self.ship.texture = SKTexture(imageNamed: "playerdown4")
                 }
             }
-            
-            down.run(buttonFadeOut) {
-                down.run(buttonFadeIn) {
+
+            if newShapeY > ship.position.y && !isShipUp {
+                isShipUp = true
+                isShipDown = false
+                let up = SKAction.animate(with: self.playerUpArray, timePerFrame: 0.2)
+                ship.run(up) {
+                    self.ship.texture = SKTexture(imageNamed: "playerup4")
                 }
             }
+            ship.position = CGPoint(x: ship.position.x + translateX, y: ship.position.y - translateY * 2)
+        
+        if gestureReconizer.state == .ended {
+            previousTranslateX = 0.0
+            previousTranslateY = 0.0
+            let steady = SKAction.animate(with: self.playerArray, timePerFrame: 0.2)
+            ship.run(SKAction.repeatForever(steady))
+        } else {
+            previousTranslateX = currentTranslateX
+            previousTranslateY = currentTranslateY
         }
+
     }
     
     func setEnemyActions() {
@@ -1035,13 +1014,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if level >= 1 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(3)
+            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(1.5)
             let action = SKAction.sequence([SKAction.run(self.createEnemy), SKAction.wait(forDuration: dur)])
             self.run(SKAction.repeatForever(action), withKey: "createenemies")
         }
         
         if level >= 2 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(8)
+            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(6)
             let action = SKAction.sequence([SKAction.run(self.createEnemy2), SKAction.wait(forDuration: dur)])
             self.run(SKAction.repeatForever(action), withKey: "createenemies2")
         }
@@ -1918,16 +1897,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(ship)
         
         shipExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"shipexhaust").textureNamed("shipexhaust"))
-        addChild(shipExhaust)
+        ship.addChild(shipExhaust)
         shipExhaust.zPosition = 4
-        
+        shipExhaust.position = CGPoint(x: -80, y: 0)
+
         let animateexhaust = SKAction.animate(with: self.shipExhaustArray, timePerFrame: 0.1)
         shipExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
         
         self.ship = ship
-        shipExhaust.position = CGPoint(x: self.ship.frame.minX - 20, y: self.ship.frame.midY)
     }
-    
+
     @objc func randomEnemyMoveAction(ship: SKSpriteNode) -> SKAction {
         var actions = [SKAction]()
         var randomMoveDuration: TimeInterval
@@ -3064,6 +3043,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+
         if boss != nil || isAsteroidBoss {
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 6)
             for sprite in children {
@@ -3075,15 +3055,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        ship.position.x = scoreLabel.position.x
-        shipExhaust.position = CGPoint(x: ship.frame.minX - 20, y: ship.frame.midY)
         if let boss = self.boss, level != 2 && level != 5 {
             boss.position.x = timeLabel.position.x
-        }
-        
-        if ship.action(forKey: "verticalMove") == nil &&
-            ship.action(forKey: "shipanimation") == nil {
-            setShipSteadyAnimation()
         }
         
         if didBeatGame {
@@ -3220,13 +3193,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        
+
         for sprite in children {
             if sprite.name == "enemy" || sprite.name == "createdweapon" {
                 if sprite.position.x < frame.minX + 100 {
                     sprite.physicsBody?.isDynamic = false
                 } else if sprite.position.x < frame.maxX - 50 {
                     sprite.physicsBody?.isDynamic = true
+                }
+            }
+            
+            if sprite.name == "player" {
+                if sprite.position.y <= frame.minY + 120 {
+                    sprite.position.y = frame.minY + 120
+                } else if sprite.position.y >= frame.maxY - 120 {
+                    sprite.position.y = frame.maxY - 120
                 }
             }
             
@@ -3259,34 +3240,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pausedLabel.isHidden = false
         pausedLabelBG.isHidden = false
         pauseBtn.texture = Textures.unpausetexture
-    }
-    
-    func moveShip(node: SKNode?) {
-        guard didBeatGame == false else { return }
-        
-        fadeOut = SKAction.fadeAlpha(to: 0.2, duration: 0.1)
-        fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.1)
-        
-        ship.removeAction(forKey: "shipanimation")
-        if node == upNode {
-            setShipUpAnimation()
-            let action = SKAction.moveTo(y: frame.maxY - 110, duration: 0.8)
-            ship.run(action, withKey: "verticalMove")
-            shipExhaust.run(action, withKey: "verticalExhaustMove")
-            upNode.run(self.fadeOut, completion: {
-                self.upNode.run(self.fadeIn, completion: {})
-            })
-        }
-        
-        if node == downNode {
-            setShipDownAnimation()
-            let action = SKAction.moveTo(y: frame.minY + 160, duration: 0.8)
-            ship.run(action, withKey: "verticalMove")
-            shipExhaust.run(action, withKey: "verticalExhaustMove")
-            downNode.run(self.fadeOut, completion: {
-                self.downNode.run(self.fadeIn, completion: {})
-            })
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -3330,47 +3283,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     DispatchQueue.global().async {
                         self.app?.playIntro()
                     }
-                } else if let savedControls = UserDefaults.standard.object(forKey: "savedControls") as? String {
-                    if savedControls == "YES" {
-                        moveShip(node: touchedNode)
-                    } else {
-                        if !isPaused && !didBeatGame {
-                            ship.removeAction(forKey: "shipanimation")
-                            if positionInScene.y > ship.position.y {
-                                setShipUpAnimation()
-                                let action = SKAction.moveTo(y: frame.maxY - 110, duration: 0.8)
-                                ship.run(action, withKey: "verticalMove")
-                                shipExhaust.run(action, withKey: "verticalExhaustMove")
-                            } else if positionInScene.y < ship.position.y {
-                                setShipDownAnimation()
-                                let action = SKAction.moveTo(y: frame.minY + 160, duration: 0.8)
-                                ship.run(action, withKey: "verticalMove")
-                                shipExhaust.run(action, withKey: "verticalExhaustMove")
-                            }
-                        }
-                    }
-                } else {
-                    moveShip(node: touchedNode)
                 }
             }
         }
     }
-    
-    func setShipUpAnimation() {
-        let animateexhaust = SKAction.animate(with: self.playerUpArray, timePerFrame: 0.2)
-        ship.run(SKAction.repeatForever(animateexhaust))
-    }
-    
-    func setShipDownAnimation() {
-        let animateexhaust = SKAction.animate(with: self.playerDownArray, timePerFrame: 0.2)
-        ship.run(SKAction.repeatForever(animateexhaust))
-    }
-    
-    func setShipSteadyAnimation() {
-        let animateexhaust = SKAction.animate(with: self.playerArray, timePerFrame: 0.1)
-        ship.run(SKAction.repeatForever(animateexhaust), withKey: "shipanimation")
-    }
-    
+
     func deductPlayerLife() {
         lives -= 1
         playHit()
@@ -3479,8 +3396,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.ship.removeAllActions()
             self.ship.isHidden = true
             self.grayBar.isHidden = true
-            self.upNode.isHidden = true
-            self.downNode.isHidden = true
             self.shipIcon.isHidden = true
             self.livesXLabel.isHidden = true
             self.congratsLabel.isHidden = false
@@ -3598,40 +3513,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             UserDefaults.standard.setValue(weaponType.rawValue, forKey: "weaponType")
-            ship.removeAction(forKey: "playerFireAction")
             bar.texture = SKTexture(imageNamed: "bar")
             wepCount = 1
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
-            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(2)) {
-                if self.weaponType == .Lightning {
-                    self.fireRateDuration = 3.5
-                } else if self.weaponType == .Spread || self.weaponType == .Tomahawk {
-                    self.fireRateDuration = 3
-                } else {
-                    self.fireRateDuration = 2
-                }
-                let fireWeaponAction = SKAction.sequence([SKAction.run {
-                    self.fireShipWeapon()
-                    }, SKAction.wait(forDuration: TimeInterval(self.fireRateDuration))])
-                self.ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
-            }
         } else if wepCount < 5 {
-            ship.removeAction(forKey: "playerFireAction")
             wepCount += 1
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
             bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(2)) {
-                if self.weaponType == .Gun {
-                    self.fireRateDuration -= 0.3
-                } else {
-                    self.fireRateDuration -= 0.2
-                }
-                let fireWeaponAction = SKAction.sequence([SKAction.run {
-                    self.fireShipWeapon()
-                    }, SKAction.wait(forDuration: TimeInterval(self.fireRateDuration))])
-                self.ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
-            }
         }
+        
+        var fireRate = Float(2.5)
+        if self.wepCount == 2 {
+            fireRate -= 0.5
+        } else if self.wepCount == 3 {
+            fireRate -= 1.0
+        } else if self.wepCount == 4 {
+            fireRate -= 1.5
+        } else if self.wepCount == 5 {
+            fireRate -= 2.0
+        }
+        
+        ship.removeAction(forKey: "playerFireAction")
+
+        let fireWeaponAction = SKAction.sequence([SKAction.run {
+            self.fireShipWeapon()
+            }, SKAction.wait(forDuration: TimeInterval(fireRate))])
+        ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
     }
     
     func didBegin(_ contact: SKPhysicsContact) {

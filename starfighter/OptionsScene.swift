@@ -17,7 +17,6 @@ class OptionsScene: SKScene {
     var upNode: SKSpriteNode!
     var downNode: SKSpriteNode!
     var volumeLabel = SKLabelNode()
-    var controlsLabel = SKLabelNode()
     var backLabel = SKLabelNode()
     var fadeOut = SKAction()
     var fadeIn = SKAction()
@@ -37,7 +36,6 @@ class OptionsScene: SKScene {
         volumeLabel = self.childNode(withName: "//volumeLabel") as! SKLabelNode
         upNode = self.childNode(withName: "//upNode") as? SKSpriteNode
         downNode = self.childNode(withName: "//downNode") as? SKSpriteNode
-        controlsLabel = self.childNode(withName: "//controlsLabel") as! SKLabelNode
 
         let buttonFadeAction = SKAction.sequence([SKAction.run(buttonFade), SKAction.wait(forDuration: 0.5)])
         run(SKAction.repeatForever(buttonFadeAction))
@@ -47,12 +45,6 @@ class OptionsScene: SKScene {
             volumeLabel.text = "\(vol)%"
         } else {
             volumeLabel.text = "100%"
-        }
-        
-        if let controls = UserDefaults.standard.object(forKey: "savedControls") as? String {
-            controlsLabel.text = controls
-        } else {
-            controlsLabel.text = "YES"
         }
     }
     
@@ -108,7 +100,7 @@ class OptionsScene: SKScene {
             let positionInScene = touch.location(in: self)
             let touchedNode = self.atPoint(positionInScene)
             
-            if let up = upNode, let down = downNode, let volUp = volUpNode, let volDown = volDownNode {
+            if let volUp = volUpNode, let volDown = volDownNode {
                 if touchedNode == volUp, volume != 100 {
                     volume += 10
                     app.gameMusicPlayer?.volume += 0.1
@@ -121,18 +113,6 @@ class OptionsScene: SKScene {
                     volDown.run(self.fadeOut, completion: {
                         volDown.run(self.fadeIn, completion: {})
                     })
-                }
-                
-                if touchedNode == up {
-                    controlsLabel.text = "YES"
-                        up.run(self.fadeOut, completion: {
-                            up.run(self.fadeIn, completion: {})
-                        })
-                } else if touchedNode == down {
-                    controlsLabel.text = "NO"
-                        down.run(self.fadeOut, completion: {
-                            down.run(self.fadeIn, completion: {})
-                        })
                 }
             }
             
@@ -149,6 +129,5 @@ class OptionsScene: SKScene {
     
         volumeLabel.text = "\(volume)%"
         UserDefaults.standard.set(volume, forKey: "savedVolume")
-        UserDefaults.standard.set(controlsLabel.text, forKey: "savedControls")
     }
 }
