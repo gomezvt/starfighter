@@ -97,6 +97,8 @@
 		641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buzzBossNorm.atlas; sourceTree = "<group>"; };
 		6422729221FD82E000685076 /* enemy6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy6.atlas; sourceTree = "<group>"; };
 		6422729421FD863C00685076 /* enemy7.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy7.atlas; sourceTree = "<group>"; };
+		6426797C23B3E3A0006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		6426797D23B3E3A0006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Main.strings"; sourceTree = "<group>"; };
 		64386D642384D6A500C9C93E /* explode.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = explode.atlas; path = ../../../../Desktop/explode.atlas; sourceTree = "<group>"; };
 		643D6B372124EE8800EF8B6F /* AboutScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = AboutScene.sks; sourceTree = "<group>"; };
 		643D6B392124F36800EF8B6F /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"vi-VN",
 			);
 			mainGroup = 649743622123A7C4008D74BB;
 			productRefGroup = 6497436C2123A7C4008D74BB /* Products */;
@@ -536,6 +539,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				649743792123A7C4008D74BB /* Base */,
+				6426797D23B3E3A0006E9925 /* vi-VN */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -544,6 +548,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6497437E2123A7C5008D74BB /* Base */,
+				6426797C23B3E3A0006E9925 /* vi-VN */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -555,6 +560,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -615,6 +621,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
