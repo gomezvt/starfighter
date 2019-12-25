@@ -139,9 +139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var previousTranslateX: CGFloat = 0.0
     var previousTranslateY: CGFloat = 0.0
-    //    var boss2ExhaustArray = Array<SKTexture>()
-    //    let boss2ExhaustAtlas = SKTextureAtlas(named:"boss2Exhaust")
-    
+
     var blobSprites = Array<SKTexture>()
     let blobAtlas = SKTextureAtlas(named:"blob")
     
@@ -218,7 +216,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shipExhaust: SKSpriteNode!
     var enemyExhaust: SKSpriteNode!
     var enemyExhaust2: SKSpriteNode!
-    //    var boss2Exhaust: SKSpriteNode!
     var bossStar: SKSpriteNode?
     
     var headerView: SKSpriteNode!
@@ -885,7 +882,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         setBG()
         isRequestingReview = false
-        
+
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
         self.run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
         
@@ -1014,7 +1011,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if level >= 1 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(1.5)
+            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(2)
             let action = SKAction.sequence([SKAction.run(self.createEnemy), SKAction.wait(forDuration: dur)])
             self.run(SKAction.repeatForever(action), withKey: "createenemies")
         }
@@ -3330,10 +3327,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bossShot += 1
         bossLife -= 10
         bossLifeLabel.text = "\(bossLife)%"
+        boss.color = UIColor.red
+        boss.colorBlendFactor = 1
         boss.run(fadeOut) {
+            boss.colorBlendFactor = 0.1
             boss.run(self.fadeIn, completion: {
+                boss.colorBlendFactor = 1
                 boss.run(self.fadeOut, completion: {
+                    boss.colorBlendFactor = 0.1
                     boss.run(self.fadeIn, completion: {
+                        boss.colorBlendFactor = 0
                     })
                 })
             })
