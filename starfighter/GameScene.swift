@@ -3201,10 +3201,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if sprite.name == "player" {
-                if sprite.position.y <= frame.minY + 120 {
-                    sprite.position.y = frame.minY + 120
-                } else if sprite.position.y >= frame.maxY - 120 {
-                    sprite.position.y = frame.maxY - 120
+                if sprite.position.y <= frame.minY + 160 {
+                    sprite.position.y = frame.minY + 160
+                } else if sprite.position.y >= frame.maxY - 135 {
+                    sprite.position.y = frame.maxY - 135
                 }
             }
             
