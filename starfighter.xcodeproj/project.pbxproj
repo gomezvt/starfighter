@@ -20,10 +20,12 @@
 		641D6843237CEEFA00E8C5EA /* buzzBossNorm.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */; };
 		6422729321FD82E000685076 /* enemy6.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6422729221FD82E000685076 /* enemy6.atlas */; };
 		6422729521FD863C00685076 /* enemy7.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6422729421FD863C00685076 /* enemy7.atlas */; };
+		642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679AC23B3EF6F006E9925 /* TutorialScene.sks */; };
+		642679AF23B3F237006E9925 /* AboutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679B123B3F237006E9925 /* AboutScene.sks */; };
+		642679B423B3F2D9006E9925 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679B623B3F2D9006E9925 /* GameScene.sks */; };
+		642679B923B3F440006E9925 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679BB23B3F440006E9925 /* MenuScene.sks */; };
+		642679BE23B3F4DA006E9925 /* OptionsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679C023B3F4DA006E9925 /* OptionsScene.sks */; };
 		64386D652384D6A500C9C93E /* explode.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64386D642384D6A500C9C93E /* explode.atlas */; };
-		643D6B382124EE8800EF8B6F /* AboutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 643D6B372124EE8800EF8B6F /* AboutScene.sks */; };
-		643D6B3A2124F36800EF8B6F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 643D6B392124F36800EF8B6F /* GameScene.sks */; };
-		643D6B3C2124F38B00EF8B6F /* OptionsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 643D6B3B2124F38B00EF8B6F /* OptionsScene.sks */; };
 		643D6B3E2124F45300EF8B6F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3D2124F45300EF8B6F /* GameScene.swift */; };
 		643D6B402124F46100EF8B6F /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3F2124F46100EF8B6F /* AboutScene.swift */; };
 		643D6B422124F46C00EF8B6F /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B412124F46C00EF8B6F /* OptionsScene.swift */; };
@@ -37,7 +39,6 @@
 		6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6470382A21C35F8E00EC53B3 /* fireballwep.atlas */; };
 		647F573221FEAE600060A3A7 /* blob.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 647F573121FEAE600060A3A7 /* blob.atlas */; };
 		6497436F2123A7C4008D74BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6497436E2123A7C4008D74BB /* AppDelegate.swift */; };
-		649743712123A7C4008D74BB /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 649743702123A7C4008D74BB /* MenuScene.sks */; };
 		649743732123A7C4008D74BB /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 649743722123A7C4008D74BB /* Actions.sks */; };
 		649743752123A7C4008D74BB /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649743742123A7C4008D74BB /* MenuScene.swift */; };
 		649743772123A7C4008D74BB /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649743762123A7C4008D74BB /* GameViewController.swift */; };
@@ -45,7 +46,6 @@
 		6497437C2123A7C5008D74BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6497437B2123A7C5008D74BB /* Assets.xcassets */; };
 		6497437F2123A7C5008D74BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */; };
 		6498A37B21A5000600AE5CDC /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6498A37A21A5000600AE5CDC /* TutorialScene.swift */; };
-		6498A37F21A5002900AE5CDC /* TutorialScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6498A37E21A5002900AE5CDC /* TutorialScene.sks */; };
 		649CBE0C22016EDB00B10BA2 /* playerdown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 649CBE0B22016EDB00B10BA2 /* playerdown.atlas */; };
 		649CBE0E22016EE000B10BA2 /* playerup.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 649CBE0D22016EE000B10BA2 /* playerup.atlas */; };
 		64A20BC6220BA596008BD8C2 /* blueBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BC5220BA596008BD8C2 /* blueBullet.atlas */; };
@@ -97,10 +97,22 @@
 		6422729421FD863C00685076 /* enemy7.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy7.atlas; sourceTree = "<group>"; };
 		6426797C23B3E3A0006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		6426797D23B3E3A0006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Main.strings"; sourceTree = "<group>"; };
+		642679AB23B3EF6F006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/TutorialScene.sks; sourceTree = "<group>"; };
+		642679AD23B3EF75006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/TutorialScene.sks; sourceTree = "<group>"; };
+		642679AE23B3EF82006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/TutorialScene.sks"; sourceTree = "<group>"; };
+		642679B023B3F237006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/AboutScene.sks; sourceTree = "<group>"; };
+		642679B223B3F23A006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/AboutScene.sks; sourceTree = "<group>"; };
+		642679B323B3F23C006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/AboutScene.sks"; sourceTree = "<group>"; };
+		642679B523B3F2D9006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/GameScene.sks; sourceTree = "<group>"; };
+		642679B723B3F2DD006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/GameScene.sks; sourceTree = "<group>"; };
+		642679B823B3F2E3006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/GameScene.sks"; sourceTree = "<group>"; };
+		642679BA23B3F440006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/MenuScene.sks; sourceTree = "<group>"; };
+		642679BC23B3F445006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/MenuScene.sks; sourceTree = "<group>"; };
+		642679BD23B3F447006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/MenuScene.sks"; sourceTree = "<group>"; };
+		642679BF23B3F4DA006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/OptionsScene.sks; sourceTree = "<group>"; };
+		642679C123B3F4E0006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/OptionsScene.sks; sourceTree = "<group>"; };
+		642679C223B3F4E3006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/OptionsScene.sks"; sourceTree = "<group>"; };
 		64386D642384D6A500C9C93E /* explode.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = explode.atlas; path = ../../../../Desktop/explode.atlas; sourceTree = "<group>"; };
-		643D6B372124EE8800EF8B6F /* AboutScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = AboutScene.sks; sourceTree = "<group>"; };
-		643D6B392124F36800EF8B6F /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		643D6B3B2124F38B00EF8B6F /* OptionsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = OptionsScene.sks; sourceTree = "<group>"; };
 		643D6B3D2124F45300EF8B6F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		643D6B3F2124F46100EF8B6F /* AboutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		643D6B412124F46C00EF8B6F /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
@@ -115,7 +127,6 @@
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
 		6497436B2123A7C4008D74BB /* Star Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6497436E2123A7C4008D74BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		649743702123A7C4008D74BB /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		649743722123A7C4008D74BB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		649743742123A7C4008D74BB /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		649743762123A7C4008D74BB /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -126,7 +137,6 @@
 		649743852123A7C5008D74BB /* starfighterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		649743902123A7C5008D74BB /* starfighterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6498A37A21A5000600AE5CDC /* TutorialScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
-		6498A37E21A5002900AE5CDC /* TutorialScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TutorialScene.sks; sourceTree = "<group>"; };
 		649CBE0B22016EDB00B10BA2 /* playerdown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = playerdown.atlas; sourceTree = "<group>"; };
 		649CBE0D22016EE000B10BA2 /* playerup.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = playerup.atlas; sourceTree = "<group>"; };
 		64A20BC5220BA596008BD8C2 /* blueBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blueBullet.atlas; sourceTree = "<group>"; };
@@ -206,25 +216,25 @@
 		6497436D2123A7C4008D74BB /* starfighter */ = {
 			isa = PBXGroup;
 			children = (
-				643D6B372124EE8800EF8B6F /* AboutScene.sks */,
+				642679B123B3F237006E9925 /* AboutScene.sks */,
 				643D6B3F2124F46100EF8B6F /* AboutScene.swift */,
 				649743722123A7C4008D74BB /* Actions.sks */,
 				6497436E2123A7C4008D74BB /* AppDelegate.swift */,
 				6497437B2123A7C5008D74BB /* Assets.xcassets */,
 				64FEDAF221F64F1B0014C9D4 /* atlases */,
-				643D6B392124F36800EF8B6F /* GameScene.sks */,
+				642679B623B3F2D9006E9925 /* GameScene.sks */,
 				643D6B3D2124F45300EF8B6F /* GameScene.swift */,
 				649743762123A7C4008D74BB /* GameViewController.swift */,
 				649743802123A7C5008D74BB /* Info.plist */,
 				6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */,
 				649743782123A7C4008D74BB /* Main.storyboard */,
-				649743702123A7C4008D74BB /* MenuScene.sks */,
+				642679BB23B3F440006E9925 /* MenuScene.sks */,
 				649743742123A7C4008D74BB /* MenuScene.swift */,
 				64EA7B1221DAAD9800229688 /* music */,
-				643D6B3B2124F38B00EF8B6F /* OptionsScene.sks */,
+				642679C023B3F4DA006E9925 /* OptionsScene.sks */,
 				643D6B412124F46C00EF8B6F /* OptionsScene.swift */,
 				64AB250921DAB47B00F0E7D6 /* sounds */,
-				6498A37E21A5002900AE5CDC /* TutorialScene.sks */,
+				642679AC23B3EF6F006E9925 /* TutorialScene.sks */,
 				6498A37A21A5000600AE5CDC /* TutorialScene.swift */,
 			);
 			path = starfighter;
@@ -392,17 +402,17 @@
 			files = (
 				6497437A2123A7C4008D74BB /* Main.storyboard in Resources */,
 				64F8D31422092AE8000DCBDE /* boss2Exhaust.atlas in Resources */,
-				643D6B3C2124F38B00EF8B6F /* OptionsScene.sks in Resources */,
+				642679BE23B3F4DA006E9925 /* OptionsScene.sks in Resources */,
 				649CBE0E22016EE000B10BA2 /* playerup.atlas in Resources */,
 				64ECA9ED21FD6F9B000B015D /* enemy4.atlas in Resources */,
 				64EA7B1B21DAB13100229688 /* lightningDown.atlas in Resources */,
 				641D683E237CEC8F00E8C5EA /* brainBossAttack.atlas in Resources */,
 				641D683F237CEC8F00E8C5EA /* brainBossNorm.atlas in Resources */,
-				6498A37F21A5002900AE5CDC /* TutorialScene.sks in Resources */,
+				642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */,
 				64AB250A21DAB47C00F0E7D6 /* sounds in Resources */,
 				6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */,
 				64EA7B1321DAAD9800229688 /* music in Resources */,
-				649743712123A7C4008D74BB /* MenuScene.sks in Resources */,
+				642679B923B3F440006E9925 /* MenuScene.sks in Resources */,
 				6403D8E222069BD200BD27DF /* enemyExhaust4.atlas in Resources */,
 				641457C121E1B82900EE98DA /* enemyLightningDown.atlas in Resources */,
 				6497437C2123A7C5008D74BB /* Assets.xcassets in Resources */,
@@ -422,7 +432,7 @@
 				649CBE0C22016EDB00B10BA2 /* playerdown.atlas in Resources */,
 				6403D8DE220672CC00BD27DF /* enemyExhaust2.atlas in Resources */,
 				641D6842237CEEFA00E8C5EA /* buzzBossAttack.atlas in Resources */,
-				643D6B3A2124F36800EF8B6F /* GameScene.sks in Resources */,
+				642679B423B3F2D9006E9925 /* GameScene.sks in Resources */,
 				64401C842207D66D0090C30A /* player.atlas in Resources */,
 				64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */,
 				6403D8E422069CAF00BD27DF /* enemyExhaust5.atlas in Resources */,
@@ -432,7 +442,7 @@
 				64DC867221FE9E5000566AED /* enemy9.atlas in Resources */,
 				64F8D3182209423F000DCBDE /* star.atlas in Resources */,
 				64DC867021FE9BF000566AED /* enemy8.atlas in Resources */,
-				643D6B382124EE8800EF8B6F /* AboutScene.sks in Resources */,
+				642679AF23B3F237006E9925 /* AboutScene.sks in Resources */,
 				649743732123A7C4008D74BB /* Actions.sks in Resources */,
 				64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */,
 				6422729321FD82E000685076 /* enemy6.atlas in Resources */,
@@ -527,6 +537,56 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		642679AC23B3EF6F006E9925 /* TutorialScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679AB23B3EF6F006E9925 /* Base */,
+				642679AD23B3EF75006E9925 /* en */,
+				642679AE23B3EF82006E9925 /* vi-VN */,
+			);
+			name = TutorialScene.sks;
+			sourceTree = "<group>";
+		};
+		642679B123B3F237006E9925 /* AboutScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679B023B3F237006E9925 /* Base */,
+				642679B223B3F23A006E9925 /* en */,
+				642679B323B3F23C006E9925 /* vi-VN */,
+			);
+			name = AboutScene.sks;
+			sourceTree = "<group>";
+		};
+		642679B623B3F2D9006E9925 /* GameScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679B523B3F2D9006E9925 /* Base */,
+				642679B723B3F2DD006E9925 /* en */,
+				642679B823B3F2E3006E9925 /* vi-VN */,
+			);
+			name = GameScene.sks;
+			sourceTree = "<group>";
+		};
+		642679BB23B3F440006E9925 /* MenuScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679BA23B3F440006E9925 /* Base */,
+				642679BC23B3F445006E9925 /* en */,
+				642679BD23B3F447006E9925 /* vi-VN */,
+			);
+			name = MenuScene.sks;
+			sourceTree = "<group>";
+		};
+		642679C023B3F4DA006E9925 /* OptionsScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679BF23B3F4DA006E9925 /* Base */,
+				642679C123B3F4E0006E9925 /* en */,
+				642679C223B3F4E3006E9925 /* vi-VN */,
+			);
+			name = OptionsScene.sks;
+			sourceTree = "<group>";
+		};
 		649743782123A7C4008D74BB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
