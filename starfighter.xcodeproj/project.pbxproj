@@ -54,8 +54,6 @@
 		64AB250A21DAB47C00F0E7D6 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 64AB250921DAB47B00F0E7D6 /* sounds */; };
 		64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */; };
 		64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */; };
-		64DB6FCE2124FE1E009D00CF /* StoryScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DB6FCD2124FE1E009D00CF /* StoryScene.swift */; };
-		64DB6FD22124FE57009D00CF /* StoryScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 64DB6FD12124FE57009D00CF /* StoryScene.sks */; };
 		64DC867021FE9BF000566AED /* enemy8.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC866F21FE9BF000566AED /* enemy8.atlas */; };
 		64DC867221FE9E5000566AED /* enemy9.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC867121FE9E4F00566AED /* enemy9.atlas */; };
 		64EA7B1321DAAD9800229688 /* music in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1221DAAD9800229688 /* music */; };
@@ -137,8 +135,6 @@
 		64AB250921DAB47B00F0E7D6 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 		64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust6.atlas; sourceTree = "<group>"; };
 		64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust.atlas; sourceTree = "<group>"; };
-		64DB6FCD2124FE1E009D00CF /* StoryScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScene.swift; sourceTree = "<group>"; };
-		64DB6FD12124FE57009D00CF /* StoryScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StoryScene.sks; sourceTree = "<group>"; };
 		64DC866F21FE9BF000566AED /* enemy8.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy8.atlas; sourceTree = "<group>"; };
 		64DC867121FE9E4F00566AED /* enemy9.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy9.atlas; sourceTree = "<group>"; };
 		64EA7B1221DAAD9800229688 /* music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = music; sourceTree = "<group>"; };
@@ -228,8 +224,6 @@
 				643D6B3B2124F38B00EF8B6F /* OptionsScene.sks */,
 				643D6B412124F46C00EF8B6F /* OptionsScene.swift */,
 				64AB250921DAB47B00F0E7D6 /* sounds */,
-				64DB6FD12124FE57009D00CF /* StoryScene.sks */,
-				64DB6FCD2124FE1E009D00CF /* StoryScene.swift */,
 				6498A37E21A5002900AE5CDC /* TutorialScene.sks */,
 				6498A37A21A5000600AE5CDC /* TutorialScene.swift */,
 			);
@@ -443,7 +437,6 @@
 				64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */,
 				6422729321FD82E000685076 /* enemy6.atlas in Resources */,
 				647F573221FEAE600060A3A7 /* blob.atlas in Resources */,
-				64DB6FD22124FE57009D00CF /* StoryScene.sks in Resources */,
 				64A20BCC220BB3CC008BD8C2 /* greenBullet.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,7 +491,6 @@
 				649743772123A7C4008D74BB /* GameViewController.swift in Sources */,
 				643D6B402124F46100EF8B6F /* AboutScene.swift in Sources */,
 				643D6B3E2124F45300EF8B6F /* GameScene.swift in Sources */,
-				64DB6FCE2124FE1E009D00CF /* StoryScene.swift in Sources */,
 				6498A37B21A5000600AE5CDC /* TutorialScene.swift in Sources */,
 				6497436F2123A7C4008D74BB /* AppDelegate.swift in Sources */,
 				643D6B422124F46C00EF8B6F /* OptionsScene.swift in Sources */,
