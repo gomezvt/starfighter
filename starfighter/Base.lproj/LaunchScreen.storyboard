@@ -23,16 +23,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Star Fighter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFs-Pz-iBx">
-                                <rect key="frame" x="108" y="215.5" width="159" height="35"/>
+                                <rect key="frame" x="108" y="210.5" width="159" height="35"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="29"/>
                                 <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="OFJ-Rf-tnE">
-                                <rect key="frame" x="112.5" y="258.5" width="150" height="150"/>
+                                <rect key="frame" x="107.5" y="253.5" width="160" height="160"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="AKz-Ru-SF2"/>
-                                    <constraint firstAttribute="height" constant="150" id="C0l-fG-5RQ"/>
+                                    <constraint firstAttribute="width" constant="160" id="AKz-Ru-SF2"/>
+                                    <constraint firstAttribute="height" constant="160" id="C0l-fG-5RQ"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -54,6 +54,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launch" width="1024" height="1024"/>
+        <image name="launch" width="1022" height="1020"/>
     </resources>
 </document>

@@ -910,8 +910,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     
                                     let pan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
                                     view.addGestureRecognizer(pan)
-
-                                    var fireRate = Float(2.5)
+                                    let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : 3.5
+                                    var fireRate = Float(rate)
                                     if self.wepCount == 2 {
                                         fireRate -= 0.5
                                     } else if self.wepCount == 3 {
@@ -3525,7 +3525,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
         }
         
-        var fireRate = Float(2.5)
+        let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : 3.5
+        var fireRate = Float(rate)
         if self.wepCount == 2 {
             fireRate -= 0.5
         } else if self.wepCount == 3 {
