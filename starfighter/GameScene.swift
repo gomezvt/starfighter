@@ -1011,13 +1011,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if level >= 1 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(2)
+            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(3)
             let action = SKAction.sequence([SKAction.run(self.createEnemy), SKAction.wait(forDuration: dur)])
             self.run(SKAction.repeatForever(action), withKey: "createenemies")
         }
         
         if level >= 2 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(6)
+            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(8)
             let action = SKAction.sequence([SKAction.run(self.createEnemy2), SKAction.wait(forDuration: dur)])
             self.run(SKAction.repeatForever(action), withKey: "createenemies2")
         }
@@ -1973,12 +1973,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let width = UIScreen.main.bounds.width
         let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
-        var dur = randomDuration
-        if boss != nil || isAsteroidBoss {
-            dur = 2
-            star.size = CGSize(width: 500, height: 15)
-        }
-        let action = SKAction.moveTo(x: -width * 2, duration: dur)
+//        if boss != nil || isAsteroidBoss {
+//            dur = 2
+//            star.size = CGSize(width: 500, height: 15)
+//        }
+        let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
         action.timingMode = .linear
         star.run(action)
     }
