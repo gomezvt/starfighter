@@ -926,9 +926,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         self.fireShipWeapon()
                                         }, SKAction.wait(forDuration: TimeInterval(fireRate))])
                                     self.ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
-                                    DispatchQueue.global().async {
-                                        self.playMusic(isBoss: false)
-                                    }
+                                    
+                                    self.playMusic(isBoss: false)
+                                    
                                     let wait1Second = SKAction.wait(forDuration: 1)
                                     let incrementCounter = SKAction.run { [weak self] in
                                         self?.timer()
@@ -965,31 +965,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let currentTranslateY = gestureReconizer.translation(in: view!).y
         let translateX = currentTranslateX - previousTranslateX
         let translateY = currentTranslateY - previousTranslateY
-
+        
         let newShapeX = ship.position.x + translateX
         let newShapeY = ship.position.y + translateY
-        
-        guard (newShapeX <= pauseBtn.frame.minX && newShapeX >= scoreLabel.position.x) &&
-            (newShapeY <= headerView.frame.minY && newShapeY >= grayBar.frame.maxY) else { return }
-
-            if newShapeY < ship.position.y && !isShipDown {
-                isShipUp = false
-                isShipDown = true
-                let down = SKAction.animate(with: self.playerDownArray, timePerFrame: 0.2)
-                ship.run(down) {
-                    self.ship.texture = SKTexture(imageNamed: "playerdown4")
-                }
-            }
-
-            if newShapeY > ship.position.y && !isShipUp {
-                isShipUp = true
-                isShipDown = false
-                let up = SKAction.animate(with: self.playerUpArray, timePerFrame: 0.2)
-                ship.run(up) {
-                    self.ship.texture = SKTexture(imageNamed: "playerup4")
-                }
-            }
-            ship.position = CGPoint(x: ship.position.x + translateX, y: ship.position.y - translateY * 2)
         
         if gestureReconizer.state == .ended {
             previousTranslateX = 0.0
@@ -1000,7 +978,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             previousTranslateX = currentTranslateX
             previousTranslateY = currentTranslateY
         }
-
+        
+        guard (newShapeX <= pauseBtn.frame.minX && newShapeX >= scoreLabel.position.x) &&
+            (newShapeY <= headerView.frame.minY && newShapeY >= grayBar.frame.maxY) else { return }
+        
+        if newShapeY < ship.position.y && !isShipDown {
+            isShipUp = false
+            isShipDown = true
+            let down = SKAction.animate(with: self.playerDownArray, timePerFrame: 0.2)
+            ship.run(down) {
+                self.ship.texture = SKTexture(imageNamed: "playerdown4")
+            }
+        }
+        
+        if newShapeY > ship.position.y && !isShipUp {
+            isShipUp = true
+            isShipDown = false
+            let up = SKAction.animate(with: self.playerUpArray, timePerFrame: 0.2)
+            ship.run(up) {
+                self.ship.texture = SKTexture(imageNamed: "playerup4")
+            }
+        }
+        ship.position = CGPoint(x: ship.position.x + translateX, y: ship.position.y - translateY * 2)
     }
     
     func setEnemyActions() {
