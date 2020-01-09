@@ -56,6 +56,7 @@
 		64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */; };
 		64DC867021FE9BF000566AED /* enemy8.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC866F21FE9BF000566AED /* enemy8.atlas */; };
 		64DC867221FE9E5000566AED /* enemy9.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC867121FE9E4F00566AED /* enemy9.atlas */; };
+		64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64E2498823C7E98B00EFE2B9 /* Localizable.strings */; };
 		64EA7B1321DAAD9800229688 /* music in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1221DAAD9800229688 /* music */; };
 		64EA7B1921DAB12B00229688 /* lightningUp.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1821DAB12B00229688 /* lightningUp.atlas */; };
 		64EA7B1B21DAB13100229688 /* lightningDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1A21DAB13000229688 /* lightningDown.atlas */; };
@@ -96,17 +97,13 @@
 		6422729221FD82E000685076 /* enemy6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy6.atlas; sourceTree = "<group>"; };
 		6422729421FD863C00685076 /* enemy7.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy7.atlas; sourceTree = "<group>"; };
 		642679AB23B3EF6F006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/TutorialScene.sks; sourceTree = "<group>"; };
-		642679AD23B3EF75006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/TutorialScene.sks; sourceTree = "<group>"; };
 		642679AE23B3EF82006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/TutorialScene.sks"; sourceTree = "<group>"; };
 		642679B023B3F237006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/AboutScene.sks; sourceTree = "<group>"; };
-		642679B223B3F23A006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/AboutScene.sks; sourceTree = "<group>"; };
 		642679B323B3F23C006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/AboutScene.sks"; sourceTree = "<group>"; };
 		642679B523B3F2D9006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/GameScene.sks; sourceTree = "<group>"; };
-		642679B723B3F2DD006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/GameScene.sks; sourceTree = "<group>"; };
 		642679B823B3F2E3006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/GameScene.sks"; sourceTree = "<group>"; };
 		642679BA23B3F440006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/MenuScene.sks; sourceTree = "<group>"; };
 		642679BF23B3F4DA006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/OptionsScene.sks; sourceTree = "<group>"; };
-		642679C123B3F4E0006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/OptionsScene.sks; sourceTree = "<group>"; };
 		642679C223B3F4E3006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/OptionsScene.sks"; sourceTree = "<group>"; };
 		64386D642384D6A500C9C93E /* explode.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = explode.atlas; path = ../../../../Desktop/explode.atlas; sourceTree = "<group>"; };
 		643D6B3D2124F45300EF8B6F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -151,6 +148,10 @@
 		64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust.atlas; sourceTree = "<group>"; };
 		64DC866F21FE9BF000566AED /* enemy8.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy8.atlas; sourceTree = "<group>"; };
 		64DC867121FE9E4F00566AED /* enemy9.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy9.atlas; sourceTree = "<group>"; };
+		64E2498723C7E98B00EFE2B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64E2498923C7E98D00EFE2B9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		64E2498A23C7E98F00EFE2B9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64E2498B23C7E99000EFE2B9 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		64EA7B1221DAAD9800229688 /* music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = music; sourceTree = "<group>"; };
 		64EA7B1821DAB12B00229688 /* lightningUp.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningUp.atlas; sourceTree = "<group>"; };
 		64EA7B1A21DAB13000229688 /* lightningDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningDown.atlas; sourceTree = "<group>"; };
@@ -220,6 +221,7 @@
 		6497436D2123A7C4008D74BB /* starfighter */ = {
 			isa = PBXGroup;
 			children = (
+				64E2498823C7E98B00EFE2B9 /* Localizable.strings */,
 				642679B123B3F237006E9925 /* AboutScene.sks */,
 				643D6B3F2124F46100EF8B6F /* AboutScene.swift */,
 				649743722123A7C4008D74BB /* Actions.sks */,
@@ -416,6 +418,7 @@
 				641D683F237CEC8F00E8C5EA /* brainBossNorm.atlas in Resources */,
 				642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */,
 				64AB250A21DAB47C00F0E7D6 /* sounds in Resources */,
+				64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */,
 				6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */,
 				64EA7B1321DAAD9800229688 /* music in Resources */,
 				642679B923B3F440006E9925 /* MenuScene.sks in Resources */,
@@ -547,7 +550,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				642679AB23B3EF6F006E9925 /* Base */,
-				642679AD23B3EF75006E9925 /* en */,
 				642679AE23B3EF82006E9925 /* vi-VN */,
 				643E143323C6C22B00CC41EE /* zh-Hans */,
 				643E143823C6C24200CC41EE /* es */,
@@ -559,7 +561,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				642679B023B3F237006E9925 /* Base */,
-				642679B223B3F23A006E9925 /* en */,
 				642679B323B3F23C006E9925 /* vi-VN */,
 				643E142F23C6C22A00CC41EE /* zh-Hans */,
 				643E143423C6C24200CC41EE /* es */,
@@ -571,7 +572,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				642679B523B3F2D9006E9925 /* Base */,
-				642679B723B3F2DD006E9925 /* en */,
 				642679B823B3F2E3006E9925 /* vi-VN */,
 				643E143023C6C22A00CC41EE /* zh-Hans */,
 				643E143523C6C24200CC41EE /* es */,
@@ -591,7 +591,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				642679BF23B3F4DA006E9925 /* Base */,
-				642679C123B3F4E0006E9925 /* en */,
 				642679C223B3F4E3006E9925 /* vi-VN */,
 				643E143223C6C22A00CC41EE /* zh-Hans */,
 				643E143723C6C24200CC41EE /* es */,
@@ -613,6 +612,17 @@
 				643E141E23C6B1EE00CC41EE /* en */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		64E2498823C7E98B00EFE2B9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64E2498723C7E98B00EFE2B9 /* en */,
+				64E2498923C7E98D00EFE2B9 /* zh-Hans */,
+				64E2498A23C7E98F00EFE2B9 /* es */,
+				64E2498B23C7E99000EFE2B9 /* vi-VN */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

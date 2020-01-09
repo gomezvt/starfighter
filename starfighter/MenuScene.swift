@@ -47,18 +47,18 @@ class MenuScene: SKScene {
         optionsLabel = self.childNode(withName: "//optionsLabel") as? SKLabelNode
         aboutLabel = self.childNode(withName: "//aboutLabel") as? SKLabelNode
         
-        aboutLabel?.text = getAboutString()
-        optionsLabel?.text = getOptionsString()
+        aboutLabel?.text = NSLocalizedString("About", comment: "")
+        optionsLabel?.text = NSLocalizedString("Options", comment: "")
         
         if let _ = UserDefaults.standard.object(forKey: "level") as? Int,
             let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
             // Continue
-            newGameLabel?.text = getContinueString()
+            newGameLabel?.text = NSLocalizedString("Continue", comment: "")
         } else {
             //Start
-            newGameLabel?.text = getStartString()
+            newGameLabel?.text = NSLocalizedString("Start", comment: "")
         }
         
         let fadeAction = SKAction.sequence([SKAction.run(fadeLabel), SKAction.wait(forDuration: 2)])
@@ -69,58 +69,6 @@ class MenuScene: SKScene {
         titleLabelPosition = title.position
         let jiggle = SKAction.sequence([SKAction.run(jigglelabel), SKAction.wait(forDuration: 2)])
         run(SKAction.repeatForever(jiggle), withKey: "jiggle")
-    }
-    
-    @objc func getOptionsString() -> String {
-        let language = NSLocale.current.languageCode
-        var optionsStr = "Options"
-        if (language == "vi") { // Vietnamese
-            optionsStr = "Tùy chọn"
-        } else if (language == "zh") { // Chinese simplified
-            optionsStr = "选项"
-        } else if (language == "es") { // Spanish
-            optionsStr = "Opciones"
-        }
-        return optionsStr
-    }
-    
-    @objc func getAboutString() -> String {
-        let language = NSLocale.current.languageCode
-        var aboutStr = "About"
-        if (language == "vi") { // Vietnamese
-            aboutStr = "Trong khoảng"
-        } else if (language == "zh") { // Chinese simplified
-            aboutStr = "关于我们"
-        } else if (language == "es") { // Spanish
-            aboutStr = "Sobre nosotros"
-        }
-        return aboutStr
-    }
-    
-    @objc func getContinueString() -> String {
-        let language = NSLocale.current.languageCode
-        var continueStr = "Continue"
-        if (language == "vi") { // Vietnamese
-            continueStr = "Tiếp tục"
-        } else if (language == "zh") { // Chinese simplified
-            continueStr = "继续"
-        } else if (language == "es") { // Spanish
-            continueStr = "Continua"
-        }
-        return continueStr
-    }
-    
-    @objc func getStartString() -> String {
-        let language = NSLocale.current.languageCode
-        var startStr = "Start"
-        if (language == "vi") { // Vietnamese
-            startStr = "Khởi đầu"
-        } else if (language == "zh") { // Chinese simplified
-            startStr = "开始"
-        } else if (language == "es") { // Spanish
-            startStr = "Comienzo"
-        }
-        return startStr
     }
     
     @objc func createComet() {
@@ -246,7 +194,7 @@ class MenuScene: SKScene {
 
                     if let gameScene = SKScene(fileNamed: "GameScene") as? GameScene {
                         gameScene.scaleMode = .aspectFit
-                        gameScene.isContinuing = newGameLabel?.text == getContinueString() ? true : false
+                        gameScene.isContinuing = newGameLabel?.text == NSLocalizedString("Continue", comment: "") ? true : false
                         view.presentScene(gameScene, transition: transition)
                     }
                 } else if touchedNode == optionsLabel,
