@@ -95,8 +95,6 @@
 		641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buzzBossNorm.atlas; sourceTree = "<group>"; };
 		6422729221FD82E000685076 /* enemy6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy6.atlas; sourceTree = "<group>"; };
 		6422729421FD863C00685076 /* enemy7.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy7.atlas; sourceTree = "<group>"; };
-		6426797C23B3E3A0006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		6426797D23B3E3A0006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Main.strings"; sourceTree = "<group>"; };
 		642679AB23B3EF6F006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/TutorialScene.sks; sourceTree = "<group>"; };
 		642679AD23B3EF75006E9925 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/TutorialScene.sks; sourceTree = "<group>"; };
 		642679AE23B3EF82006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/TutorialScene.sks"; sourceTree = "<group>"; };
@@ -116,6 +114,8 @@
 		643D6B3D2124F45300EF8B6F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		643D6B3F2124F46100EF8B6F /* AboutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		643D6B412124F46C00EF8B6F /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
+		643E141E23C6B1EE00CC41EE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		643E141F23C6B20300CC41EE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		64401C772207D51C0090C30A /* enemy2.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy2.atlas; sourceTree = "<group>"; };
 		64401C782207D51C0090C30A /* enemy3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy3.atlas; sourceTree = "<group>"; };
 		64401C7B2207D59B0090C30A /* enemy1.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy1.atlas; sourceTree = "<group>"; };
@@ -130,9 +130,7 @@
 		649743722123A7C4008D74BB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		649743742123A7C4008D74BB /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		649743762123A7C4008D74BB /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		649743792123A7C4008D74BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6497437B2123A7C5008D74BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6497437E2123A7C5008D74BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		649743802123A7C5008D74BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		649743852123A7C5008D74BB /* starfighterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		649743902123A7C5008D74BB /* starfighterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,8 +140,6 @@
 		64A20BC5220BA596008BD8C2 /* blueBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blueBullet.atlas; sourceTree = "<group>"; };
 		64A20BCB220BB3CC008BD8C2 /* greenBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = greenBullet.atlas; sourceTree = "<group>"; };
 		64A20BCD220BB9C1008BD8C2 /* redBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = redBullet.atlas; sourceTree = "<group>"; };
-		64A4C05623B5700000ECFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		64A4C05823B5702600ECFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		64AB250921DAB47B00F0E7D6 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 		64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust6.atlas; sourceTree = "<group>"; };
 		64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust.atlas; sourceTree = "<group>"; };
@@ -592,9 +588,7 @@
 		649743782123A7C4008D74BB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				649743792123A7C4008D74BB /* Base */,
-				6426797D23B3E3A0006E9925 /* vi-VN */,
-				64A4C05823B5702600ECFDFE /* en */,
+				643E141F23C6B20300CC41EE /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -602,9 +596,7 @@
 		6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6497437E2123A7C5008D74BB /* Base */,
-				6426797C23B3E3A0006E9925 /* vi-VN */,
-				64A4C05623B5700000ECFDFE /* en */,
+				643E141E23C6B1EE00CC41EE /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
