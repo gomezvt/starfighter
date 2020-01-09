@@ -882,7 +882,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         setBG()
         isRequestingReview = false
-
+minute = 0
+        seconds = 00
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
         self.run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
         
@@ -2517,7 +2518,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func presentBoss() {
-        bossStaticLifeLabel.text = "Boss Life:"
         bossStaticLifeLabel.isHidden = false
         bossLifeLabel.isHidden = false
         bossLifeLabel.text = "\(bossLife)%"
@@ -2530,7 +2530,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let createStarAction = SKAction.sequence([SKAction.run(self.createStar), SKAction.wait(forDuration: 0.5)])
         self.run(SKAction.repeatForever(createStarAction), withKey: "createstar")
         if level == 3 || level == 6 || level == 9 {
-            bossStaticLifeLabel.text = "Asteroid Alert"
+            bossStaticLifeLabel.text = getAsteroidString()
             bossLifeLabel.isHidden = true
             self.seconds = 45
             if let action = self.action(forKey: "timer") {
@@ -2953,14 +2953,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func getAsteroidString() -> String {
+        var asteroids = "Asteroid Alert"
+        let language = NSLocale.current.languageCode
+        if (language == "vi") { // Vietnamese
+            asteroids = "Tiểu hành"
+        } else if (language == "zh") { // Chinese simplified
+            asteroids = "小行星"
+        } else if (language == "es") { // Spanish
+            asteroids = "Asteroides"
+        }
+        return asteroids
+    }
+    
+    func getBossString() -> String {
+        var boss = "Boss Alert"
+        let language = NSLocale.current.languageCode
+        if (language == "vi") { // Vietnamese
+            boss = "Kẻ thù lớn"
+        } else if (language == "zh") { // Chinese simplified
+            boss = "大敌人"
+        } else if (language == "es") { // Spanish
+            boss = "Enemigo Grande"
+        }
+        return boss
+    }
+    
     func showRedBossBG() {
         stopActions()
         if level == 3 || level == 6 || level == 9 {
             isAsteroidBoss = true
-            self.bossAlertLabel.text = "Asteroid Alert"
+            self.bossAlertLabel.text = getAsteroidString()
         } else {
             isAsteroidBoss = false
-            self.bossAlertLabel.text = "Boss Alert"
+            self.bossAlertLabel.text = getBossString()
         }
         
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
