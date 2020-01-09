@@ -92,7 +92,7 @@ class MenuScene: SKScene {
         } else if (language == "zh") { // Chinese simplified
             aboutStr = "关于我们"
         } else if (language == "es") { // Spanish
-            aboutStr = "Acerca de"
+            aboutStr = "Sobre nosotros"
         }
         return aboutStr
     }
@@ -118,7 +118,7 @@ class MenuScene: SKScene {
         } else if (language == "zh") { // Chinese simplified
             startStr = "开始"
         } else if (language == "es") { // Spanish
-            startStr = "comienzo"
+            startStr = "Comienzo"
         }
         return startStr
     }
