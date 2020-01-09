@@ -41,23 +41,24 @@ class MenuScene: SKScene {
         
         createShip()
        
-        self.lastUpdateTime = 0
-        self.titleLabel = self.childNode(withName: "//titleLabel") as? SKLabelNode
-        self.newGameLabel = self.childNode(withName: "//newGameLabel") as? SKLabelNode
-        self.optionsLabel = self.childNode(withName: "//optionsLabel") as? SKLabelNode
-        self.aboutLabel = self.childNode(withName: "//aboutLabel") as? SKLabelNode
+        lastUpdateTime = 0
+        titleLabel = self.childNode(withName: "//titleLabel") as? SKLabelNode
+        newGameLabel = self.childNode(withName: "//newGameLabel") as? SKLabelNode
+        optionsLabel = self.childNode(withName: "//optionsLabel") as? SKLabelNode
+        aboutLabel = self.childNode(withName: "//aboutLabel") as? SKLabelNode
         
-        let language = NSLocale.current.languageCode
+        aboutLabel?.text = getAboutString()
+        optionsLabel?.text = getOptionsString()
+        
         if let _ = UserDefaults.standard.object(forKey: "level") as? Int,
             let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
-            // "en"
-            let continueStr = language == "vi" ? "Tiếp tục" : "Continue"
-            newGameLabel?.text = continueStr
+            // Continue
+            newGameLabel?.text = getContinueString()
         } else {
-            let startStr = language == "vi" ? "Khởi đầu" : "Start"
-            newGameLabel?.text = startStr
+            //Start
+            newGameLabel?.text = getStartString()
         }
         
         let fadeAction = SKAction.sequence([SKAction.run(fadeLabel), SKAction.wait(forDuration: 2)])
@@ -68,6 +69,58 @@ class MenuScene: SKScene {
         titleLabelPosition = title.position
         let jiggle = SKAction.sequence([SKAction.run(jigglelabel), SKAction.wait(forDuration: 2)])
         run(SKAction.repeatForever(jiggle), withKey: "jiggle")
+    }
+    
+    @objc func getOptionsString() -> String {
+        let language = NSLocale.current.languageCode
+        var optionsStr = "Options"
+        if (language == "vi") { // Vietnamese
+            optionsStr = "Tùy chọn"
+        } else if (language == "zh") { // Chinese simplified
+            optionsStr = "选件"
+        } else if (language == "es") { // Spanish
+            optionsStr = "Opciones"
+        }
+        return optionsStr
+    }
+    
+    @objc func getAboutString() -> String {
+        let language = NSLocale.current.languageCode
+        var aboutStr = "About"
+        if (language == "vi") { // Vietnamese
+            aboutStr = "Trong khoảng"
+        } else if (language == "zh") { // Chinese simplified
+            aboutStr = "关于我们"
+        } else if (language == "es") { // Spanish
+            aboutStr = "Acerca de"
+        }
+        return aboutStr
+    }
+    
+    @objc func getContinueString() -> String {
+        let language = NSLocale.current.languageCode
+        var continueStr = "Continue"
+        if (language == "vi") { // Vietnamese
+            continueStr = "Tiếp tục"
+        } else if (language == "zh") { // Chinese simplified
+            continueStr = "继续"
+        } else if (language == "es") { // Spanish
+            continueStr = "Continua"
+        }
+        return continueStr
+    }
+    
+    @objc func getStartString() -> String {
+        let language = NSLocale.current.languageCode
+        var startStr = "Start"
+        if (language == "vi") { // Vietnamese
+            startStr = "Khởi đầu"
+        } else if (language == "zh") { // Chinese simplified
+            startStr = "开始"
+        } else if (language == "es") { // Spanish
+            startStr = "comienzo"
+        }
+        return startStr
     }
     
     @objc func createComet() {
@@ -193,7 +246,7 @@ class MenuScene: SKScene {
 
                     if let gameScene = SKScene(fileNamed: "GameScene") as? GameScene {
                         gameScene.scaleMode = .aspectFit
-                        gameScene.isContinuing = newGameLabel?.text == "Continue" || newGameLabel?.text == "Tiếp tục" ? true : false
+                        gameScene.isContinuing = newGameLabel?.text == getContinueString() ? true : false
                         view.presentScene(gameScene, transition: transition)
                     }
                 } else if touchedNode == optionsLabel,

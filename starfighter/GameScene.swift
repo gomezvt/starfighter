@@ -3269,16 +3269,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if touchedNode == returnToMenuLabel,
                     let view = self.view as SKView?,
                     let menuScene = SKScene(fileNamed: "MenuScene") as? MenuScene {
-                    let language = NSLocale.current.languageCode
-                    var gameLabelText = "";
-                    if (language == "vi") {
-                        gameLabelText = assessSavedGame() == true ? "Tiếp tục" : "Khởi đầu"
-                    } else if (language == "en") {
-                        gameLabelText = assessSavedGame() == true ? "Continue" : "Start"
-                    }
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
-                    menuScene.newGameLabel?.text = gameLabelText
+                    menuScene.newGameLabel?.text = assessSavedGame() == true ? getContinueString() : getStartString()
                     view.ignoresSiblingOrder = true
                     view.presentScene(menuScene, transition: transition)
                     app?.level = 0
@@ -3288,6 +3281,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+    }
+    
+    @objc func getContinueString() -> String {
+        let language = NSLocale.current.languageCode
+        var continueStr = "Continue"
+        if (language == "vi") { // Vietnamese
+            continueStr = "Tiếp tục"
+        } else if (language == "zh") { // Chinese simplified
+            continueStr = "继续"
+        } else if (language == "es") { // Spanish
+            continueStr = "Continua"
+        }
+        return continueStr
+    }
+    
+    @objc func getStartString() -> String {
+        let language = NSLocale.current.languageCode
+        var startStr = "Start"
+        if (language == "vi") { // Vietnamese
+            startStr = "Khởi đầu"
+        } else if (language == "zh") { // Chinese simplified
+            startStr = "开始"
+        } else if (language == "es") { // Spanish
+            startStr = "comienzo"
+        }
+        return startStr
     }
 
     func deductPlayerLife() {
