@@ -882,8 +882,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         setBG()
         isRequestingReview = false
-minute = 0
-        seconds = 00
+
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
         self.run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
         
