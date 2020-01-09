@@ -47,13 +47,17 @@ class MenuScene: SKScene {
         self.optionsLabel = self.childNode(withName: "//optionsLabel") as? SKLabelNode
         self.aboutLabel = self.childNode(withName: "//aboutLabel") as? SKLabelNode
         
+        let language = NSLocale.current.languageCode
         if let _ = UserDefaults.standard.object(forKey: "level") as? Int,
             let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
-            newGameLabel?.text = "Continue"
+            // "en"
+            let continueStr = language == "vi" ? "Tiếp tục" : "Continue"
+            newGameLabel?.text = continueStr
         } else {
-            newGameLabel?.text = "Start"
+            let startStr = language == "vi" ? "Khởi đầu" : "Start"
+            newGameLabel?.text = startStr
         }
         
         let fadeAction = SKAction.sequence([SKAction.run(fadeLabel), SKAction.wait(forDuration: 2)])
@@ -189,7 +193,7 @@ class MenuScene: SKScene {
 
                     if let gameScene = SKScene(fileNamed: "GameScene") as? GameScene {
                         gameScene.scaleMode = .aspectFit
-                        gameScene.isContinuing = newGameLabel?.text == "Continue" ? true : false
+                        gameScene.isContinuing = newGameLabel?.text == "Continue" || newGameLabel?.text == "Tiếp tục" ? true : false
                         view.presentScene(gameScene, transition: transition)
                     }
                 } else if touchedNode == optionsLabel,

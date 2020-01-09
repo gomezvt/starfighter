@@ -3269,9 +3269,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if touchedNode == returnToMenuLabel,
                     let view = self.view as SKView?,
                     let menuScene = SKScene(fileNamed: "MenuScene") as? MenuScene {
+                    let language = NSLocale.current.languageCode
+                    var gameLabelText = "";
+                    if (language == "vi") {
+                        gameLabelText = assessSavedGame() == true ? "Tiếp tục" : "Khởi đầu"
+                    } else if (language == "en") {
+                        gameLabelText = assessSavedGame() == true ? "Continue" : "Start"
+                    }
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
-                    menuScene.newGameLabel?.text = assessSavedGame() == true ? "Continue" : "Start"
+                    menuScene.newGameLabel?.text = gameLabelText
                     view.ignoresSiblingOrder = true
                     view.presentScene(menuScene, transition: transition)
                     app?.level = 0
