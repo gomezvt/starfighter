@@ -77,7 +77,7 @@ class MenuScene: SKScene {
         if (language == "vi") { // Vietnamese
             optionsStr = "Tùy chọn"
         } else if (language == "zh") { // Chinese simplified
-            optionsStr = "选件"
+            optionsStr = "选项"
         } else if (language == "es") { // Spanish
             optionsStr = "Opciones"
         }
