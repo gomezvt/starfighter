@@ -736,12 +736,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         boss3Array.append(boss3Atlas.textureNamed("boss14"))
         boss3Array.append(boss3Atlas.textureNamed("boss15"))
         boss3Array.append(boss3Atlas.textureNamed("boss16"))
-        
-        //        boss2ExhaustArray.append(boss2ExhaustAtlas.textureNamed("thrust"))
-        //        boss2ExhaustArray.append(boss2ExhaustAtlas.textureNamed("thrust2"))
-        //        boss2ExhaustArray.append(boss2ExhaustAtlas.textureNamed("thrust3"))
-        //        boss2ExhaustArray.append(boss2ExhaustAtlas.textureNamed("thrust4"))
-        
+
         starSprites.append(starAtlas.textureNamed("star"))
         starSprites.append(starAtlas.textureNamed("star2"))
         starSprites.append(starAtlas.textureNamed("star3"))
@@ -880,8 +875,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hiScoreLabel.isHidden = true
         }
 
+        level = 10
         setBG()
         isRequestingReview = false
+        minute = 0
+        seconds = 00
 
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
         self.run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
@@ -2539,8 +2537,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         var fireAction: SKAction!
-        let bot = -UIScreen.main.bounds.height + 225
-        let top = UIScreen.main.bounds.height - 175
+        let bot = -UIScreen.main.bounds.height + 300
+        let top = UIScreen.main.bounds.height - 300
         let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
         if level == 1 {
             boss = SKSpriteNode(texture: SKTextureAtlas(named:"boss1").textureNamed("boss0001"))
