@@ -1448,20 +1448,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nodeToFire = SKSpriteNode(imageNamed: "tomahawk")
             nodeToFire.accessibilityLabel = "tomahawk"
             nodeToFire.size = CGSize(width: 50, height: 30)
+            
+            let missileExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"missileExhaust").textureNamed("redthrust"))
+            missileExhaust.size = CGSize(width: 60, height: 40)
+            missileExhaust.position = CGPoint(x: -40, y: 0)
+            nodeToFire.addChild(missileExhaust)
+            
+            let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
+            missileExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
         }
         
         nodeToFire.name = "playerfire"
         nodeToFire.zPosition = 3
         setShipFirePhysics(for: nodeToFire)
         nodeToFire.position = CGPoint(x: ship.frame.maxX, y: ship.frame.midY)
-        
-        let missileExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"missileExhaust").textureNamed("redthrust"))
-        missileExhaust.size = CGSize(width: 60, height: 40)
-        missileExhaust.position = CGPoint(x: -40, y: 0)
-        nodeToFire.addChild(missileExhaust)
-        
-        let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
-        missileExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
         
         if isAddingSentinelFire {
             nodeToFire.position = CGPoint(x: sentinel!.frame.maxX, y: sentinel!.frame.midY)
