@@ -3157,7 +3157,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     menuNode.graphs = menuScene.graphs
                     menuNode.scaleMode = .aspectFit
                     menuNode.clearDefaults()
-                    menuNode.newGameLabel?.text = "Start"
+                    menuNode.newGameLabel?.text = NSLocalizedString("Start", comment: "")
                     
                     let transition = SKTransition.fade(withDuration: 2)
                     self.view?.presentScene(menuNode, transition: transition)
@@ -3260,7 +3260,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
                     menuScene.clearDefaults()
-                    menuScene.newGameLabel?.text = "Start"
+                    menuScene.newGameLabel?.text = NSLocalizedString("Start", comment: "")
                     view.ignoresSiblingOrder = true
                     view.presentScene(menuScene, transition: transition)
                 } else if touchedNode == pauseBtn || touchedNode == unPauseLabel {
@@ -3283,7 +3283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let menuScene = SKScene(fileNamed: "MenuScene") as? MenuScene {
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
-                    menuScene.newGameLabel?.text = assessSavedGame() == true ? getContinueString() : getStartString()
+                    menuScene.newGameLabel?.text = assessSavedGame() == true ? NSLocalizedString("Continue", comment: "") : NSLocalizedString("Start", comment: "")
                     view.ignoresSiblingOrder = true
                     view.presentScene(menuScene, transition: transition)
                     app?.level = 0
@@ -3293,32 +3293,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-    }
-    
-    @objc func getContinueString() -> String {
-        let language = NSLocale.current.languageCode
-        var continueStr = "Continue"
-        if (language == "vi") { // Vietnamese
-            continueStr = "Tiếp tục"
-        } else if (language == "zh") { // Chinese simplified
-            continueStr = "继续"
-        } else if (language == "es") { // Spanish
-            continueStr = "Continua"
-        }
-        return continueStr
-    }
-    
-    @objc func getStartString() -> String {
-        let language = NSLocale.current.languageCode
-        var startStr = "Start"
-        if (language == "vi") { // Vietnamese
-            startStr = "Khởi đầu"
-        } else if (language == "zh") { // Chinese simplified
-            startStr = "开始"
-        } else if (language == "es") { // Spanish
-            startStr = "comienzo"
-        }
-        return startStr
     }
 
     func deductPlayerLife() {
