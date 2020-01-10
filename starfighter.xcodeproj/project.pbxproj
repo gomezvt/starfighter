@@ -36,6 +36,7 @@
 		64401C802207D5EF0090C30A /* shipexhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C7F2207D5EF0090C30A /* shipexhaust.atlas */; };
 		64401C822207D6140090C30A /* enemy5.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C812207D6140090C30A /* enemy5.atlas */; };
 		64401C842207D66D0090C30A /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C832207D66D0090C30A /* player.atlas */; };
+		644A378123C80D1B00195A25 /* missileExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 644A378023C80D1B00195A25 /* missileExhaust.atlas */; };
 		6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6470382A21C35F8E00EC53B3 /* fireballwep.atlas */; };
 		647F573221FEAE600060A3A7 /* blob.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 647F573121FEAE600060A3A7 /* blob.atlas */; };
 		6497436F2123A7C4008D74BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6497436E2123A7C4008D74BB /* AppDelegate.swift */; };
@@ -126,6 +127,7 @@
 		64401C7F2207D5EF0090C30A /* shipexhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shipexhaust.atlas; sourceTree = "<group>"; };
 		64401C812207D6140090C30A /* enemy5.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy5.atlas; sourceTree = "<group>"; };
 		64401C832207D66D0090C30A /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = player.atlas; sourceTree = "<group>"; };
+		644A378023C80D1B00195A25 /* missileExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = missileExhaust.atlas; sourceTree = "<group>"; };
 		6470382A21C35F8E00EC53B3 /* fireballwep.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fireballwep.atlas; sourceTree = "<group>"; };
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
 		6497436B2123A7C4008D74BB /* Star Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,6 +251,7 @@
 		64FEDAF221F64F1B0014C9D4 /* atlases */ = {
 			isa = PBXGroup;
 			children = (
+				644A378023C80D1B00195A25 /* missileExhaust.atlas */,
 				64386D642384D6A500C9C93E /* explode.atlas */,
 				641D6840237CEEFA00E8C5EA /* buzzBossAttack.atlas */,
 				641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */,
@@ -451,6 +454,7 @@
 				64DC867221FE9E5000566AED /* enemy9.atlas in Resources */,
 				64F8D3182209423F000DCBDE /* star.atlas in Resources */,
 				64DC867021FE9BF000566AED /* enemy8.atlas in Resources */,
+				644A378123C80D1B00195A25 /* missileExhaust.atlas in Resources */,
 				642679AF23B3F237006E9925 /* AboutScene.sks in Resources */,
 				649743732123A7C4008D74BB /* Actions.sks in Resources */,
 				64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */,

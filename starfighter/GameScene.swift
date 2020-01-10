@@ -119,6 +119,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shipExhaustArray = Array<SKTexture>()
     let shipAtlas = SKTextureAtlas(named:"shipexhaust")
     
+    var missileExhaustArray = Array<SKTexture>()
+    let missileExhaustAtlas = SKTextureAtlas(named:"missileExhaust")
+    
     var enemyExhaustArray = Array<SKTexture>()
     let enemyExhaustAtlas = SKTextureAtlas(named:"enemyExhaust")
     
@@ -764,6 +767,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemyExhaustArray.append(enemyExhaustAtlas.textureNamed("redthrust3"))
         enemyExhaustArray.append(enemyExhaustAtlas.textureNamed("redthrust4"))
         
+        missileExhaustArray.append(missileExhaustAtlas.textureNamed("redthrust"))
+        missileExhaustArray.append(missileExhaustAtlas.textureNamed("redthrust2"))
+        missileExhaustArray.append(missileExhaustAtlas.textureNamed("redthrust3"))
+        missileExhaustArray.append(missileExhaustAtlas.textureNamed("redthrust4"))
+        
         enemyExhaust2Array.append(enemyExhaust2Atlas.textureNamed("thrust_green"))
         enemyExhaust2Array.append(enemyExhaust2Atlas.textureNamed("thrust_green2"))
         enemyExhaust2Array.append(enemyExhaust2Atlas.textureNamed("thrust_green3"))
@@ -875,11 +883,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hiScoreLabel.isHidden = true
         }
 
-        level = 10
         setBG()
         isRequestingReview = false
-        minute = 0
-        seconds = 00
 
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
         self.run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
@@ -1449,6 +1454,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         nodeToFire.zPosition = 3
         setShipFirePhysics(for: nodeToFire)
         nodeToFire.position = CGPoint(x: ship.frame.maxX, y: ship.frame.midY)
+        
+        let missileExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"missileExhaust").textureNamed("redthrust"))
+        missileExhaust.size = CGSize(width: 60, height: 40)
+        missileExhaust.position = CGPoint(x: -40, y: 0)
+        nodeToFire.addChild(missileExhaust)
+        
+        let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
+        missileExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
+        
         if isAddingSentinelFire {
             nodeToFire.position = CGPoint(x: sentinel!.frame.maxX, y: sentinel!.frame.midY)
         }
@@ -3082,7 +3096,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         sprite.colorBlendFactor = 1
                         sprite.color = UIColor.magenta
                     }
-                    
+
                     var moveAction = SKAction.moveTo(x: size.width * 2, duration: 5) as SKAction?
                     let onScreen = size.width - 150
                     if let firstEnemy = enemies?.first, sprite.position.x < firstEnemy.position.x && firstEnemy.position.x < onScreen {
