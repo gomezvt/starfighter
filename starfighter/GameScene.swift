@@ -1252,10 +1252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var image: UIImage?
         if level == 1 {
             bg.alpha = 0.5
-            image = UIImage(named: "bg")
-            let redPlanetAction = SKAction.sequence([SKAction.run(self.createRedPlanet), SKAction.wait(forDuration: 3)])
-            run(redPlanetAction)
-            
+            image = UIImage(named: "bg3")
             let cometAction = SKAction.sequence([SKAction.run(self.createComet), SKAction.wait(forDuration: 20)])
             run(SKAction.repeatForever(cometAction), withKey: "createcomet")
         } else if level == 2 {
@@ -1266,9 +1263,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             removeAction(forKey: "createcomet")
         } else if level == 3 {
             bg.alpha = 0.8
-            image = UIImage(named: "bg3")
+            image = UIImage(named: "bg")
             let cometAction = SKAction.sequence([SKAction.run(self.createComet), SKAction.wait(forDuration: 20)])
             run(SKAction.repeatForever(cometAction), withKey: "createcomet")
+            
+            let redPlanetAction = SKAction.sequence([SKAction.run(self.createRedPlanet), SKAction.wait(forDuration: 3)])
+            run(redPlanetAction)
+            
         } else if level == 4 {
             bg.alpha = 0.8
             image = UIImage(named: "bg4")
