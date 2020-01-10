@@ -230,6 +230,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bar: SKSpriteNode!
     var sentinelIcon: SKSpriteNode!
     var shipIcon: SKSpriteNode!
+    var shipIconExhaust: SKSpriteNode!
     var grayBar: SKSpriteNode!
     var boss: SKSpriteNode?
     var bg: SKSpriteNode!
@@ -295,6 +296,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(adWasDismissed), name: NSNotification.Name(rawValue: "adWasDismissed"), object: nil)
         
         shipIcon = self.childNode(withName: "//shipIcon") as? SKSpriteNode
+        shipIconExhaust = self.childNode(withName: "//shipIconExhaust") as? SKSpriteNode
         bossStaticLifeLabel = self.childNode(withName: "//bossStaticLifeLabel") as! SKLabelNode
         bossLifeLabel = self.childNode(withName: "//bossLifeLabel") as! SKLabelNode
         bossStaticLifeLabel.isHidden = true
@@ -962,10 +964,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func handleShipPan(gestureReconizer: UIPanGestureRecognizer) {
-        guard didBeatGame == false else { return }
+        guard didBeatGame == false, let v = view else { return }
 
-        let currentTranslateX = gestureReconizer.translation(in: view!).x
-        let currentTranslateY = gestureReconizer.translation(in: view!).y
+        let currentTranslateX = gestureReconizer.translation(in: v).x
+        let currentTranslateY = gestureReconizer.translation(in: v).y
         let translateX = currentTranslateX - previousTranslateX
         let translateY = currentTranslateY - previousTranslateY
         
@@ -3410,6 +3412,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.ship.isHidden = true
             self.grayBar.isHidden = true
             self.shipIcon.isHidden = true
+            self.shipIconExhaust.isHidden = true
+            self.pauseBtn.isHidden = true
             self.livesXLabel.isHidden = true
             self.congratsLabel.isHidden = false
             self.congratsDetailsLabel.isHidden = false
