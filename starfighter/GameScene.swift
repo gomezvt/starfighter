@@ -1075,25 +1075,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             url = Bundle.main.url(forResource: "boss", withExtension: "wav", subdirectory: "/music")
         } else {
             if level == 1 {
-                url = Bundle.main.url(forResource: "level1", withExtension: "mp3", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "1", withExtension: "wav", subdirectory: "/music")
             } else if level == 2 {
-                url = Bundle.main.url(forResource: "level2", withExtension: "mp3", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "2", withExtension: "wav", subdirectory: "/music")
             } else if level == 3 {
-                url = Bundle.main.url(forResource: "level3", withExtension: "wav", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "3", withExtension: "wav", subdirectory: "/music")
             } else if level == 4 {
-                url = Bundle.main.url(forResource: "level4", withExtension: "wav", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "4", withExtension: "wav", subdirectory: "/music")
             } else if level == 5 {
-                url = Bundle.main.url(forResource: "level5", withExtension: "mp3", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "5", withExtension: "wav", subdirectory: "/music")
             } else if level == 6 {
-                url = Bundle.main.url(forResource: "level6", withExtension: "wav", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "6", withExtension: "wav", subdirectory: "/music")
             } else if level == 7 {
-                url = Bundle.main.url(forResource: "level7", withExtension: "mp3", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "7", withExtension: "wav", subdirectory: "/music")
             } else if level == 8 {
-                url = Bundle.main.url(forResource: "level8", withExtension: "wav", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "8", withExtension: "wav", subdirectory: "/music")
             } else if level == 9 {
-                url = Bundle.main.url(forResource: "level9", withExtension: "mp3", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "9", withExtension: "wav", subdirectory: "/music")
             } else if level == 10 {
-                url = Bundle.main.url(forResource: "level10", withExtension: "wav", subdirectory: "/music")
+                url = Bundle.main.url(forResource: "10", withExtension: "wav", subdirectory: "/music")
             }
         }
         
@@ -1140,7 +1140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playAlert() {
-        if let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "m4a", subdirectory: "/sounds") {
+        if let url = Bundle.main.url(forResource: "Alarm", withExtension: "m4a", subdirectory: "/sounds") {
             do {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
                 try AVAudioSession.sharedInstance().setActive(true)
@@ -1156,7 +1156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playHit() {
-        if let url = Bundle.main.url(forResource: "hit_sound", withExtension: "m4a", subdirectory: "/sounds") {
+        if let url = Bundle.main.url(forResource: "Player Hit", withExtension: "m4a", subdirectory: "/sounds") {
             do {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
                 try AVAudioSession.sharedInstance().setActive(true)
@@ -1171,8 +1171,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func playBossDead() {
+        if let url = Bundle.main.url(forResource: "Boss Dead", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                bossShotSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = bossShotSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func playBossShot() {
-        if let url = Bundle.main.url(forResource: "boss_shot", withExtension: "m4a", subdirectory: "/sounds") {
+        if let url = Bundle.main.url(forResource: "Boss Shot", withExtension: "m4a", subdirectory: "/sounds") {
             do {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
                 try AVAudioSession.sharedInstance().setActive(true)
@@ -1188,7 +1204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playNewWeapon() {
-        guard let url = Bundle.main.url(forResource: "new_weapon", withExtension: "m4a", subdirectory: "/sounds") else { return }
+        guard let url = Bundle.main.url(forResource: "New Weapon", withExtension: "m4a", subdirectory: "/sounds") else { return }
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
@@ -1206,13 +1222,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playKill() {
-        guard let url = Bundle.main.url(forResource: "kill_sound", withExtension: "m4a", subdirectory: "/sounds") else { return }
+        guard let url = Bundle.main.url(forResource: "Enemy Kill", withExtension: "wav", subdirectory: "/sounds") else { return }
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
             try AVAudioSession.sharedInstance().setActive(true)
             
-            blowUpSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.m4a.rawValue)
+            blowUpSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
             
             guard let player = blowUpSoundPlayer else { return }
             DispatchQueue.global().async {
@@ -1224,7 +1240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playWeaponShot() {
-        guard let url = Bundle.main.url(forResource: "player_shot", withExtension: "m4a", subdirectory: "/sounds") else { return }
+        guard let url = Bundle.main.url(forResource: "Player Shot", withExtension: "m4a", subdirectory: "/sounds") else { return }
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
@@ -3365,7 +3381,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         boss.run(self.fadeIn, completion: {
                             self.score += 500
                             DispatchQueue.global().async {
-                                self.playKill()
+                                self.playBossDead()
                             }
                             boss.removeFromParent()
                             self.boss = nil
