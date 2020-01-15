@@ -247,7 +247,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var newWeaponSoundPlayer: AVAudioPlayer?
     var hitSoundPlayer: AVAudioPlayer?
     var bossShotSoundPlayer: AVAudioPlayer?
-    
+    var bossDeadSoundPlayer: AVAudioPlayer?
+    var coinSoundPlayer: AVAudioPlayer?
+    var lifeSoundPlayer: AVAudioPlayer?
+
     @objc func adWasPresented(_ notification: Notification) {
         physicsWorld.speed = 0
         isPaused = true
@@ -284,7 +287,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newWeaponSoundPlayer?.prepareToPlay()
         hitSoundPlayer?.prepareToPlay()
         bossShotSoundPlayer?.prepareToPlay()
-        
+        bossDeadSoundPlayer?.prepareToPlay()
+        coinSoundPlayer?.prepareToPlay()
+        lifeSoundPlayer?.prepareToPlay()
+
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         if let app = UIApplication.shared.delegate as? AppDelegate {
             self.app = app
@@ -1139,6 +1145,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func playCoins() {
+        if let url = Bundle.main.url(forResource: "Coins", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                coinSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = coinSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func playAlert() {
         if let url = Bundle.main.url(forResource: "Alarm", withExtension: "m4a", subdirectory: "/sounds") {
             do {
@@ -1160,8 +1182,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             do {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
                 try AVAudioSession.sharedInstance().setActive(true)
-                alertSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-                guard let player = alertSoundPlayer else { return }
+                lifeSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = lifeSoundPlayer else { return }
                 DispatchQueue.global().async {
                     player.play()
                 }
@@ -1192,8 +1214,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             do {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
                 try AVAudioSession.sharedInstance().setActive(true)
-                bossShotSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-                guard let player = bossShotSoundPlayer else { return }
+                bossDeadSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = bossDeadSoundPlayer else { return }
                 DispatchQueue.global().async {
                     player.play()
                 }
