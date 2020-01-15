@@ -250,6 +250,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bossDeadSoundPlayer: AVAudioPlayer?
     var coinSoundPlayer: AVAudioPlayer?
     var lifeSoundPlayer: AVAudioPlayer?
+    var spreadSoundPlayer: AVAudioPlayer?
+    var bombSoundPlayer: AVAudioPlayer?
+    var weaponLevelUpSoundPlayer: AVAudioPlayer?
+    var lightningSoundPlayer: AVAudioPlayer?
+    var fireballSoundPlayer: AVAudioPlayer?
+    var missileSoundPlayer: AVAudioPlayer?
 
     @objc func adWasPresented(_ notification: Notification) {
         physicsWorld.speed = 0
@@ -290,6 +296,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bossDeadSoundPlayer?.prepareToPlay()
         coinSoundPlayer?.prepareToPlay()
         lifeSoundPlayer?.prepareToPlay()
+        spreadSoundPlayer?.prepareToPlay()
+        bombSoundPlayer?.prepareToPlay()
+        weaponLevelUpSoundPlayer?.prepareToPlay()
+        lightningSoundPlayer?.prepareToPlay()
+        fireballSoundPlayer?.prepareToPlay()
+        missileSoundPlayer?.prepareToPlay()
 
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         if let app = UIApplication.shared.delegate as? AppDelegate {
@@ -349,7 +361,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
         
         playerArray.append(playerAtlas.textureNamed("player"))
-        
         playerUpArray.append(playerUpAtlas.textureNamed("playerup"))
         playerUpArray.append(playerUpAtlas.textureNamed("playerup2"))
         playerUpArray.append(playerUpAtlas.textureNamed("playerup3"))
@@ -1177,6 +1188,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func playSpread() {
+        if let url = Bundle.main.url(forResource: "Spread", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                spreadSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = spreadSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func playLife() {
         if let url = Bundle.main.url(forResource: "ExtraLife", withExtension: "wav", subdirectory: "/sounds") {
             do {
@@ -1184,6 +1211,87 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 try AVAudioSession.sharedInstance().setActive(true)
                 lifeSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
                 guard let player = lifeSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func playMissileSound() {
+        if let url = Bundle.main.url(forResource: "Missile", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                missileSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                missileSoundPlayer?.volume = 0.5
+                guard let player = missileSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func playFireballSound() {
+        if let url = Bundle.main.url(forResource: "Fireball", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                fireballSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = fireballSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func playLightningSound() {
+        if let url = Bundle.main.url(forResource: "Lightning", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                lightningSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = lightningSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func playLevelUp() {
+        if let url = Bundle.main.url(forResource: "WeaponLevelUp", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                weaponLevelUpSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = weaponLevelUpSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func playMegabomb() {
+        if let url = Bundle.main.url(forResource: "Megabomb", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                bombSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = bombSoundPlayer else { return }
                 DispatchQueue.global().async {
                     player.play()
                 }
@@ -1561,7 +1669,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setTomahawkAction() {
         if let sprite = getNode() {
             addChild(sprite)
-            playWeaponShot()
             
             if isAddingSentinelFire {
                 sentinelDur -= 1
@@ -1804,35 +1911,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moveAction.timingMode = .linear
         if weaponType == .Spread {
             setSpreadAction()
-            playWeaponShot()
+            playSpread()
         } else if weaponType == .Lightning {
             setLightningAction()
-            playWeaponShot()
-            
+            playLightningSound()
         } else if weaponType == .Tomahawk {
             setTomahawkAction()
+            playMissileSound()
         } else if let node = getNode() {
             if weaponType == .Fireball {
                 moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
+                playFireballSound()
+            } else {
+                playWeaponShot()
             }
             self.addChild(node)
             setTracer(node: node, action: moveAction, isEnemy: false)
             let actions = SKAction.group([rotateAction, moveAction])
             node.run(actions)
-            
-            playWeaponShot()
         }
         
         if var _ = self.sentinel {
             isAddingSentinelFire = true
             if weaponType == .Spread {
                 setSpreadAction()
-                playWeaponShot()
-                
             } else if weaponType == .Lightning {
                 setLightningAction()
-                playWeaponShot()
-                
             } else if weaponType == .Tomahawk {
                 setTomahawkAction()
             } else if let node = getNode() {
@@ -1843,7 +1947,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 setTracer(node: node, action: moveAction, isEnemy: false)
                 let actions = SKAction.group([rotateAction, moveAction])
                 node.run(actions)
-                playWeaponShot()
             }
             
             if weaponType != .Tomahawk {
@@ -3523,7 +3626,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody = nil
         enemy.removeAllActions()
         
-        playKill()
         let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
         enemy.run(explosion, completion: {
             self.score += 50
@@ -3532,8 +3634,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setWeapon(_ weapon: SKSpriteNode) {
-        playNewWeapon()
         guard weapon.texture != Textures.megabombtexture else {
+            playMegabomb()
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
             let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 0.3)
             let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.3)
@@ -3554,9 +3656,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             })
             return
         }
-        
+                
         guard weapon.texture != Textures.sentineltexture else {
-            
             let sentinel = SKSpriteNode(imageNamed: "sentinel")
             sentinel.size = CGSize(width: 35, height: 35)
             sentinel.position = CGPoint(x: ship.frame.maxX - 20, y: ship.frame.maxY)
@@ -3586,9 +3687,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(weaponType.rawValue, forKey: "weaponType")
             bar.texture = SKTexture(imageNamed: "bar")
             wepCount = 1
+            playNewWeapon()
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
         } else if wepCount < 5 {
             wepCount += 1
+            playLevelUp()
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
             bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
         }
@@ -3688,6 +3791,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let shipfire = getNodeForCollision(first: firstBody, second: secondBody, name: "playerfire") as? SKSpriteNode {
             shipfire.removeFromParent()
             destroyEnemy(enemy)
+            playKill()
         }
         
         if isEnemy && isShip {

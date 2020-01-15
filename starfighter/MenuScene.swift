@@ -24,8 +24,10 @@ class MenuScene: SKScene {
     let shipAtlas = SKTextureAtlas(named:"shipexhaust")
     var ship: SKSpriteNode!
     var titleLabelPosition = CGPoint()
-    
+    var menuPlayer: AVAudioPlayer?
+
     override func sceneDidLoad() {
+        menuPlayer?.prepareToPlay()
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         
         shipExhaustArray.append(shipAtlas.textureNamed("shipexhaust"))
@@ -180,6 +182,7 @@ class MenuScene: SKScene {
                 let view = self.view as SKView? {
                 let transition = SKTransition.fade(withDuration: 1.5)
                 if touchedNode == newGameLabel {
+                    playStartSound()
                     newGameLabel?.alpha = 0.5
                     guard let didAcknowledge = UserDefaults.standard.value(forKey: "acknowledgedTutorial") as? Bool,
                         didAcknowledge == true else {
@@ -191,7 +194,7 @@ class MenuScene: SKScene {
                             
                             return
                     }
-
+                    
                     if let gameScene = SKScene(fileNamed: "GameScene") as? GameScene {
                         gameScene.scaleMode = .aspectFit
                         gameScene.isContinuing = newGameLabel?.text == NSLocalizedString("Continue", comment: "") ? true : false
@@ -209,6 +212,20 @@ class MenuScene: SKScene {
                     view.presentScene(aboutScene, transition: transition)
                 }
                 view.ignoresSiblingOrder = true
+            }
+        }
+    }
+    
+    func playStartSound() {
+        if let url = Bundle.main.url(forResource: "Start", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                menuPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                menuPlayer?.volume = 0.4
+                menuPlayer?.play()
+            } catch let error {
+                print(error.localizedDescription)
             }
         }
     }
@@ -237,6 +254,11 @@ class MenuScene: SKScene {
         }
         
         self.lastUpdateTime = currentTime
+    }
+    
+    // Helper function inserted by Swift 4.2 migrator.
+    fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+        return input.rawValue
     }
     
 }
