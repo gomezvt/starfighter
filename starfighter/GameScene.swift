@@ -1493,6 +1493,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let animateTop = SKAction.animate(with: self.enemyLightningUpSprites, timePerFrame: 0.1)
         let animateTopForever = SKAction.repeatForever(animateTop)
+        setTracer(node: fire, action: topmoveAction, isEnemy: true, isLightning: true)
         let actions = SKAction.group([topmoveAction, animateTopForever])
         fire.run(actions, withKey: "enemyLightningAction")
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
@@ -1516,6 +1517,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let animateBottom = SKAction.animate(with: self.enemyLightningDownSprites, timePerFrame: 0.1)
         let animateBottomForever = SKAction.repeatForever(animateBottom)
+        setTracer(node: fire2, action: bottomMoveAction, isEnemy: true, isLightning: true)
         let actions2 = SKAction.group([bottomMoveAction, animateBottomForever])
         fire2.run(actions2, withKey: "enemyLightningAction")
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
@@ -1550,7 +1552,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(fire)
                 let action = SKAction.moveTo(x: -width * 2, duration: 4)
                 action.timingMode = .linear
-                setTracer(node: fire, action: action, isEnemy: true)
+                setTracer(node: fire, action: action, isEnemy: true, isLightning: false)
 
                 if let _ = self.boss, level == 3 {
                     fire.run(action)
@@ -1570,7 +1572,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let action = SKAction.moveTo(x: -width * 2, duration: 4)
                 action.timingMode = .linear
-                setTracer(node: fire, action: action, isEnemy: true)
+                setTracer(node: fire, action: action, isEnemy: true, isLightning: false)
                 
                 let actions = SKAction.group([action, rotateAction])
                 fire.run(actions)
@@ -1694,7 +1696,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node, action: topmoveAction, isEnemy: false)
+                setTracer(node: node, action: topmoveAction, isEnemy: false, isLightning: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1711,7 +1713,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
-                setTracer(node: nextNode, action: bottommoveAction, isEnemy: false)
+                setTracer(node: nextNode, action: bottommoveAction, isEnemy: false, isLightning: false)
                 let nextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNode.run(nextactions)
             }
@@ -1729,7 +1731,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node, action: topmoveAction, isEnemy: false)
+                setTracer(node: node, action: topmoveAction, isEnemy: false, isLightning: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1740,7 +1742,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(nextNode)
                 let moveAction = SKAction.moveTo(x: size.width, duration: 4)
                 moveAction.timingMode = .linear
-                setTracer(node: nextNode, action: moveAction, isEnemy: false)
+                setTracer(node: nextNode, action: moveAction, isEnemy: false, isLightning: false)
                 let nextactions = SKAction.group([rotateAction, moveAction])
                 nextNode.run(nextactions)
             }
@@ -1758,7 +1760,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
-                setTracer(node: nextNextNode, action: bottommoveAction, isEnemy: false)
+                setTracer(node: nextNextNode, action: bottommoveAction, isEnemy: false, isLightning: false)
                 let nextNextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNextNode.run(nextNextactions)
             }
@@ -1775,7 +1777,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node, action: topmoveAction, isEnemy: false)
+                setTracer(node: node, action: topmoveAction, isEnemy: false, isLightning: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node.run(actions)
             }
@@ -1793,7 +1795,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node3, action: topmoveAction, isEnemy: false)
+                setTracer(node: node3, action: topmoveAction, isEnemy: false, isLightning: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node3.run(actions)
             }
@@ -1810,7 +1812,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let topmoveAction = SKAction.move(to: toppoint, duration: 4)
                 topmoveAction.timingMode = .linear
-                setTracer(node: node4, action: topmoveAction, isEnemy: false)
+                setTracer(node: node4, action: topmoveAction, isEnemy: false, isLightning: false)
                 let actions = SKAction.group([rotateAction, topmoveAction])
                 node4.run(actions)
             }
@@ -1827,7 +1829,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 let bottommoveAction = SKAction.move(to: bottompoint, duration: 4)
                 bottommoveAction.timingMode = .linear
-                setTracer(node: nextNextNode, action: bottommoveAction, isEnemy: false)
+                setTracer(node: nextNextNode, action: bottommoveAction, isEnemy: false, isLightning: false)
                 let nextNextactions = SKAction.group([rotateAction, bottommoveAction])
                 nextNextNode.run(nextNextactions)
             }
@@ -1865,6 +1867,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let animate = SKAction.animate(with: self.lightningUpSprites, timePerFrame: 0.1)
             let animateForever = SKAction.repeatForever(animate)
+            setTracer(node: node, action: topmoveAction, isEnemy: false, isLightning: true)
             let actions = SKAction.group([topmoveAction, animateForever])
             node.run(actions)
         }
@@ -1898,6 +1901,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bottommoveAction.timingMode = .linear
             let animate = SKAction.animate(with: self.lightningDownSprites, timePerFrame: 0.1)
             let animateForever = SKAction.repeatForever(animate)
+            setTracer(node: nextNode, action: bottommoveAction, isEnemy: false, isLightning: true)
             let actions = SKAction.group([bottommoveAction, animateForever])
             nextNode.run(actions)
         }
@@ -1926,7 +1930,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playWeaponShot()
             }
             self.addChild(node)
-            setTracer(node: node, action: moveAction, isEnemy: false)
+            setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
             let actions = SKAction.group([rotateAction, moveAction])
             node.run(actions)
         }
@@ -1944,7 +1948,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
                 }
                 self.addChild(node)
-                setTracer(node: node, action: moveAction, isEnemy: false)
+                setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
                 let actions = SKAction.group([rotateAction, moveAction])
                 node.run(actions)
             }
@@ -1960,14 +1964,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func setTracer(node: SKSpriteNode, action: SKAction, isEnemy: Bool) {
+    func setTracer(node: SKSpriteNode, action: SKAction, isEnemy: Bool, isLightning: Bool) {
         if let tracer = node.copy() as? SKSpriteNode {
             self.addChild(tracer)
             tracer.physicsBody = nil
             tracer.position.y = node.position.y
             tracer.position.x = isEnemy ? node.position.x + 30 : node.position.x - 30
             tracer.run(action)
-            tracer.size = CGSize(width: node.size.width * 3, height: node.size.height)
+            if (isLightning) {
+                tracer.size = CGSize(width: node.size.width, height: node.size.height)
+            } else {
+                tracer.size = CGSize(width: node.size.width * 3, height: node.size.height)
+            }
             tracer.alpha = 0.5
             
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2.5)
@@ -2144,6 +2152,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let width = UIScreen.main.bounds.width
         let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+//        warp speed stars effect
 //        if boss != nil || isAsteroidBoss {
 //            dur = 2
 //            star.size = CGSize(width: 500, height: 15)
@@ -2396,7 +2405,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(fire)
         let action = SKAction.moveTo(x: -width * 2, duration: 4)
         action.timingMode = .linear
-        setTracer(node: fire, action: action, isEnemy: true)
+        setTracer(node: fire, action: action, isEnemy: true, isLightning: false)
 
         let actions = SKAction.group([action, rotateAction])
         fire.run(actions)
@@ -2417,7 +2426,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let action = SKAction.moveTo(x: -width * 2, duration: 4)
         action.timingMode = .linear
-        setTracer(node: fire, action: action, isEnemy: true)
+        setTracer(node: fire, action: action, isEnemy: true, isLightning: false)
 
         let actions = SKAction.group([action, rotateAction])
         fire.run(actions)
@@ -3663,6 +3672,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sentinel.position = CGPoint(x: ship.frame.maxX - 20, y: ship.frame.maxY)
             sentinel.zPosition = 5
             addChild(sentinel)
+            playNewWeapon()
             sentinelDur = 30
             self.sentinel = sentinel
             sentinelLabel.text = "\(sentinelDur)"
