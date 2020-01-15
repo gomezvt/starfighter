@@ -222,7 +222,7 @@ class MenuScene: SKScene {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
                 try AVAudioSession.sharedInstance().setActive(true)
                 menuPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-                menuPlayer?.volume = 0.3
+                menuPlayer?.volume = 0.2
                 menuPlayer?.play()
             } catch let error {
                 print(error.localizedDescription)

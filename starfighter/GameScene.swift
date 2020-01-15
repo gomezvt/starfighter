@@ -1244,7 +1244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
                 try AVAudioSession.sharedInstance().setActive(true)
                 missileSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-                missileSoundPlayer?.volume = 0.5
+                missileSoundPlayer?.volume = 0.2
                 guard let player = missileSoundPlayer else { return }
                 DispatchQueue.global().async {
                     player.play()
