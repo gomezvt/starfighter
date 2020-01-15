@@ -1155,6 +1155,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func playLife() {
+        if let url = Bundle.main.url(forResource: "ExtraLife", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                alertSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = alertSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func playHit() {
         if let url = Bundle.main.url(forResource: "Player Hit", withExtension: "m4a", subdirectory: "/sounds") {
             do {
@@ -3600,6 +3616,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             playNewWeapon()
             life.removeFromParent()
             lives += 1
+            playLife()
             UserDefaults.standard.setValue(lives, forKey: "lives")
         }
         
