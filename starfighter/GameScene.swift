@@ -256,6 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lightningSoundPlayer: AVAudioPlayer?
     var fireballSoundPlayer: AVAudioPlayer?
     var missileSoundPlayer: AVAudioPlayer?
+    var shieldHitSoundPlayer: AVAudioPlayer?
 
     @objc func adWasPresented(_ notification: Notification) {
         physicsWorld.speed = 0
@@ -302,6 +303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lightningSoundPlayer?.prepareToPlay()
         fireballSoundPlayer?.prepareToPlay()
         missileSoundPlayer?.prepareToPlay()
+        shieldHitSoundPlayer?.prepareToPlay()
 
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         if let app = UIApplication.shared.delegate as? AppDelegate {
@@ -1220,6 +1222,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func playShieldHitSound() {
+        if let url = Bundle.main.url(forResource: "Shield", withExtension: "wav", subdirectory: "/sounds") {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
+                try AVAudioSession.sharedInstance().setActive(true)
+                shieldHitSoundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+                guard let player = shieldHitSoundPlayer else { return }
+                DispatchQueue.global().async {
+                    player.play()
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func playMissileSound() {
         if let url = Bundle.main.url(forResource: "Missile", withExtension: "wav", subdirectory: "/sounds") {
             do {
@@ -1478,7 +1496,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Create top lightning node
         let fire = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningUp").textureNamed("enemyLightningUp1"))
-        fire.size = CGSize(width: 40, height: 40)
+        fire.size = CGSize(width: 50, height: 50)
         
         setEnemyAndBossFirePhysics(for: fire)
         fire.name = self.boss != nil ? "bossfire" : "enemyfire"
@@ -1502,7 +1520,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Create bottom lightning node
         let fire2 = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningDown").textureNamed("enemyLightningDown1"))
-        fire2.size = CGSize(width: 40, height: 40)
+        fire2.size = CGSize(width: 50, height: 50)
         
         setEnemyAndBossFirePhysics(for: fire2)
         fire2.name = "enemyfire"
