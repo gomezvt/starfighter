@@ -3192,7 +3192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             }
                             boss.removeFromParent()
                             self.boss = nil
-                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(2.5)) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
                                 self.transitionLevel()
                                 if (self.view?.window?.rootViewController?.isKind(of: GameViewController.self))!,
                                     let gameVC = self.view?.window?.rootViewController as? GameViewController,
