@@ -3041,7 +3041,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         return isSaved
     }
-    
+
     func pauseGame() {
         guard let _ = physicsWorld as SKPhysicsWorld?,
             let app = UIApplication.shared.delegate as? AppDelegate,
@@ -3060,6 +3060,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
+        
         for touch: AnyObject in touches {
             let positionInScene = touch.location(in: self)
             let touchedNode = self.atPoint(positionInScene)
@@ -3067,6 +3069,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if touchedNode == endGameReturnMenuLabel,
                     let view = self.view as SKView?,
                     let menuScene = SKScene(fileNamed: "MenuScene") as? MenuScene {
+                    app.playMenuItemSound()
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
                     menuScene.clearDefaults()
@@ -3074,6 +3077,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     view.ignoresSiblingOrder = true
                     view.presentScene(menuScene, transition: transition)
                 } else if touchedNode == pauseBtn || touchedNode == unPauseLabel {
+                    app.playMenuItemSound()
                     if isPaused == true {
                         isPaused = false
                         pausedLabel.isHidden = true
@@ -3093,6 +3097,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let view = self.view as SKView?,
                     let menuScene = SKScene(fileNamed: "MenuScene") as? MenuScene,
                     let app = UIApplication.shared.delegate as? AppDelegate {
+                    app.playMenuItemSound()
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
                     menuScene.newGameLabel?.text = assessSavedGame() == true ? NSLocalizedString("Continue", comment: "") : NSLocalizedString("Start", comment: "")

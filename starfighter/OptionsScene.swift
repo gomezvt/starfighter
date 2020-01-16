@@ -114,12 +114,14 @@ class OptionsScene: SKScene {
             
             if let volUp = musicUpNode, let volDown = musicDownNode {
                 if touchedNode == volUp, musicVolume != 100 {
+                    app.playMenuItemSound()
                     musicVolume += 10
                     musicPlayer.volume += 0.1
                     volUp.run(self.fadeOut, completion: {
                         volUp.run(self.fadeIn, completion: {})
                     })
                 } else if touchedNode == volDown, musicVolume != 0 {
+                    app.playMenuItemSound()
                     musicVolume -= 10
                     musicPlayer.volume -= 0.1
                     volDown.run(self.fadeOut, completion: {
@@ -133,12 +135,14 @@ class OptionsScene: SKScene {
             
             if let volUp = soundUpNode, let volDown = soundDownNode {
                 if touchedNode == volUp, soundVolume != 100 {
+                    app.playMenuItemSound()
                     soundVolume += 10
                     soundPlayer.volume += 0.1
                     volUp.run(self.fadeOut, completion: {
                         volUp.run(self.fadeIn)
                     })
                 } else if touchedNode == volDown, soundVolume != 0 {
+                    app.playMenuItemSound()
                     soundVolume -= 10
                     soundPlayer.volume -= 0.1
                     volDown.run(self.fadeOut, completion: {
@@ -153,6 +157,7 @@ class OptionsScene: SKScene {
             if touchedNode == backLabel,
                 let view = self.view as SKView?,
                 let menuScene = SKScene(fileNamed: "MenuScene") {
+                app.playMenuItemSound()
                 let transition = SKTransition.fade(withDuration: 1.5)
                 menuScene.scaleMode = .aspectFit
                 view.ignoresSiblingOrder = true

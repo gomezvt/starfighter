@@ -42,12 +42,15 @@ class AboutScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
+        
         for touch: AnyObject in touches {
             let positionInScene = touch.location(in: self)
             let touchedNode = self.atPoint(positionInScene)
             if touchedNode == backLabel,
                 let view = self.view as SKView?,
                 let menuScene = SKScene(fileNamed: "MenuScene") {
+                app.playMenuItemSound()
                 let transition = SKTransition.fade(withDuration: 1.5)
                 menuScene.scaleMode = .aspectFit
                 view.ignoresSiblingOrder = true
@@ -57,6 +60,7 @@ class AboutScene: SKScene {
                 let url = URL(string: "https://www.facebook.com/notes/star-fighter-ios-app/star-fighter-privacy-policy/650652012018608/") {
                 
                 UIApplication.shared.open(url, options: [:], completionHandler: nil);
+                app.playMenuItemSound()
             }
         }
     }
