@@ -2955,6 +2955,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if lives <= 0 {
             ship.physicsBody?.pinned = true
+            ship.isHidden = true
+            shipExhaust.isHidden = true
+            ship.removeFromParent()
+            shipExhaust.removeFromParent()
             self.lifeLabel.text = "\(0)"
             if let menuScene = GKScene(fileNamed: "MenuScene") {
                 if let menuNode = menuScene.rootNode as! MenuScene?,
@@ -3144,14 +3148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playBossPlayerDeathSound()
             let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
             self.ship.run(explosion, completion: {
-                app.playBossPlayerDeathSound()
-                self.ship.run(explosion, completion: {
-                    self.ship.isHidden = true
-                    self.shipExhaust.isHidden = true
-                    self.ship.removeFromParent()
-                    self.shipExhaust.removeFromParent()
-                    self.lives -= 1
-                })
+                self.lives -= 1
             })
         } else {
             self.deductPlayerLife()
