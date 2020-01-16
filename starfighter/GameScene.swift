@@ -2829,11 +2829,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                     
-                    transitionLevel()
-                    if (self.view?.window?.rootViewController?.isKind(of: GameViewController.self))!,
-                        let gameVC = self.view?.window?.rootViewController as? GameViewController,
-                        level != 10 {
-                        gameVC.presentAd()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
+                        self.transitionLevel()
+                        if (self.view?.window?.rootViewController?.isKind(of: GameViewController.self))!,
+                            let gameVC = self.view?.window?.rootViewController as? GameViewController,
+                            self.level != 10 {
+                            gameVC.presentAd()
+                        }
                     }
                 } else {
                     showRedBossBG()
