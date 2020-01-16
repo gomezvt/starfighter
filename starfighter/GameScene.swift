@@ -251,17 +251,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func adWasDismissed(_ notification: Notification) {
-        if let menuScene = GKScene(fileNamed: "MenuScene") {
-            if let _ = menuScene.rootNode as! MenuScene?, lives <= 0, isRequestingReview == false {
-                isRequestingReview = true
-                SKStoreReviewController.requestReview()
-            }
+        if let menuScene = GKScene(fileNamed: "MenuScene"),
+            let _ = menuScene.rootNode as? MenuScene,
+            lives <= 0, isRequestingReview == false {
+            isRequestingReview = true
+            SKStoreReviewController.requestReview()
         }
         
         physicsWorld.speed = 1
         isPaused = false
-        if let app = UIApplication.shared.delegate as? AppDelegate {
-            app.gameMusicPlayer?.setVolume(1, fadeDuration: 3)
+        if let app = UIApplication.shared.delegate as? AppDelegate,
+            let gameMusicPlayer = app.gameMusicPlayer {
+            gameMusicPlayer.setVolume(1, fadeDuration: 3)
         }
         startActions()
     }
@@ -2352,11 +2353,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bossStaticLifeLabel.isHidden = false
         bossLifeLabel.isHidden = false
         bossLifeLabel.text = "\(bossLife)%"
-        for sprite in children {
-            if sprite.name == "star" {
-                sprite.run(fadeOut)
-            }
-        }
         
         if level == 3 || level == 6 || level == 9 {
             bossStaticLifeLabel.text = NSLocalizedString("Asteroids", comment: "")
@@ -2961,7 +2957,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shipExhaust.removeFromParent()
             self.lifeLabel.text = "\(0)"
             if let menuScene = GKScene(fileNamed: "MenuScene") {
-                if let menuNode = menuScene.rootNode as! MenuScene?,
+                if let menuNode = menuScene.rootNode as? MenuScene,
                     let app = UIApplication.shared.delegate as? AppDelegate,
                     let player = app.gameMusicPlayer {
                     player.setVolume(0, fadeDuration: 2.5)
@@ -3228,11 +3224,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(self.level, forKey: "level")
             if let app = UIApplication.shared.delegate as? AppDelegate {
                 app.playMusic(isMenu: false, isBoss: false, level: level)
-            }
-            for sprite in self.children {
-                if sprite.name == "star" {
-                    sprite.removeFromParent()
-                }
             }
             self.setEnemyActions()
             self.setBG()

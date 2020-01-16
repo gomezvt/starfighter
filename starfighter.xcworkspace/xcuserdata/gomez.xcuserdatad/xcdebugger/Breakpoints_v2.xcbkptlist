@@ -14,8 +14,8 @@
             filePath = "starfighter/GameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3336"
-            endingLineNumber = "3336"
+            startingLineNumber = "3329"
+            endingLineNumber = "3329"
             landmarkName = "setWeapon(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -24,7 +24,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "5CCE8947-6278-4F90-A3B9-2CCC29CFE799"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "starfighter/AppDelegate.swift"
