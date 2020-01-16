@@ -25,7 +25,7 @@ class MenuScene: SKScene {
     var ship: SKSpriteNode!
     var titleLabelPosition = CGPoint()
     var menuPlayer: AVAudioPlayer?
-
+    
     override func sceneDidLoad() {
         menuPlayer?.prepareToPlay()
         scene?.scaleMode = SKSceneScaleMode.aspectFit
@@ -42,7 +42,7 @@ class MenuScene: SKScene {
         run(SKAction.repeatForever(cometAction), withKey: "createcomet")
         
         createShip()
-       
+        
         lastUpdateTime = 0
         titleLabel = self.childNode(withName: "//titleLabel") as? SKLabelNode
         newGameLabel = self.childNode(withName: "//newGameLabel") as? SKLabelNode
@@ -56,10 +56,8 @@ class MenuScene: SKScene {
             let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
-            // Continue
             newGameLabel?.text = NSLocalizedString("Continue", comment: "")
         } else {
-            //Start
             newGameLabel?.text = NSLocalizedString("Start", comment: "")
         }
         
@@ -114,7 +112,7 @@ class MenuScene: SKScene {
     
     func jigglelabel() {
         guard let label = titleLabel else { return }
-
+        
         let left = SKAction.moveTo(x: label.position.x - 10, duration: 0.1)
         let right = SKAction.moveTo(x: titleLabelPosition.x, duration: 0.1)
         label.run(left) {
@@ -181,8 +179,9 @@ class MenuScene: SKScene {
             if touchedNode.isKind(of: SKLabelNode.self) && touchedNode != titleLabel,
                 let view = self.view as SKView? {
                 let transition = SKTransition.fade(withDuration: 1.5)
-                if touchedNode == newGameLabel {
-                    playStartSound()
+                if touchedNode == newGameLabel,
+                    let app = UIApplication.shared.delegate as? AppDelegate {
+                    app.playStartSound()
                     newGameLabel?.alpha = 0.5
                     guard let didAcknowledge = UserDefaults.standard.value(forKey: "acknowledgedTutorial") as? Bool,
                         didAcknowledge == true else {
@@ -201,31 +200,21 @@ class MenuScene: SKScene {
                         view.presentScene(gameScene, transition: transition)
                     }
                 } else if touchedNode == optionsLabel,
-                    let optionsScene = SKScene(fileNamed: "OptionsScene") {
+                    let optionsScene = SKScene(fileNamed: "OptionsScene"),
+                    let app = UIApplication.shared.delegate as? AppDelegate {
+                    app.playMenuItemSound()
                     optionsScene.scaleMode = .aspectFit
                     optionsLabel?.alpha = 0.5
                     view.presentScene(optionsScene, transition: transition)
                 } else if touchedNode == aboutLabel,
-                    let aboutScene = SKScene(fileNamed: "AboutScene") {
+                    let aboutScene = SKScene(fileNamed: "AboutScene"),
+                    let app = UIApplication.shared.delegate as? AppDelegate {
+                    app.playMenuItemSound()
                     aboutScene.scaleMode = .aspectFit
                     aboutLabel?.alpha = 0.5
                     view.presentScene(aboutScene, transition: transition)
                 }
                 view.ignoresSiblingOrder = true
-            }
-        }
-    }
-    
-    func playStartSound() {
-        if let url = Bundle.main.url(forResource: "Start", withExtension: "wav", subdirectory: "/sounds") {
-            do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playback)))
-                try AVAudioSession.sharedInstance().setActive(true)
-                menuPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-                menuPlayer?.volume = 0.2
-                menuPlayer?.play()
-            } catch let error {
-                print(error.localizedDescription)
             }
         }
     }
@@ -237,10 +226,11 @@ class MenuScene: SKScene {
             ship.removeFromParent()
             ship = nil
         }
-
-        if let app = UIApplication.shared.delegate as? AppDelegate {
-            if app.gameMusicPlayer?.isPlaying == false {
-                app.gameMusicPlayer?.play()
+        
+        if let app = UIApplication.shared.delegate as? AppDelegate,
+            let gameMusicPlayer = app.gameMusicPlayer {
+            if gameMusicPlayer.isPlaying == false {
+                gameMusicPlayer.play()
             }
         }
         
@@ -260,5 +250,4 @@ class MenuScene: SKScene {
     fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
         return input.rawValue
     }
-    
 }

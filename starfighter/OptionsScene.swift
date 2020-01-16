@@ -11,40 +11,52 @@ import GameplayKit
 
 class OptionsScene: SKScene {
     
-    var volUpNode: SKSpriteNode!
-    var volDownNode: SKSpriteNode!
+    var musicVolume = Int(100)
+    var musicUpNode: SKSpriteNode!
+    var musicDownNode: SKSpriteNode!
+    var musicVolumeLabel = SKLabelNode()
     
-    var upNode: SKSpriteNode!
-    var downNode: SKSpriteNode!
-    var volumeLabel = SKLabelNode()
+    var soundVolume = Int(100)
+    var soundUpNode: SKSpriteNode!
+    var soundDownNode: SKSpriteNode!
+    var soundVolumeLabel = SKLabelNode()
+    
     var backLabel = SKLabelNode()
     var fadeOut = SKAction()
     var fadeIn = SKAction()
-    var volume = Int(100)
-
+    
     override func sceneDidLoad() {
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         
         let createStarAction = SKAction.sequence([SKAction.run(self.createStar), SKAction.wait(forDuration: 3)])
         self.run(SKAction.repeatForever(createStarAction), withKey: "createstar")
-
+        
         fadeOut = SKAction.fadeAlpha(to: 0.2, duration: 0.1)
         fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.1)
         backLabel = self.childNode(withName: "//backLabel") as! SKLabelNode
-        volUpNode = self.childNode(withName: "//volUpNode") as? SKSpriteNode
-        volDownNode = self.childNode(withName: "//volDownNode") as? SKSpriteNode
-        volumeLabel = self.childNode(withName: "//volumeLabel") as! SKLabelNode
-        upNode = self.childNode(withName: "//upNode") as? SKSpriteNode
-        downNode = self.childNode(withName: "//downNode") as? SKSpriteNode
-
+        musicUpNode = self.childNode(withName: "//musicUpNode") as? SKSpriteNode
+        musicDownNode = self.childNode(withName: "//musicDownNode") as? SKSpriteNode
+        musicVolumeLabel = self.childNode(withName: "//musicVolumeLabel") as! SKLabelNode
+        
+        soundUpNode = self.childNode(withName: "//soundUpNode") as? SKSpriteNode
+        soundDownNode = self.childNode(withName: "//soundDownNode") as? SKSpriteNode
+        soundVolumeLabel = self.childNode(withName: "//soundVolumeLabel") as! SKLabelNode
+        
         let buttonFadeAction = SKAction.sequence([SKAction.run(buttonFade), SKAction.wait(forDuration: 0.5)])
         run(SKAction.repeatForever(buttonFadeAction))
         
-        if let vol = UserDefaults.standard.object(forKey: "savedVolume") as? Int {
-            volume = vol
-            volumeLabel.text = "\(vol)%"
+        if let vol = UserDefaults.standard.object(forKey: "savedMusicVolume") as? Int {
+            musicVolume = vol
+            musicVolumeLabel.text = "\(vol)%"
         } else {
-            volumeLabel.text = "100%"
+            musicVolumeLabel.text = "100%"
+        }
+        
+        if let vol = UserDefaults.standard.object(forKey: "savedSoundVolume") as? Int {
+            soundVolume = vol
+            soundVolumeLabel.text = "\(vol)%"
+        } else {
+            soundVolumeLabel.text = "100%"
         }
     }
     
@@ -70,50 +82,72 @@ class OptionsScene: SKScene {
     func buttonFade() {
         let buttonFadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
         let buttonFadeOut = SKAction.fadeAlpha(to: 0.7, duration: 0.3)
-        if let up = upNode, let down = downNode, let volUp = volUpNode, let volDown = volDownNode {
-            up.run(buttonFadeOut) {
-                up.run(buttonFadeIn) {
-                }
+        if let musicUp = musicUpNode, let musicDown = musicDownNode {
+            musicUp.run(buttonFadeOut) {
+                musicUp.run(buttonFadeIn)
             }
             
-            down.run(buttonFadeOut) {
-                down.run(buttonFadeIn) {
-                }
+            musicDown.run(buttonFadeOut) {
+                musicDown.run(buttonFadeIn)
+            }
+        }
+        
+        if let soundUp = soundUpNode, let soundDown = soundDownNode {
+            soundUp.run(buttonFadeOut) {
+                soundUp.run(buttonFadeIn)
             }
             
-            volUp.run(buttonFadeOut) {
-                volUp.run(buttonFadeIn) {
-                }
-            }
-            
-            volDown.run(buttonFadeOut) {
-                volDown.run(buttonFadeIn) {
-                }
+           soundDown.run(buttonFadeOut) {
+                soundDown.run(buttonFadeIn)
             }
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
+        guard let app = UIApplication.shared.delegate as? AppDelegate,
+            let musicPlayer = app.gameMusicPlayer,
+            let soundPlayer = app.gameSoundPlayer else { return }
         
         for touch: AnyObject in touches {
             let positionInScene = touch.location(in: self)
             let touchedNode = self.atPoint(positionInScene)
             
-            if let volUp = volUpNode, let volDown = volDownNode {
-                if touchedNode == volUp, volume != 100 {
-                    volume += 10
-                    app.gameMusicPlayer?.volume += 0.1
+            if let volUp = musicUpNode, let volDown = musicDownNode {
+                if touchedNode == volUp, musicVolume != 100 {
+                    musicVolume += 10
+                    musicPlayer.volume += 0.1
                     volUp.run(self.fadeOut, completion: {
                         volUp.run(self.fadeIn, completion: {})
                     })
-                } else if touchedNode == volDown, volume != 0 {
-                    volume -= 10
-                    app.gameMusicPlayer?.volume -= 0.1
+                } else if touchedNode == volDown, musicVolume != 0 {
+                    musicVolume -= 10
+                    musicPlayer.volume -= 0.1
                     volDown.run(self.fadeOut, completion: {
                         volDown.run(self.fadeIn, completion: {})
                     })
                 }
+                
+                musicVolumeLabel.text = "\(musicVolume)%"
+                UserDefaults.standard.set(musicVolume, forKey: "savedMusicVolume")
+            }
+            
+            if let volUp = soundUpNode, let volDown = soundDownNode {
+                if touchedNode == volUp, soundVolume != 100 {
+                    soundVolume += 10
+                    soundPlayer.volume += 0.1
+                    volUp.run(self.fadeOut, completion: {
+                        volUp.run(self.fadeIn)
+                    })
+                } else if touchedNode == volDown, soundVolume != 0 {
+                    soundVolume -= 10
+                    soundPlayer.volume -= 0.1
+                    volDown.run(self.fadeOut, completion: {
+                        volDown.run(self.fadeIn)
+                    })
+                }
+                
+                soundVolumeLabel.text = "\(soundVolume)%"
+                UserDefaults.standard.set(soundVolume, forKey: "savedSoundVolume")
             }
             
             if touchedNode == backLabel,
@@ -126,8 +160,5 @@ class OptionsScene: SKScene {
                 view.presentScene(menuScene, transition: transition)
             }
         }
-    
-        volumeLabel.text = "\(volume)%"
-        UserDefaults.standard.set(volume, forKey: "savedVolume")
     }
 }
