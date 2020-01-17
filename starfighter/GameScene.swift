@@ -240,31 +240,92 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fadeOut = SKAction()
     var fadeIn = SKAction()
     
+    var shipPan = UIPanGestureRecognizer()
+    
     @objc func adWasPresented(_ notification: Notification) {
         physicsWorld.speed = 0
         isPaused = true
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0, fadeDuration: 3)
+            gameMusicPlayer.pause()
         }
         stopActions()
+        
+        if lives > 0 {
+            // Transition to next level
+            view?.removeGestureRecognizer(shipPan)
+            ship.position = CGPoint(x: scoreLabel.position.x, y: 0)
+            self.minute = 3
+            self.seconds = 00
+            self.level += 1
+            self.bossStaticLifeLabel.isHidden = true
+            self.bossLifeLabel.isHidden = true
+            self.bossShot = 0
+            self.bossLife = 100
+            UserDefaults.standard.setValue(self.level, forKey: "level")
+
+            self.setBG()
+            
+            if let three = self.childNode(withName: "//3") {
+                three.alpha = 1.0
+            }
+            if let fire = ship.action(forKey: "playerFireAction") {
+                fire.speed = 0
+            }
+        }
     }
     
     @objc func adWasDismissed(_ notification: Notification) {
+        // You died so lets present a review request
         if let menuScene = GKScene(fileNamed: "MenuScene"),
             let _ = menuScene.rootNode as? MenuScene,
             lives <= 0, isRequestingReview == false {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
+        } else if lives > 0 {
+            isPaused = false
+            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+            let fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                if let three = self.childNode(withName: "//3"),
+                    let two = self.childNode(withName: "//2"),
+                    let one = self.childNode(withName: "//1"),
+                    let go = self.childNode(withName: "//go") {
+                    three.run(fadeOut, completion: {
+                        two.run(fadeIn, completion: {
+                            two.run(fadeOut, completion: {
+                                one.run(fadeIn, completion: {
+                                    one.run(fadeOut, completion: {
+                                        go.run(fadeIn, completion: {
+                                            go.run(fadeOut, completion: {
+                                                self.physicsWorld.speed = 1
+                                                self.startActions()
+                                                self.setEnemyActions()
+                                                if let app = UIApplication.shared.delegate as? AppDelegate,
+                                                    let gameMusicPlayer = app.musicPlayer {
+                                                    gameMusicPlayer.play()
+                                                    app.playMusic(isMenu: false, isBoss: false, level: self.level)
+                                                    gameMusicPlayer.setVolume(1, fadeDuration: 3)
+                                                }
+                                                
+                                                if let v = self.view {
+                                                    v.addGestureRecognizer(self.shipPan)
+                                                }
+
+                                                if let fire = self.ship.action(forKey: "playerFireAction") {
+                                                    fire.speed = 1
+                                                }
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    })
+                }
+            }
         }
-        
-        physicsWorld.speed = 1
-        isPaused = false
-        if let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.musicPlayer {
-            gameMusicPlayer.setVolume(1, fadeDuration: 3)
-        }
-        startActions()
     }
     
     @objc func appMovedToBackground(_ notification: Notification) {
@@ -275,7 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
-            gameMusicPlayer.setVolume(0, fadeDuration: 2.5)
+            gameMusicPlayer.setVolume(0, fadeDuration: 3)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -907,9 +968,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                 }
                                             }
                                             
-                                            let pan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
-                                            view.addGestureRecognizer(pan)
-                                            let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : 3.5
+                                            self.shipPan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
+                                            view.addGestureRecognizer(self.shipPan)
+                                            let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : self.weaponType == .Tomahawk ? 4.5 : 3.5
                                             var fireRate = Float(rate)
                                             if self.wepCount == 2 {
                                                 fireRate -= 0.5
@@ -2779,7 +2840,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
-            gameMusicPlayer.setVolume(0, fadeDuration: 2.5)
+            gameMusicPlayer.setVolume(0, fadeDuration: 3)
             app.playAlert()
         }
         
@@ -2830,9 +2891,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
-                        self.transitionLevel()
-                        if (self.view?.window?.rootViewController?.isKind(of: GameViewController.self))!,
-                            let gameVC = self.view?.window?.rootViewController as? GameViewController,
+                        if let v = self.view,
+                            let window = v.window,
+                            let root = window.rootViewController,
+                            root.isKind(of: GameViewController.self),
+                            let gameVC = root as? GameViewController,
                             self.level != 10 {
                             gameVC.presentAd()
                         }
@@ -2962,7 +3025,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let menuNode = menuScene.rootNode as? MenuScene,
                     let app = UIApplication.shared.delegate as? AppDelegate,
                     let player = app.musicPlayer {
-                    player.setVolume(0, fadeDuration: 2.5)
+                    player.setVolume(0, fadeDuration: 3)
                     menuNode.entities = menuScene.entities
                     menuNode.graphs = menuScene.graphs
                     menuNode.scaleMode = .aspectFit
@@ -2974,8 +3037,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     app.level = 0
                     app.playIntro()
                     
-                    if (self.view?.window?.rootViewController?.isKind(of: GameViewController.self))!,
-                        let gameVC = self.view?.window?.rootViewController as? GameViewController {
+                    if let v = self.view,
+                        let window = v.window,
+                        let root = window.rootViewController,
+                        root.isKind(of: GameViewController.self),
+                        let gameVC = root as? GameViewController {
                         gameVC.presentAd()
                     }
                 }
@@ -3173,7 +3239,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if bossShot == 10 {
-            removeAction(forKey: "createbossstar")
             showKillScore(node: boss)
             boss.physicsBody = nil
             boss.removeAllActions()
@@ -3195,73 +3260,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             boss.removeFromParent()
                             self.boss = nil
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
-                                self.transitionLevel()
-                                if (self.view?.window?.rootViewController?.isKind(of: GameViewController.self))!,
-                                    let gameVC = self.view?.window?.rootViewController as? GameViewController,
+                                if let v = self.view,
+                                    let window = v.window,
+                                    let root = window.rootViewController,
+                                    root.isKind(of: GameViewController.self),
+                                    let gameVC = root as? GameViewController,
                                     self.level != 10 {
                                     gameVC.presentAd()
+                                } else if self.level == 10 {
+                                    // END OF GAME!
+                                    self.stopActions()
+                                    self.ship.removeAllActions()
+                                    self.ship.isHidden = true
+                                    self.grayBar.isHidden = true
+                                    self.shipIcon.isHidden = true
+                                    self.shipIconExhaust.isHidden = true
+                                    self.pauseBtn.isHidden = true
+                                    self.livesXLabel.isHidden = true
+                                    self.congratsLabel.isHidden = false
+                                    self.congratsDetailsLabel.isHidden = false
+                                    self.endGameReturnMenuLabel.isHidden = false
+                                    self.bar.isHidden = true
+                                    self.selectedWeapon.isHidden = true
+                                    self.sentinelIcon?.isHidden = true
+                                    self.sentinelLabel.isHidden = true
+                                    self.sentinel?.isHidden = true
+                                    self.lifeLabel.isHidden = true
+                                    self.weaponPowerLabel.isHidden = true
+                                    self.timeLabel.isHidden = true
+                                    self.hiScoreLabel.isHidden = true
+                                    self.scoreLabel.isHidden = true
+                                    self.staticScoreLabel.isHidden = true
+                                    self.staticLevelLabel.isHidden = true
+                                    self.hiLabel.isHidden = true
+                                    self.levelLabel.isHidden = true
+                                    self.bg.alpha = 0.4
+                                    self.didBeatGame = true
+                                    self.bossLifeLabel.isHidden = true
+                                    self.bossStaticLifeLabel.isHidden = true
+                                    self.shipExhaust.isHidden = true
+                                    self.headerView.isHidden = true
+                                    app.playIntro()
                                 }
                             }
                         })
                     })
                 })
             }
-        }
-    }
-    
-    func transitionLevel() {
-        guard let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.musicPlayer else { return }
-        
-        if self.level != 10 {
-            self.minute = 3
-            self.seconds = 00
-            self.level += 1
-            startActions()
-            self.bossStaticLifeLabel.isHidden = true
-            self.bossLifeLabel.isHidden = true
-            self.bossShot = 0
-            self.bossLife = 100
-            gameMusicPlayer.setVolume(0, fadeDuration: 2.5)
-            UserDefaults.standard.setValue(self.level, forKey: "level")
-            if let app = UIApplication.shared.delegate as? AppDelegate {
-                app.playMusic(isMenu: false, isBoss: false, level: level)
-            }
-            self.setEnemyActions()
-            self.setBG()
-        } else {
-            stopActions()
-            self.ship.removeAllActions()
-            self.ship.isHidden = true
-            self.grayBar.isHidden = true
-            self.shipIcon.isHidden = true
-            self.shipIconExhaust.isHidden = true
-            self.pauseBtn.isHidden = true
-            self.livesXLabel.isHidden = true
-            self.congratsLabel.isHidden = false
-            self.congratsDetailsLabel.isHidden = false
-            self.endGameReturnMenuLabel.isHidden = false
-            self.bar.isHidden = true
-            self.selectedWeapon.isHidden = true
-            self.sentinelIcon?.isHidden = true
-            self.sentinelLabel.isHidden = true
-            self.sentinel?.isHidden = true
-            self.lifeLabel.isHidden = true
-            self.weaponPowerLabel.isHidden = true
-            self.timeLabel.isHidden = true
-            self.hiScoreLabel.isHidden = true
-            self.scoreLabel.isHidden = true
-            self.staticScoreLabel.isHidden = true
-            self.staticLevelLabel.isHidden = true
-            self.hiLabel.isHidden = true
-            self.levelLabel.isHidden = true
-            self.bg.alpha = 0.4
-            self.didBeatGame = true
-            self.bossLifeLabel.isHidden = true
-            self.bossStaticLifeLabel.isHidden = true
-            self.shipExhaust.isHidden = true
-            self.headerView.isHidden = true
-            app.playIntro()
         }
     }
     
@@ -3369,7 +3414,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
         }
         
-        let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : 3.5
+        let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : self.weaponType == .Tomahawk ? 4.5 : 3.5
         var fireRate = Float(rate)
         if self.wepCount == 2 {
             fireRate -= 0.5
