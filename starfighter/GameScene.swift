@@ -234,14 +234,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var boss: SKSpriteNode?
     var bg: SKSpriteNode!
     var ship: SKSpriteNode!
-    
     var weaponSprites = [SKSpriteNode]()
     var asteroidSprites = [SKSpriteNode]()
     var fadeOut = SKAction()
     var fadeIn = SKAction()
-    
     var shipPan = UIPanGestureRecognizer()
-    
+
     @objc func adWasPresented(_ notification: Notification) {
         physicsWorld.speed = 0
         isPaused = true
@@ -254,7 +252,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if lives > 0 {
             // Transition to next level
-            view?.removeGestureRecognizer(shipPan)
+            if let v = view {
+                v.removeGestureRecognizer(shipPan)
+            }
             ship.position = CGPoint(x: scoreLabel.position.x, y: 0)
             self.minute = 3
             self.seconds = 00
@@ -264,7 +264,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.bossShot = 0
             self.bossLife = 100
             UserDefaults.standard.setValue(self.level, forKey: "level")
-
+            
             self.setBG()
             
             if let three = self.childNode(withName: "//3") {
@@ -933,11 +933,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
+        run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
+
         let satelliteAction = SKAction.sequence([SKAction.run(self.createSatellite), SKAction.wait(forDuration: 60)])
-        let createStarAction = SKAction.sequence([SKAction.run(self.createStar), SKAction.wait(forDuration: 3)])
+        run(SKAction.repeatForever(satelliteAction), withKey: "satelliteAction")
+
+        
+        let createStarAction = SKAction.sequence([SKAction.run(self.createStar), SKAction.wait(forDuration: 2)])
+        run(SKAction.repeatForever(createStarAction), withKey: "createStarAction")
+        
         let cometAction = SKAction.sequence([SKAction.run(self.createComet), SKAction.wait(forDuration: 20)])
-        let actions = SKAction.group([createStarAction, cometAction, satelliteAction, createBgShipAction])
-        run(SKAction.repeatForever(actions), withKey: "bgsprites")
+        run(SKAction.repeatForever(cometAction), withKey: "cometAction")
         
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
@@ -2889,7 +2895,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             sprite.removeFromParent()
                         }
                     }
-                    
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
                         if let v = self.view,
                             let window = v.window,
@@ -2922,7 +2928,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if boss != nil || isAsteroidBoss {
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 6)
             for sprite in children {
-                if sprite.name == "redplanet" || sprite.name == "orangeplanet" || sprite.name == "yellowplanet" || sprite.name == "enemy" || sprite.name == "bgship" || sprite.name == "satellite" {
+                if sprite.name == "bgship" || sprite.name == "satellite" {
+                    sprite.alpha = 0.5
+                }
+                
+                if sprite.name == "redplanet" || sprite.name == "orangeplanet" || sprite.name == "yellowplanet" || sprite.name == "enemy" {
                     sprite.run(fadeOut) {
                         sprite.removeFromParent()
                     }
