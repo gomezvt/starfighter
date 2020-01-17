@@ -285,6 +285,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             SKStoreReviewController.requestReview()
         } else if lives > 0 {
             isPaused = false
+            if let app = UIApplication.shared.delegate as? AppDelegate,
+                let gameMusicPlayer = app.musicPlayer {
+                gameMusicPlayer.play()
+                app.playMusic(isMenu: false, isBoss: false, level: self.level)
+                gameMusicPlayer.setVolume(1, fadeDuration: 3)
+            }
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
             let fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -302,12 +308,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                 self.physicsWorld.speed = 1
                                                 self.startActions()
                                                 self.setEnemyActions()
-                                                if let app = UIApplication.shared.delegate as? AppDelegate,
-                                                    let gameMusicPlayer = app.musicPlayer {
-                                                    gameMusicPlayer.play()
-                                                    app.playMusic(isMenu: false, isBoss: false, level: self.level)
-                                                    gameMusicPlayer.setVolume(1, fadeDuration: 3)
-                                                }
                                                 
                                                 if let v = self.view {
                                                     v.addGestureRecognizer(self.shipPan)
@@ -946,6 +946,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setBG()
         isRequestingReview = false
         
+        if let app = UIApplication.shared.delegate as? AppDelegate {
+            app.playMusic(isMenu: false, isBoss: false, level: self.level)
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if let three = self.childNode(withName: "//3"),
                 let two = self.childNode(withName: "//2"),
@@ -986,10 +990,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                 self.fireShipWeapon()
                                                 }, SKAction.wait(forDuration: TimeInterval(fireRate))])
                                             self.ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
-                                            
-                                            if let app = UIApplication.shared.delegate as? AppDelegate {
-                                                app.playMusic(isMenu: false, isBoss: false, level: self.level)
-                                            }
                                             
                                             let wait1Second = SKAction.wait(forDuration: 1)
                                             let incrementCounter = SKAction.run { [weak self] in
