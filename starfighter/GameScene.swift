@@ -244,7 +244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.speed = 0
         isPaused = true
         if let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.gameMusicPlayer {
+            let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0, fadeDuration: 3)
         }
         stopActions()
@@ -261,7 +261,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.speed = 1
         isPaused = false
         if let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.gameMusicPlayer {
+            let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(1, fadeDuration: 3)
         }
         startActions()
@@ -274,7 +274,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         if let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.gameMusicPlayer {
+            let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0, fadeDuration: 2.5)
         }
         
@@ -2778,7 +2778,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 1.0)
         let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
         if let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.gameMusicPlayer {
+            let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0, fadeDuration: 2.5)
             app.playAlert()
         }
@@ -2961,7 +2961,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let menuScene = GKScene(fileNamed: "MenuScene") {
                 if let menuNode = menuScene.rootNode as? MenuScene,
                     let app = UIApplication.shared.delegate as? AppDelegate,
-                    let player = app.gameMusicPlayer {
+                    let player = app.musicPlayer {
                     player.setVolume(0, fadeDuration: 2.5)
                     menuNode.entities = menuScene.entities
                     menuNode.graphs = menuScene.graphs
@@ -3047,7 +3047,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func pauseGame() {
         guard let _ = physicsWorld as SKPhysicsWorld?,
             let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.gameMusicPlayer,
+            let gameMusicPlayer = app.musicPlayer,
             gameStarted else { return }
         
         physicsWorld.speed = 0
@@ -3089,7 +3089,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         physicsWorld.speed = 1
                         pauseBtn.texture = Textures.pausetexture
                         if let app = UIApplication.shared.delegate as? AppDelegate,
-                            let gameMusicPlayer = app.gameMusicPlayer {
+                            let gameMusicPlayer = app.musicPlayer {
                             gameMusicPlayer.play()
                         }
                     } else {
@@ -3211,7 +3211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func transitionLevel() {
         guard let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.gameMusicPlayer else { return }
+            let gameMusicPlayer = app.musicPlayer else { return }
         
         if self.level != 10 {
             self.minute = 3

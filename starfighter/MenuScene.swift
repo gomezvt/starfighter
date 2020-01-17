@@ -24,12 +24,9 @@ class MenuScene: SKScene {
     let shipAtlas = SKTextureAtlas(named:"shipexhaust")
     var ship: SKSpriteNode!
     var titleLabelPosition = CGPoint()
-    var menuPlayer: AVAudioPlayer?
     
     override func sceneDidLoad() {
-        menuPlayer?.prepareToPlay()
         scene?.scaleMode = SKSceneScaleMode.aspectFit
-        
         shipExhaustArray.append(shipAtlas.textureNamed("shipexhaust"))
         shipExhaustArray.append(shipAtlas.textureNamed("shipexhaust2"))
         shipExhaustArray.append(shipAtlas.textureNamed("shipexhaust3"))
@@ -228,7 +225,7 @@ class MenuScene: SKScene {
         }
         
         if let app = UIApplication.shared.delegate as? AppDelegate,
-            let gameMusicPlayer = app.gameMusicPlayer {
+            let gameMusicPlayer = app.musicPlayer {
             if gameMusicPlayer.isPlaying == false {
                 gameMusicPlayer.play()
             }

@@ -105,8 +105,8 @@ class OptionsScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let app = UIApplication.shared.delegate as? AppDelegate,
-            let musicPlayer = app.gameMusicPlayer,
-            let soundPlayer = app.gameSoundPlayer else { return }
+            let musicPlayer = app.musicPlayer,
+            let soundPlayer = app.soundPlayer1 else { return }
         
         for touch: AnyObject in touches {
             let positionInScene = touch.location(in: self)
