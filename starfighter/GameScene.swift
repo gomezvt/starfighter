@@ -970,7 +970,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             
                                             self.shipPan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
                                             view.addGestureRecognizer(self.shipPan)
-                                            let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : self.weaponType == .Tomahawk ? 4.5 : 3.5
+                                            let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 3.0 : self.weaponType == .Tomahawk ? 4.5 : 3.5
                                             var fireRate = Float(rate)
                                             if self.wepCount == 2 {
                                                 fireRate -= 0.5
@@ -3350,7 +3350,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
             let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 0.3)
             let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.3)
-            self.bossAlertLabel.text = "Mega Bomb"
+            self.bossAlertLabel.text = NSLocalizedString("Bomb", comment: "")
             redBG.run(fadeIn, completion: {
                 self.bossAlertLabel.run(bossfadeIn) {
                     self.redBG.run(fadeOut, completion: {
@@ -3414,7 +3414,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
         }
         
-        let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 2.5 : self.weaponType == .Tomahawk ? 4.5 : 3.5
+        let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 3.0 : self.weaponType == .Tomahawk ? 4.5 : 3.5
         var fireRate = Float(rate)
         if self.wepCount == 2 {
             fireRate -= 0.5
