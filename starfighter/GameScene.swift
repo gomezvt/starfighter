@@ -241,7 +241,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shipPan = UIPanGestureRecognizer()
 
     @objc func adWasPresented(_ notification: Notification) {
-        isPaused = true
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0.05, fadeDuration: 3)
@@ -263,7 +262,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         stopActions()
-        
+        physicsWorld.speed = 0
+
         if lives > 0 {
             level += 1
             self.setBG()
@@ -293,9 +293,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
         } else if lives > 0 {
-            physicsWorld.speed = 0
 
-            isPaused = false
             if let three = self.childNode(withName: "//3") {
                 three.alpha = 1.0
             }
@@ -2443,7 +2441,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bossStaticLifeLabel.isHidden = false
         bossLifeLabel.isHidden = false
         bossLifeLabel.text = "\(bossLife)%"
-        self.bossStaticLifeLabel.text = NSLocalizedString("Boss", comment: "")
+        self.bossStaticLifeLabel.text = "\(NSLocalizedString("Boss", comment: "")):"
         var fireAction: SKAction!
         let bot = -UIScreen.main.bounds.height + 300
         let top = UIScreen.main.bounds.height - 300
