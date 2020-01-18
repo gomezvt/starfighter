@@ -248,28 +248,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameMusicPlayer.setVolume(0, fadeDuration: 3)
             gameMusicPlayer.pause()
         }
+        
+        let fadeOutFire = SKAction.fadeAlpha(to: 0.0, duration: 1)
+        for sprite in children {
+            if sprite.name == "playerfire" {
+                sprite.physicsBody = nil
+                sprite.run(fadeOutFire)
+            }
+        }
+        
+        for sprite in children {
+            if sprite.name == "bgship" || sprite.name == "satellite" {
+                sprite.alpha = 1.0
+            }
+        }
+        
         stopActions()
         
         if lives > 0 {
-            // Transition to next level
-            if let v = view {
-                v.removeGestureRecognizer(shipPan)
-            }
-            ship.position = CGPoint(x: scoreLabel.position.x, y: 0)
+            level += 1
             self.minute = 3
             self.seconds = 00
-            self.level += 1
+            self.setBG()
             self.bossStaticLifeLabel.isHidden = true
             self.bossLifeLabel.isHidden = true
             self.bossShot = 0
             self.bossLife = 100
+            
             UserDefaults.standard.setValue(self.level, forKey: "level")
-            
-            self.setBG()
-            
-            if let three = self.childNode(withName: "//3") {
-                three.alpha = 1.0
+
+            if let v = view {
+                v.removeGestureRecognizer(shipPan)
             }
+            ship.position = CGPoint(x: scoreLabel.position.x, y: 0)
+            
             if let fire = ship.action(forKey: "playerFireAction") {
                 fire.speed = 0
             }
@@ -285,6 +297,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             SKStoreReviewController.requestReview()
         } else if lives > 0 {
             isPaused = false
+            if let three = self.childNode(withName: "//3") {
+                three.alpha = 1.0
+            }
             if let app = UIApplication.shared.delegate as? AppDelegate,
                 let gameMusicPlayer = app.musicPlayer {
                 gameMusicPlayer.play()
@@ -937,7 +952,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let satelliteAction = SKAction.sequence([SKAction.run(self.createSatellite), SKAction.wait(forDuration: 60)])
         run(SKAction.repeatForever(satelliteAction), withKey: "satelliteAction")
-
         
         let createStarAction = SKAction.sequence([SKAction.run(self.createStar), SKAction.wait(forDuration: 2)])
         run(SKAction.repeatForever(createStarAction), withKey: "createStarAction")
@@ -948,7 +962,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-        
+
         setBG()
         isRequestingReview = false
         
@@ -1900,6 +1914,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let asteroid = SKSpriteNode(texture: texture)
             asteroid.name = "enemy"
             asteroid.physicsBody = getEnemyPhysics(enemy: asteroid)
+            asteroid.accessibilityLabel = "asteroid"
             
             let bot = -UIScreen.main.bounds.height + 150
             let top = UIScreen.main.bounds.height - 125
@@ -1908,7 +1923,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Add enemy at random height
             let width = UIScreen.main.bounds.width
             asteroid.position = CGPoint(x:width + 150, y: randomY)
-            asteroid.zPosition = 3
+            asteroid.zPosition = 4
             self.addChild(asteroid)
             
             // Move enemy at random duration
@@ -2420,16 +2435,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bossStaticLifeLabel.isHidden = false
         bossLifeLabel.isHidden = false
         bossLifeLabel.text = "\(bossLife)%"
-        
-        if level == 3 || level == 6 || level == 9 {
-            bossStaticLifeLabel.text = NSLocalizedString("Asteroids", comment: "")
-            bossLifeLabel.isHidden = true
-            self.seconds = 45
-            if let action = self.action(forKey: "timer") {
-                action.speed = 1
-            }
-        }
-        
+
         var fireAction: SKAction!
         let bot = -UIScreen.main.bounds.height + 300
         let top = UIScreen.main.bounds.height - 300
@@ -2462,10 +2468,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let animateexhaust = SKAction.animate(with: self.enemyExhaust6Array, timePerFrame: 0.1)
                 enemyExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
             }
-        } else if level == 3 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(1)
-            let action = SKAction.sequence([SKAction.run(self.createAsteroids), SKAction.wait(forDuration: dur)])
-            self.run(SKAction.repeatForever(action), withKey: "createAsteroids")
         } else if level == 4 {
             boss = SKSpriteNode(texture: SKTextureAtlas(named:"enemy2").textureNamed("enemy"))
             if let boss = self.boss {
@@ -2503,10 +2505,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.run( {self.setBoss5Fire(boss: boss) } )]), count: 5)
             }
-        } else if level == 6 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(1)
-            let action = SKAction.sequence([SKAction.run(self.createAsteroids), SKAction.wait(forDuration: dur)])
-            self.run(SKAction.repeatForever(action), withKey: "createAsteroids")
         } else if level == 7 {
             boss = SKSpriteNode(texture: SKTextureAtlas(named:"enemy6").textureNamed("enemy"))
             if let boss = self.boss {
@@ -2539,10 +2537,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let animateexhaust = SKAction.animate(with: self.enemyExhaust3Array, timePerFrame: 0.1)
                 enemyExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "thrust_pink")
             }
-        } else if level == 9 {
-            let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(1)
-            let action = SKAction.sequence([SKAction.run(self.createAsteroids), SKAction.wait(forDuration: dur)])
-            self.run(SKAction.repeatForever(action), withKey: "createAsteroids")
         } else if level == 10 {
             boss = SKSpriteNode(texture: SKTextureAtlas(named:"brainBossNorm").textureNamed("1"))
             if let boss = self.boss {
@@ -2724,6 +2718,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func stopActions() {
+
         if let action = action(forKey: "timer") {
             action.speed = 0
         }
@@ -2778,6 +2773,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startActions() {
+
         if let action = self.action(forKey: "timer") {
             action.speed = 1
         }
@@ -2831,16 +2827,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func showRedBossBG() {
-        stopActions()
-        if level == 3 || level == 6 || level == 9 {
-            isAsteroidBoss = true
-            self.bossAlertLabel.text = NSLocalizedString("Asteroids", comment: "")
-        } else {
-            isAsteroidBoss = false
-            self.bossAlertLabel.text = NSLocalizedString("Boss", comment: "")
+    func showAsteroids() {
+        self.bossAlertLabel.text = NSLocalizedString("Asteroids", comment: "")
+        self.bossLifeLabel.isHidden = true
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
+        let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 1.0)
+        let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
+        if let app = UIApplication.shared.delegate as? AppDelegate,
+            let gameMusicPlayer = app.musicPlayer {
+            gameMusicPlayer.setVolume(0, fadeDuration: 3)
+            app.playAlert()
         }
         
+        redBG.run(fadeIn, completion: {
+            self.bossAlertLabel.run(bossfadeIn)
+            self.redBG.run(fadeOut, completion: {
+                self.bossAlertLabel.run(fadeOut)
+                self.redBG.run(fadeIn, completion: {
+                    self.bossAlertLabel.run(bossfadeIn)
+                    self.redBG.run(fadeOut, completion: {
+                        self.bossAlertLabel.run(fadeOut)
+                        self.redBG.run(fadeIn, completion: {
+                            self.bossAlertLabel.run(bossfadeIn)
+                            self.redBG.run(fadeOut, completion: {
+                                self.bossAlertLabel.run(fadeOut)
+                                if let app = UIApplication.shared.delegate as? AppDelegate {
+                                    app.playMusic(isMenu: false, isBoss: true, level: self.level)
+                                }
+
+                                self.seconds = 10
+                                self.minute = 0
+                                self.isAsteroidBoss = true
+
+                                self.bg.alpha = 0.2
+                                let dur = TimeInterval(CGFloat(arc4random() % UInt32(2))) + TimeInterval(1)
+                                let asteroids = SKAction.sequence([SKAction.run(self.createAsteroids), SKAction.wait(forDuration: dur)])
+                                self.run(SKAction.repeatForever(asteroids), withKey: "createAsteroids")
+                                if let timer = self.action(forKey: "timer") {
+                                    timer.speed = 1
+                                }
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    }
+    
+    func showRedBossBG() {
+        self.bossAlertLabel.text = NSLocalizedString("Boss", comment: "")
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
         let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 1.0)
         let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
@@ -2887,27 +2922,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 minute = 0
                 seconds = 59
             } else if minute == 0 {
-                if isAsteroidBoss {
-                    isAsteroidBoss = false
+                if self.isAsteroidBoss {
                     self.removeAction(forKey: "createAsteroids")
-                    for sprite in children {
-                        if sprite.name == "enemy" {
-                            sprite.removeFromParent()
+                    let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2)
+                    for sprite in self.children {
+                        if sprite.accessibilityLabel == "asteroid" {
+                            sprite.physicsBody = nil
+                            sprite.run(fadeOut)
                         }
                     }
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
-                        if let v = self.view,
-                            let window = v.window,
-                            let root = window.rootViewController,
-                            root.isKind(of: GameViewController.self),
-                            let gameVC = root as? GameViewController,
-                            self.level != 10 {
-                            gameVC.presentAd()
-                        }
+                    self.isAsteroidBoss = false
+                    if let v = self.view,
+                        let window = v.window,
+                        let root = window.rootViewController,
+                        root.isKind(of: GameViewController.self),
+                        let gameVC = root as? GameViewController,
+                        self.level != 10 {
+                        gameVC.presentAd()
                     }
+                } else if self.level == 3 || self.level == 6 || self.level == 9 {
+                    self.isAsteroidBoss = true
+                    self.stopActions()
+                    self.showAsteroids()
                 } else {
-                    showRedBossBG()
+                    self.stopActions()
+                    self.showRedBossBG()
                 }
             }
         } else {
@@ -2926,15 +2965,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         if boss != nil || isAsteroidBoss {
-            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 6)
+            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2)
             for sprite in children {
                 if sprite.name == "bgship" || sprite.name == "satellite" {
-                    sprite.alpha = 0.5
+                    sprite.alpha = 0.3
                 }
                 
-                if sprite.name == "redplanet" || sprite.name == "orangeplanet" || sprite.name == "yellowplanet" || sprite.name == "enemy" {
-                    sprite.run(fadeOut) {
-                        sprite.removeFromParent()
+                if sprite.name == "redplanet" ||
+                    sprite.name == "orangeplanet" ||
+                    sprite.name == "yellowplanet" ||
+                    (sprite.name == "enemy" && sprite.accessibilityLabel != "asteroid") {
+                    if sprite.alpha == 1 {
+                        sprite.physicsBody = nil
+                        sprite.run(fadeOut) {
+                            sprite.removeFromParent()
+                        }
                     }
                 }
             }
@@ -3060,10 +3105,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.lifeLabel.text = "\(lives)"
         }
         
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2)
         if isAsteroidBoss == false {
             for sprite in children {
+                if sprite.accessibilityLabel == "asteroid" {
+                    sprite.run(fadeOut)
+                }
                 // Set exhaust on enemy ship
-                if sprite.name == "enemy" || sprite.name == "bgship",
+                if (sprite.name == "enemy" && sprite.accessibilityLabel != "asteroid") || sprite.name == "bgship",
                     sprite.accessibilityLabel != "blob",
                     sprite.children.count == 0,
                     let exhaustArray = enemyExhausts.randomElement(),
