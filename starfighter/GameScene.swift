@@ -241,13 +241,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shipPan = UIPanGestureRecognizer()
 
     @objc func adWasPresented(_ notification: Notification) {
-        self.minute = 3
-        self.seconds = 00
         isPaused = true
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
-            gameMusicPlayer.setVolume(0, fadeDuration: 3)
-            gameMusicPlayer.pause()
+            gameMusicPlayer.setVolume(0.05, fadeDuration: 3)
         }
 
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1)
@@ -269,7 +266,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if lives > 0 {
             level += 1
-
             self.setBG()
             self.bossStaticLifeLabel.isHidden = true
             self.bossLifeLabel.isHidden = true
@@ -2447,7 +2443,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bossStaticLifeLabel.isHidden = false
         bossLifeLabel.isHidden = false
         bossLifeLabel.text = "\(bossLife)%"
-
+        self.bossStaticLifeLabel.text = NSLocalizedString("Boss", comment: "")
         var fireAction: SKAction!
         let bot = -UIScreen.main.bounds.height + 300
         let top = UIScreen.main.bounds.height - 300
@@ -2842,6 +2838,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func showAsteroids() {
         self.bossAlertLabel.text = NSLocalizedString("Asteroids", comment: "")
         self.bossLifeLabel.isHidden = true
+        self.bossStaticLifeLabel.isHidden = false
+        self.bossStaticLifeLabel.text = NSLocalizedString("Asteroids", comment: "")
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
         let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 1.0)
         let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
@@ -2888,6 +2886,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func showRedBossBG() {
         self.bossAlertLabel.text = NSLocalizedString("Boss", comment: "")
+        
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1.0)
         let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 1.0)
         let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
@@ -2943,6 +2942,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         root.isKind(of: GameViewController.self),
                         let gameVC = root as? GameViewController,
                         self.level != 10 {
+                        self.minute = 3
+                        self.seconds = 00
                         gameVC.presentAd()
                     }
                 } else if self.level == 3 || self.level == 6 || self.level == 9 {
@@ -3317,6 +3318,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             }
                             boss.removeFromParent()
                             self.boss = nil
+                            self.minute = 3
+                            self.seconds = 00
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
                                 if let v = self.view,
                                     let window = v.window,
