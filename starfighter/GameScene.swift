@@ -241,19 +241,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shipPan = UIPanGestureRecognizer()
 
     @objc func adWasPresented(_ notification: Notification) {
-        physicsWorld.speed = 0
+        self.minute = 3
+        self.seconds = 00
         isPaused = true
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0, fadeDuration: 3)
             gameMusicPlayer.pause()
         }
-        
-        let fadeOutFire = SKAction.fadeAlpha(to: 0.0, duration: 1)
+
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1)
         for sprite in children {
-            if sprite.name == "playerfire" {
+            if sprite.name == "playerfire" || sprite.name == "enemy" || sprite.name == "enemyfire" {
                 sprite.physicsBody = nil
-                sprite.run(fadeOutFire)
+                sprite.run(fadeOut)
+                sprite.removeFromParent()
             }
         }
         
@@ -262,13 +264,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 sprite.alpha = 1.0
             }
         }
-        
+
         stopActions()
         
         if lives > 0 {
             level += 1
-            self.minute = 3
-            self.seconds = 00
+
             self.setBG()
             self.bossStaticLifeLabel.isHidden = true
             self.bossLifeLabel.isHidden = true
@@ -296,6 +297,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
         } else if lives > 0 {
+            physicsWorld.speed = 0
+
             isPaused = false
             if let three = self.childNode(withName: "//3") {
                 three.alpha = 1.0
@@ -1870,29 +1873,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func createStar() {
-        let star = SKSpriteNode(imageNamed: "bgstar")
-        star.alpha = 0.5
-        star.size = CGSize(width: 15, height: 15)
-        star.name = "star"
+        let small = SKSpriteNode(imageNamed: "bgstar")
+        small.alpha = 0.8
+        small.size = CGSize(width: 15, height: 15)
+        small.name = "star"
         
-        let bot = -UIScreen.main.bounds.height + 150
-        let top = UIScreen.main.bounds.height - 125
-        let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
+        let medium = SKSpriteNode(imageNamed: "bgstar")
+        medium.alpha = 0.5
+        medium.size = CGSize(width: 20, height: 20)
+        medium.name = "star"
         
-        star.position = CGPoint(x:(view?.frame.maxX)! + 150, y: randomY)
-        star.zPosition = 2
-        self.addChild(star)
+        let large = SKSpriteNode(imageNamed: "bgstar")
+        large.alpha = 0.2
+        large.size = CGSize(width: 25, height: 25)
+        large.name = "star"
         
-        let width = UIScreen.main.bounds.width
-        let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
-        //        warp speed stars effect
-        //        if boss != nil || isAsteroidBoss {
-        //            dur = 2
-        //            star.size = CGSize(width: 500, height: 15)
-        //        }
-        let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
-        action.timingMode = .linear
-        star.run(action)
+        let stars = [small, medium, large]
+        if let star = stars.randomElement() {
+            let bot = -UIScreen.main.bounds.height + 150
+            let top = UIScreen.main.bounds.height - 125
+            let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
+            
+            star.position = CGPoint(x:(view?.frame.maxX)! + 150, y: randomY)
+            star.zPosition = 2
+            self.addChild(star)
+            
+            let width = UIScreen.main.bounds.width
+            let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+            let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
+            action.timingMode = .linear
+            star.run(action)
+        }
     }
     
     func getEnemyPhysics(enemy: SKSpriteNode) -> SKPhysicsBody {
@@ -2855,8 +2866,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     app.playMusic(isMenu: false, isBoss: true, level: self.level)
                                 }
 
-                                self.seconds = 10
-                                self.minute = 0
+                                self.seconds = 00
+                                self.minute = 1
                                 self.isAsteroidBoss = true
 
                                 self.bg.alpha = 0.2
@@ -2924,13 +2935,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if minute == 0 {
                 if self.isAsteroidBoss {
                     self.removeAction(forKey: "createAsteroids")
-                    let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2)
-                    for sprite in self.children {
-                        if sprite.accessibilityLabel == "asteroid" {
-                            sprite.physicsBody = nil
-                            sprite.run(fadeOut)
-                        }
-                    }
                     self.isAsteroidBoss = false
                     if let v = self.view,
                         let window = v.window,
@@ -2965,7 +2969,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         if boss != nil || isAsteroidBoss {
-            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2)
+            let fadeOut = SKAction.fadeAlpha(to: 0.5, duration: 4)
             for sprite in children {
                 if sprite.name == "bgship" || sprite.name == "satellite" {
                     sprite.alpha = 0.3
@@ -2973,14 +2977,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if sprite.name == "redplanet" ||
                     sprite.name == "orangeplanet" ||
-                    sprite.name == "yellowplanet" ||
-                    (sprite.name == "enemy" && sprite.accessibilityLabel != "asteroid") {
-                    if sprite.alpha == 1 {
-                        sprite.physicsBody = nil
-                        sprite.run(fadeOut) {
-                            sprite.removeFromParent()
-                        }
-                    }
+                    sprite.name == "yellowplanet" {
+                    sprite.run(fadeOut)
                 }
             }
         }
