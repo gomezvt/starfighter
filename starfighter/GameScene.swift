@@ -1780,6 +1780,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             weapon.physicsBody?.linearDamping = 1.1
             self.addChild(weapon)
             
+            
             let randomMoveDuration = TimeInterval(CGFloat(arc4random() % UInt32(10))) + 10
             let rotateAction = SKAction.rotate(byAngle: 45, duration: randomMoveDuration * 2)
             let moveAction = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
@@ -1874,18 +1875,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func createStar() {
         let small = SKSpriteNode(imageNamed: "bgstar")
-        small.alpha = 0.8
+        small.alpha = 0.7
         small.size = CGSize(width: 15, height: 15)
         small.name = "star"
         
         let medium = SKSpriteNode(imageNamed: "bgstar")
         medium.alpha = 0.5
-        medium.size = CGSize(width: 20, height: 20)
+        medium.size = CGSize(width: 25, height: 25)
         medium.name = "star"
         
         let large = SKSpriteNode(imageNamed: "bgstar")
-        large.alpha = 0.2
-        large.size = CGSize(width: 25, height: 25)
+        large.alpha = 0.3
+        large.size = CGSize(width: 35, height: 35)
         large.name = "star"
         
         let stars = [small, medium, large]
