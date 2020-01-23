@@ -956,10 +956,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let cometAction = SKAction.sequence([SKAction.run(self.createComet), SKAction.wait(forDuration: 20)])
         run(SKAction.repeatForever(cometAction), withKey: "cometAction")
         
+        let shipSparks = SKAction.sequence([SKAction.run(self.setShipSparks), SKAction.wait(forDuration: 1.0)])
+        run(SKAction.repeatForever(shipSparks), withKey: "shipSparks")
+        
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-
+        
         setBG()
         isRequestingReview = false
         
@@ -1350,6 +1353,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
             missileExhaust.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
+            
+            let missileSpark = SKAction.sequence([SKAction.run(self.setMissileSpark), SKAction.wait(forDuration: 0.25)])
+            run(SKAction.repeatForever(missileSpark), withKey: "missileSpark")
+            
         }
         
         nodeToFire.name = "playerfire"
@@ -1362,6 +1369,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         return nodeToFire
+    }
+    
+    func setMissileSpark() {
+        let small = SKSpriteNode(imageNamed: "bgstar")
+        small.alpha = 0.7
+        small.size = CGSize(width: 15, height: 15)
+        small.name = "missilespark"
+        
+        let medium = SKSpriteNode(imageNamed: "bgstar")
+        medium.alpha = 0.5
+        medium.size = CGSize(width: 25, height: 25)
+        medium.name = "missilespark"
+        
+        let large = SKSpriteNode(imageNamed: "bgstar")
+        large.alpha = 0.3
+        large.size = CGSize(width: 35, height: 35)
+        large.name = "missilespark"
+        
+        let sparks = [small, medium, large]
+        if let spark = sparks.randomElement() {
+            spark.alpha = 0
+            spark.name = "missilespark"
+            spark.color = UIColor.orange
+            spark.colorBlendFactor = 1.0
+            self.addChild(spark)
+        }
     }
     
     func setEnemyAndBossFirePhysics(for node: SKSpriteNode) {
@@ -1413,6 +1446,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setSpreadAction() {
         let rotateAction = SKAction.rotate(byAngle: -45, duration: 10)
+        
         if wepCount == 1 || wepCount == 2 {
             if let node = getNode() {
                 addChild(node)
@@ -1867,6 +1901,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    @objc func setShipSparks() {
+        let spark = SKSpriteNode(imageNamed: "bgstar")
+        spark.alpha = 1.0
+        spark.size = CGSize(width: 15, height: 15)
+        spark.name = "shipspark"
+        spark.color = UIColor.magenta
+        spark.colorBlendFactor = 1.0
+        spark.position = CGPoint(x: self.ship.frame.minX, y: self.ship.position.y)
+        self.addChild(spark)
+    }
+    
     @objc func createStar() {
         let small = SKSpriteNode(imageNamed: "bgstar")
         small.alpha = 0.7
@@ -1889,7 +1934,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let top = UIScreen.main.bounds.height - 125
             let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
             
-            star.position = CGPoint(x:(view?.frame.maxX)! + 150, y: randomY)
+            if let viewX = view?.frame.maxX {
+                star.position = CGPoint(x: viewX + 150, y: randomY)
+            }
             star.zPosition = 2
             self.addChild(star)
             
@@ -3007,6 +3054,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let size = UIScreen.main.bounds
             
             for node in children {
+                if let spark = node as? SKSpriteNode,
+                    spark.name == "missilespark",
+                    spark.hasActions() == false {
+                    if let missiles = children.filter({$0.accessibilityLabel == "tomahawk"}) as [SKNode]?,
+                        missiles.count > 0,
+                        let missile = missiles.filter({$0.accessibilityLabel == "tomahawk"})[0] as? SKSpriteNode {
+                        
+                        spark.alpha = 1
+                        spark.zPosition = 2
+                        spark.position = CGPoint(x: missile.frame.minX, y: missile.position.y)
+                        let width = UIScreen.main.bounds.width
+                        let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+                        let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
+                        action.timingMode = .linear
+                        spark.run(action)
+                        
+                        let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
+                        spark.run(fade)
+                    }
+                }
+                
                 if node.isKind(of: SKSpriteNode.self),
                     let sprite = node as? SKSpriteNode,
                     sprite.accessibilityLabel == "tomahawk" {
@@ -3101,6 +3169,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         } else {
             self.lifeLabel.text = "\(lives)"
+            for node in children {
+                if node.name == "shipspark" && node.hasActions() == false {
+                    node.zPosition = 2
+                    node.position = CGPoint(x:self.ship.frame.minX, y: self.ship.position.y)
+                    let width = UIScreen.main.bounds.width
+                    let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+                    let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
+                    action.timingMode = .linear
+                    node.run(action)
+                    
+                    let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
+                    node.run(fade)
+                }
+            }
         }
         
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2)
