@@ -1356,7 +1356,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let missileSpark = SKAction.sequence([SKAction.run(self.setMissileSpark), SKAction.wait(forDuration: 0.25)])
             run(SKAction.repeatForever(missileSpark), withKey: "missileSpark")
-            
         }
         
         nodeToFire.name = "playerfire"
@@ -1364,8 +1363,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setShipFirePhysics(for: nodeToFire)
         nodeToFire.position = CGPoint(x: ship.frame.maxX, y: ship.frame.midY)
         
-        if isAddingSentinelFire {
-            nodeToFire.position = CGPoint(x: sentinel!.frame.maxX, y: sentinel!.frame.midY)
+        if isAddingSentinelFire,
+            let sentinel = self.sentinel {
+            nodeToFire.position = CGPoint(x: sentinel.frame.maxX, y: sentinel.frame.midY)
         }
         
         return nodeToFire
