@@ -3063,30 +3063,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let size = UIScreen.main.bounds
             
             for node in children {
-                if let spark = node as? SKSpriteNode,
-                    spark.name == "missilespark",
-                    spark.hasActions() == false {
-                    if let missiles = children.filter({$0.accessibilityLabel == "tomahawk"}) as [SKNode]?,
-                        missiles.count > 0,
-                        let missile = missiles.filter({$0.accessibilityLabel == "tomahawk"})[0] as? SKSpriteNode {
-                        
-                        spark.alpha = 1
-                        spark.zPosition = 2
-                        spark.position = CGPoint(x: missile.frame.minX, y: missile.position.y)
-                        let width = UIScreen.main.bounds.width
-                        let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
-                        let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
-                        action.timingMode = .linear
-                        spark.run(action)
-                        
-                        let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
-                        spark.run(fade)
-                    }
-                }
-                
                 if node.isKind(of: SKSpriteNode.self),
                     let sprite = node as? SKSpriteNode,
                     sprite.accessibilityLabel == "tomahawk" {
+                    
+                    if let sparks = children.filter({$0.name == "missilespark"}) as [SKNode]?,
+                        sparks.count > 0 {
+                        for spark in sparks {
+                            if spark.hasActions() == false {
+                                spark.alpha = 1
+                                spark.zPosition = 2
+                                spark.position = CGPoint(x: sprite.frame.minX, y: sprite.position.y)
+                                let width = UIScreen.main.bounds.width
+                                let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+                                let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
+                                action.timingMode = .linear
+                                spark.run(action)
+                                
+                                let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
+                                spark.run(fade)
+                            }
+                        }
+                    }
+                    
                     if wepCount == 3 || wepCount == 4 {
                         sprite.colorBlendFactor = 1
                         sprite.color = UIColor.green
