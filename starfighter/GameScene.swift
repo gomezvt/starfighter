@@ -956,7 +956,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let cometAction = SKAction.sequence([SKAction.run(self.createComet), SKAction.wait(forDuration: 20)])
         run(SKAction.repeatForever(cometAction), withKey: "cometAction")
         
-        let shipSparks = SKAction.sequence([SKAction.run(self.setShipSparks), SKAction.wait(forDuration: 1.0)])
+        let shipSparks = SKAction.sequence([SKAction.run(self.setShipSparks), SKAction.wait(forDuration: 0.5)])
         run(SKAction.repeatForever(shipSparks), withKey: "shipSparks")
         
         if let app = UIApplication.shared.delegate as? AppDelegate {
@@ -1375,17 +1375,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let small = SKSpriteNode(imageNamed: "bgstar")
         small.alpha = 0.7
         small.size = CGSize(width: 15, height: 15)
-        small.name = "missilespark"
         
         let medium = SKSpriteNode(imageNamed: "bgstar")
         medium.alpha = 0.5
         medium.size = CGSize(width: 25, height: 25)
-        medium.name = "missilespark"
         
         let large = SKSpriteNode(imageNamed: "bgstar")
         large.alpha = 0.3
         large.size = CGSize(width: 35, height: 35)
-        large.name = "missilespark"
         
         let sparks = [small, medium, large]
         if let spark = sparks.randomElement() {
@@ -1902,14 +1899,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func setShipSparks() {
-        let spark = SKSpriteNode(imageNamed: "bgstar")
-        spark.alpha = 1.0
-        spark.size = CGSize(width: 15, height: 15)
-        spark.name = "shipspark"
-        spark.color = UIColor.magenta
-        spark.colorBlendFactor = 1.0
-        spark.position = CGPoint(x: self.ship.frame.minX, y: self.ship.position.y)
-        self.addChild(spark)
+        let small = SKSpriteNode(imageNamed: "bgstar")
+        small.alpha = 0.7
+        small.size = CGSize(width: 15, height: 15)
+        
+        let medium = SKSpriteNode(imageNamed: "bgstar")
+        medium.alpha = 0.5
+        medium.size = CGSize(width: 25, height: 25)
+        
+        let large = SKSpriteNode(imageNamed: "bgstar")
+        large.alpha = 0.3
+        large.size = CGSize(width: 35, height: 35)
+        
+        let sparks = [small, medium, large]
+        if let spark = sparks.randomElement() {
+            spark.alpha = 1.0
+            spark.name = "shipspark"
+            spark.color = UIColor.magenta
+            spark.colorBlendFactor = 1.0
+            spark.position = CGPoint(x: self.ship.frame.minX, y: self.ship.position.y)
+            self.addChild(spark)
+        }
     }
     
     @objc func createStar() {
@@ -3014,7 +3024,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
         if boss != nil || isAsteroidBoss {
             let fadeOut = SKAction.fadeAlpha(to: 0.5, duration: 4)
             for sprite in children {
