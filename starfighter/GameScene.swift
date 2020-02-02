@@ -3425,7 +3425,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.boss = nil
                             self.minute = 3
                             self.seconds = 00
-                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
+                            
+                            let one = SKAction.moveTo(x: self.bossStaticLifeLabel.frame.minX, duration: 6)
+                            let two = SKAction.moveTo(x: self.frame.maxX + 200, duration: 4)
+                            let actions = SKAction.sequence([one, two])
+                            self.ship.run(actions)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(10)) {
                                 if let v = self.view,
                                     let window = v.window,
                                     let root = window.rootViewController,
