@@ -20,6 +20,7 @@ enum WeaponType: Int {
 }
 
 struct Textures {
+    static let shelltexture = SKTexture(imageNamed: "weaponShell")
     static let guntexture = SKTexture(imageNamed: "w-machinegun")
     static let fireballtexture = SKTexture(imageNamed: "w-fireball")
     static let lightningtexture = SKTexture(imageNamed: "w-lightning")
@@ -243,7 +244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func adWasPresented(_ notification: Notification) {
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
-            gameMusicPlayer.setVolume(0.05, fadeDuration: 3)
+            gameMusicPlayer.setVolume(0.3, fadeDuration: 3)
         }
 
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1)
@@ -1746,6 +1747,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createLife() {
         if let life = SKSpriteNode(texture: Textures.lifetexture) as SKSpriteNode? {
+            addBlinkingShell(sprite: life)
             let width = UIScreen.main.bounds.width
             
             let bot = -UIScreen.main.bounds.height + 150
@@ -1775,6 +1777,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func addBlinkingShell(sprite: SKSpriteNode) {
+        if let shell = SKSpriteNode(texture: Textures.shelltexture) as SKSpriteNode? {
+            shell.size = CGSize(width: 60, height: 60)
+            shell.position = sprite.position
+            shell.zPosition = sprite.zPosition - 1
+            sprite.addChild(shell)
+            
+            let fOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+            let fIn = SKAction.fadeAlpha(to: 1.0, duration: 0.5)
+            let actions = SKAction.sequence([fOut, fIn])
+            shell.run(SKAction.repeatForever(actions))
+        }
+    }
+
     func createWeapon() {
         var availableWeps = weaponSprites
         if sentinelDur > 0 {
@@ -1785,8 +1801,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 return;
             }
             let weapon = SKSpriteNode(texture: texture)
+            addBlinkingShell(sprite: weapon)
             let width = UIScreen.main.bounds.width
-            
             let bot = -UIScreen.main.bounds.height + 150
             let top = UIScreen.main.bounds.height - 125
             let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
@@ -1805,7 +1821,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             weapon.physicsBody?.linearDamping = 1.1
             self.addChild(weapon)
             
-            
             let randomMoveDuration = TimeInterval(CGFloat(arc4random() % UInt32(10))) + 10
             let rotateAction = SKAction.rotate(byAngle: 45, duration: randomMoveDuration * 2)
             let moveAction = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
@@ -1813,6 +1828,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let actions = SKAction.group([rotateAction, moveAction])
             weapon.run(SKAction.repeatForever(actions))
+            
+            
         }
     }
     
