@@ -66,6 +66,9 @@ class MenuScene: SKScene {
         titleLabelPosition = title.position
         let jiggle = SKAction.sequence([SKAction.run(jigglelabel), SKAction.wait(forDuration: 2)])
         run(SKAction.repeatForever(jiggle), withKey: "jiggle")
+        
+        let shipSparks = SKAction.sequence([SKAction.run(self.setShipSparks), SKAction.wait(forDuration: 0.5)])
+        run(SKAction.repeatForever(shipSparks), withKey: "shipSparks")
     }
     
     @objc func createComet() {
@@ -231,12 +234,51 @@ class MenuScene: SKScene {
         }
     }
     
+    @objc func setShipSparks() {
+        let small = SKSpriteNode(imageNamed: "bgstar")
+        small.alpha = 0.7
+        small.size = CGSize(width: 15, height: 15)
+        
+        let medium = SKSpriteNode(imageNamed: "bgstar")
+        medium.alpha = 0.5
+        medium.size = CGSize(width: 25, height: 25)
+        
+        let large = SKSpriteNode(imageNamed: "bgstar")
+        large.alpha = 0.3
+        large.size = CGSize(width: 35, height: 35)
+        
+        let sparks = [small, medium, large]
+        if let spark = sparks.randomElement() {
+            spark.alpha = 1.0
+            spark.name = "shipspark"
+            spark.color = UIColor.magenta
+            spark.colorBlendFactor = 1.0
+            spark.position = CGPoint(x: self.ship.frame.minX, y: self.ship.position.y)
+            self.addChild(spark)
+        }
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         if ship == nil {
             createShip()
         } else if ship.position.x >= frame.maxX + 250 {
             ship.removeFromParent()
             ship = nil
+        } else {
+            for node in children {
+                if node.name == "shipspark" && node.hasActions() == false {
+                    node.zPosition = 2
+                    node.position = CGPoint(x:self.ship.frame.minX, y: self.ship.position.y)
+                    let width = UIScreen.main.bounds.width
+                    let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+                    let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
+                    action.timingMode = .linear
+                    node.run(action)
+                    
+                    let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
+                    node.run(fade)
+                }
+            }
         }
         
         if let app = UIApplication.shared.delegate as? AppDelegate,
