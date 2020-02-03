@@ -261,17 +261,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 sprite.alpha = 1.0
             }
         }
-
+        
         stopActions()
         physicsWorld.speed = 0
 
         if lives > 0 {
             level += 1
-            self.setBG()
-            self.bossStaticLifeLabel.isHidden = true
-            self.bossLifeLabel.isHidden = true
-            self.bossShot = 0
-            self.bossLife = 100
+            minute = 3
+            seconds = 00
+            timeLabel.text = "3:00"
+            setBG()
+            bossStaticLifeLabel.isHidden = true
+            bossLifeLabel.isHidden = true
+            bossShot = 0
+            bossLife = 100
             
             UserDefaults.standard.setValue(self.level, forKey: "level")
 
@@ -280,9 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             ship.position = CGPoint(x: scoreLabel.position.x, y: 0)
             
-            if let fire = ship.action(forKey: "playerFireAction") {
-                fire.speed = 0
-            }
+
         }
     }
     
@@ -294,6 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
         } else if lives > 0 {
+            
             if let three = self.childNode(withName: "//3") {
                 three.alpha = 1.0
             }
@@ -2798,7 +2800,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func stopActions() {
-
+        
         if let action = action(forKey: "timer") {
             action.speed = 0
         }
@@ -2853,7 +2855,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startActions() {
-
+        
         if let action = self.action(forKey: "timer") {
             action.speed = 1
         }
@@ -3008,15 +3010,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.isAsteroidBoss {
                     self.removeAction(forKey: "createAsteroids")
                     self.isAsteroidBoss = false
-                    if let v = self.view,
-                        let window = v.window,
-                        let root = window.rootViewController,
-                        root.isKind(of: GameViewController.self),
-                        let gameVC = root as? GameViewController,
-                        self.level != 10 {
-                        self.minute = 3
-                        self.seconds = 00
-                        gameVC.presentAd()
+                    if let timer = self.action(forKey: "timer") {
+                        timer.speed = 0
+                    }
+                    if let fire = ship.action(forKey: "playerFireAction") {
+                        fire.speed = 0
+                    }
+                    animateShipAfterLevel()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
+                        if let v = self.view,
+                            let window = v.window,
+                            let root = window.rootViewController,
+                            root.isKind(of: GameViewController.self),
+                            let gameVC = root as? GameViewController,
+                            self.level != 10 {
+                            
+                            
+                            gameVC.presentAd()
+                        }
                     }
                 } else if self.level == 3 || self.level == 6 || self.level == 9 {
                     self.isAsteroidBoss = true
@@ -3280,6 +3291,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let gameMusicPlayer = app.musicPlayer,
             gameStarted else { return }
         
+        self.shipPan.isEnabled = false
+        
         physicsWorld.speed = 0
         isPaused = true
         gameMusicPlayer.pause()
@@ -3312,6 +3325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     app.playMenuItemSound()
                     if isPaused == true {
                         isPaused = false
+                        self.shipPan.isEnabled = true
                         pausedLabel.isHidden = true
                         pausedLabelBG.isHidden = true
                         unPauseLabel.isHidden = true
@@ -3395,6 +3409,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func animateShipAfterLevel() {
+        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
+
+        self.shipPan.isEnabled = false
+        let one = SKAction.moveTo(x: self.bossStaticLifeLabel.frame.minX, duration: 4)
+        let two = SKAction.moveTo(x: self.frame.maxX + 200, duration: 2)
+        self.ship.run(one) {
+            app.playMissileSound()
+            self.ship.run(two)
+        }
+    }
+    
     func destroyBoss(_ boss: SKSpriteNode) {
         bossShot += 1
         bossLife -= 10
@@ -3423,18 +3449,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             if let fire = self.ship.action(forKey: "playerFireAction") {
                                 fire.speed = 0
                             }
-                            self.shipPan.isEnabled = false
+                            
                             boss.removeFromParent()
                             self.boss = nil
-                            self.minute = 3
-                            self.seconds = 00
                             
-                            let one = SKAction.moveTo(x: self.bossStaticLifeLabel.frame.minX, duration: 4)
-                            let two = SKAction.moveTo(x: self.frame.maxX + 200, duration: 2)
-                            self.ship.run(one) {
-                                app.playMissileSound()
-                                self.ship.run(two)
-                            }
+                            self.animateShipAfterLevel()
+                            
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
                                 if let v = self.view,
