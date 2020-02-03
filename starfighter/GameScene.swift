@@ -294,7 +294,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
         } else if lives > 0 {
-
             if let three = self.childNode(withName: "//3") {
                 three.alpha = 1.0
             }
@@ -318,6 +317,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     one.run(fadeOut, completion: {
                                         go.run(fadeIn, completion: {
                                             go.run(fadeOut, completion: {
+                                                self.shipPan.isEnabled = true
                                                 self.physicsWorld.speed = 1
                                                 self.startActions()
                                                 self.setEnemyActions()
@@ -3348,15 +3348,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         lives -= 1
         UserDefaults.standard.setValue(lives, forKey: "lives")
-        ship.run(fadeOut) {
-            self.ship.run(self.fadeIn, completion: {
-                self.ship.run(self.fadeOut, completion: {
-                    self.ship.run(self.fadeIn, completion: {
-                        self.playerHit = false
-                    })
-                })
-            })
-        }
+        blinkRed(sprite: ship)
     }
     
     func getNodeForCollision(first: SKPhysicsBody, second: SKPhysicsBody, name: String) -> SKNode? {
@@ -3383,24 +3375,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func destroyBoss(_ boss: SKSpriteNode) {
-        bossShot += 1
-        bossLife -= 10
-        bossLifeLabel.text = "\(bossLife)%"
-        boss.color = UIColor.red
-        boss.colorBlendFactor = 1
-        boss.run(fadeOut) {
-            boss.colorBlendFactor = 0.1
-            boss.run(self.fadeIn, completion: {
-                boss.colorBlendFactor = 1
-                boss.run(self.fadeOut, completion: {
-                    boss.colorBlendFactor = 0.1
-                    boss.run(self.fadeIn, completion: {
-                        boss.colorBlendFactor = 0
+    func blinkRed(sprite: SKSpriteNode) {
+        sprite.color = UIColor.red
+        sprite.colorBlendFactor = 1
+        sprite.run(fadeOut) {
+            sprite.colorBlendFactor = 0.1
+            sprite.run(self.fadeIn, completion: {
+                sprite.colorBlendFactor = 1
+                sprite.run(self.fadeOut, completion: {
+                    sprite.colorBlendFactor = 0.1
+                    sprite.run(self.fadeIn, completion: {
+                        sprite.colorBlendFactor = 0
+                        if sprite.name == "player" {
+                            self.playerHit = false
+                        }
                     })
                 })
             })
         }
+    }
+    
+    func destroyBoss(_ boss: SKSpriteNode) {
+        bossShot += 1
+        bossLife -= 10
+        bossLifeLabel.text = "\(bossLife)%"
+        blinkRed(sprite: boss)
         
         if bossShot == 10 {
             showKillScore(node: boss)
@@ -3421,17 +3420,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     app.playBossPlayerDeathSound()
                                 }
                             }
+                            if let fire = self.ship.action(forKey: "playerFireAction") {
+                                fire.speed = 0
+                            }
+                            self.shipPan.isEnabled = false
                             boss.removeFromParent()
                             self.boss = nil
                             self.minute = 3
                             self.seconds = 00
                             
-                            let one = SKAction.moveTo(x: self.bossStaticLifeLabel.frame.minX, duration: 6)
-                            let two = SKAction.moveTo(x: self.frame.maxX + 200, duration: 4)
-                            let actions = SKAction.sequence([one, two])
-                            self.ship.run(actions)
+                            let one = SKAction.moveTo(x: self.bossStaticLifeLabel.frame.minX, duration: 4)
+                            let two = SKAction.moveTo(x: self.frame.maxX + 200, duration: 2)
+                            self.ship.run(one) {
+                                app.playMissileSound()
+                                self.ship.run(two)
+                            }
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(10)) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
                                 if let v = self.view,
                                     let window = v.window,
                                     let root = window.rootViewController,
