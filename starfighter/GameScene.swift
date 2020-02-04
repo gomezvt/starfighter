@@ -47,6 +47,7 @@ struct CollisionBitMask {
     static let bossCategory:UInt32 = 0x1 << 5
     static let bossFireCategory:UInt32 = 0x1 << 6
     static let lifeCategory:UInt32 = 0x1 << 7
+    static let coinCategory:UInt32 = 0x1 << 8
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -161,6 +162,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var fireballSprites = Array<SKTexture>()
     let fireballAtlas = SKTextureAtlas(named:"fireballwep")
+    
+    var coinArray = Array<SKTexture>()
+    let coinAtlas = SKTextureAtlas(named:"1")
     
     var enemyLightningUpSprites = Array<SKTexture>()
     let enemyLightningUpAtlas = SKTextureAtlas(named:"enemyLightningUp")
@@ -871,6 +875,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fireballSprites.append(fireballAtlas.textureNamed("fireball1"))
         fireballSprites.append(fireballAtlas.textureNamed("fireball2"))
         fireballSprites.append(fireballAtlas.textureNamed("fireball3"))
+        
+        coinArray.append(fireballAtlas.textureNamed("1"))
+        coinArray.append(fireballAtlas.textureNamed("2"))
+        coinArray.append(fireballAtlas.textureNamed("3"))
+        coinArray.append(fireballAtlas.textureNamed("4"))
+        coinArray.append(fireballAtlas.textureNamed("5"))
+        coinArray.append(fireballAtlas.textureNamed("6"))
+        coinArray.append(fireballAtlas.textureNamed("7"))
+        coinArray.append(fireballAtlas.textureNamed("8"))
+        coinArray.append(fireballAtlas.textureNamed("9"))
+        coinArray.append(fireballAtlas.textureNamed("10"))
+        coinArray.append(fireballAtlas.textureNamed("11"))
+        coinArray.append(fireballAtlas.textureNamed("12"))
+        coinArray.append(fireballAtlas.textureNamed("13"))
+        coinArray.append(fireballAtlas.textureNamed("14"))
+        coinArray.append(fireballAtlas.textureNamed("15"))
+        coinArray.append(fireballAtlas.textureNamed("16"))
+        coinArray.append(fireballAtlas.textureNamed("17"))
+        coinArray.append(fireballAtlas.textureNamed("18"))
+        
         
         lightningUpSprites.append(lightningUpAtlas.textureNamed("lightningUp1"))
         lightningUpSprites.append(lightningUpAtlas.textureNamed("lightningUp2"))
@@ -1781,7 +1805,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addBlinkingShell(sprite: SKSpriteNode) {
         if let shell = SKSpriteNode(texture: Textures.shelltexture) as SKSpriteNode? {
-            shell.size = CGSize(width: 60, height: 60)
+            shell.size = CGSize(width: 70, height: 70)
             shell.position = sprite.position
             shell.zPosition = sprite.zPosition - 1
             sprite.addChild(shell)
@@ -1811,7 +1835,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             weapon.position = CGPoint(x:width + 150, y: randomY)
             weapon.size = CGSize(width: 50, height: 50)
-            weapon.zPosition = 3
+            weapon.zPosition = 4
             weapon.name = "createdweapon"
             weapon.physicsBody = SKPhysicsBody(circleOfRadius: weapon.size.width)
             weapon.physicsBody?.categoryBitMask = CollisionBitMask.weaponCategory
@@ -3052,6 +3076,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        for s in children {
+            if s.name == "coin" {
+                let move = SKAction.move(to: ship.position, duration: 0.5)
+                s.run(move)
+            }
+        }
+        
         if boss != nil || isAsteroidBoss {
             let fadeOut = SKAction.fadeAlpha(to: 0.5, duration: 4)
             for sprite in children {
@@ -3506,6 +3537,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+    func giveCoins(enemy: SKSpriteNode) {
+        let qty = [1,2,3,4,5]
+        if let q = qty.randomElement() {
+            for i in 1...q {
+                let coin = SKSpriteNode(texture: SKTextureAtlas(named:"coins").textureNamed("1"))
+                coin.physicsBody = SKPhysicsBody(circleOfRadius: coin.size.width / 2)
+                coin.physicsBody?.categoryBitMask = CollisionBitMask.coinCategory
+                coin.physicsBody?.collisionBitMask = CollisionBitMask.shipCategory | CollisionBitMask.coinCategory
+                coin.physicsBody?.contactTestBitMask = CollisionBitMask.shipCategory | CollisionBitMask.coinCategory
+                coin.physicsBody?.affectedByGravity = false
+                coin.physicsBody?.isDynamic = false
+                coin.physicsBody?.restitution = 0
+                coin.physicsBody?.linearDamping = 1.1
+                coin.size = CGSize(width: 40, height: 40)
+                coin.name = "coin"
+                coin.zPosition = 4
+                if let buffer = i == 1 ? 0 : i == 2 ? 50 : i == 3 ? 100 : i == 4 ? 150 : 200 {
+                    let v = CGFloat(buffer)
+                    coin.position = CGPoint(x:enemy.position.x + v, y: enemy.position.y)
+                    addChild(coin)
+                }
+            }
+        }
+    }
     
     func showKillScore(node: SKSpriteNode) {
         let scoreLabel = SKLabelNode(fontNamed: "Futura-Medium")
@@ -3654,6 +3709,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondBody.categoryBitMask == CollisionBitMask.bossFireCategory
         let isLife = firstBody.categoryBitMask == CollisionBitMask.lifeCategory ||
             secondBody.categoryBitMask == CollisionBitMask.lifeCategory
+        let isCoin = firstBody.categoryBitMask == CollisionBitMask.coinCategory ||
+            secondBody.categoryBitMask == CollisionBitMask.coinCategory
+        
+        if isShip && isCoin,
+            let coin = getNodeForCollision(first: firstBody, second: secondBody, name: "coin") {
+            coin.removeFromParent()
+        }
         
         if isShip && isLife,
             let life = getNodeForCollision(first: firstBody, second: secondBody, name: "createdlife") {
@@ -3711,6 +3773,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shipfire.removeFromParent()
             destroyEnemy(enemy)
             app.playKill()
+            giveCoins(enemy: enemy)
         }
         
         if isEnemy && isShip {

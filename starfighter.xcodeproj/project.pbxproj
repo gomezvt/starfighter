@@ -26,6 +26,7 @@
 		642679B923B3F440006E9925 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679BB23B3F440006E9925 /* MenuScene.sks */; };
 		642679BE23B3F4DA006E9925 /* OptionsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679C023B3F4DA006E9925 /* OptionsScene.sks */; };
 		64386D652384D6A500C9C93E /* explode.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64386D642384D6A500C9C93E /* explode.atlas */; };
+		643B1CD523EA1AC70047BF6C /* coins.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 643B1CD423EA1AC70047BF6C /* coins.atlas */; };
 		643D6B3E2124F45300EF8B6F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3D2124F45300EF8B6F /* GameScene.swift */; };
 		643D6B402124F46100EF8B6F /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3F2124F46100EF8B6F /* AboutScene.swift */; };
 		643D6B422124F46C00EF8B6F /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B412124F46C00EF8B6F /* OptionsScene.swift */; };
@@ -107,6 +108,7 @@
 		642679BF23B3F4DA006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/OptionsScene.sks; sourceTree = "<group>"; };
 		642679C223B3F4E3006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/OptionsScene.sks"; sourceTree = "<group>"; };
 		64386D642384D6A500C9C93E /* explode.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = explode.atlas; path = ../../../../Desktop/explode.atlas; sourceTree = "<group>"; };
+		643B1CD423EA1AC70047BF6C /* coins.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = coins.atlas; sourceTree = "<group>"; };
 		643D6B3D2124F45300EF8B6F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		643D6B3F2124F46100EF8B6F /* AboutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		643D6B412124F46C00EF8B6F /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 		64FEDAF221F64F1B0014C9D4 /* atlases */ = {
 			isa = PBXGroup;
 			children = (
+				643B1CD423EA1AC70047BF6C /* coins.atlas */,
 				644A378023C80D1B00195A25 /* missileExhaust.atlas */,
 				64386D642384D6A500C9C93E /* explode.atlas */,
 				641D6840237CEEFA00E8C5EA /* buzzBossAttack.atlas */,
@@ -461,6 +464,7 @@
 				6422729321FD82E000685076 /* enemy6.atlas in Resources */,
 				647F573221FEAE600060A3A7 /* blob.atlas in Resources */,
 				64A20BCC220BB3CC008BD8C2 /* greenBullet.atlas in Resources */,
+				643B1CD523EA1AC70047BF6C /* coins.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

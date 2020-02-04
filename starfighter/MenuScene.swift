@@ -248,12 +248,13 @@ class MenuScene: SKScene {
         large.size = CGSize(width: 35, height: 35)
         
         let sparks = [small, medium, large]
-        if let spark = sparks.randomElement() {
+        if let spark = sparks.randomElement(),
+            let ship = self.ship {
             spark.alpha = 1.0
             spark.name = "shipspark"
             spark.color = UIColor.magenta
             spark.colorBlendFactor = 1.0
-            spark.position = CGPoint(x: self.ship.frame.minX, y: self.ship.position.y)
+            spark.position = CGPoint(x: ship.frame.minX, y: ship.position.y)
             self.addChild(spark)
         }
     }
