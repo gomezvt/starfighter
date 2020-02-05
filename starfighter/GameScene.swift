@@ -175,6 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyExhausts = [[SKTexture]]()
     var bgShipsArray = [[SKTexture]]()
     
+    var coins = Int(0)
     var sentinelDur = Int(0)
     var bossShot = Int(0)
     var lightningCount = Int(0)
@@ -220,6 +221,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lifeLabel = SKLabelNode()
     var sentinelLabel = SKLabelNode()
     
+    var coinIcon: SKSpriteNode!
+    var coinlabel = SKLabelNode()
+
     var shipExhaust: SKSpriteNode!
     var enemyExhaust: SKSpriteNode!
     var enemyExhaust2: SKSpriteNode!
@@ -395,7 +399,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         unPauseLabel = self.childNode(withName: "//unPauseLabel") as! SKLabelNode
         pauseBtn = self.childNode(withName: "//pauseBtn") as? SKSpriteNode
         selectedWeapon = self.childNode(withName: "//weapon") as? SKSpriteNode
-        
+        coinIcon = self.childNode(withName: "//coinIcon") as? SKSpriteNode
+        coinlabel = self.childNode(withName: "//coinlabel") as! SKLabelNode
+
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroidtexture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid2texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
@@ -990,6 +996,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.level = level
         }
         
+        coins = 0
         setBG()
         isRequestingReview = false
         
@@ -3499,6 +3506,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     // END OF GAME!
                                     self.stopActions()
                                     self.ship.removeAllActions()
+                                    self.coinIcon.isHidden = true
+                                    self.coinlabel.isHidden = true
                                     self.ship.isHidden = true
                                     self.grayBar.isHidden = true
                                     self.shipIcon.isHidden = true
@@ -3724,6 +3733,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if isShip && isCoin,
             let coin = getNodeForCollision(first: firstBody, second: secondBody, name: "coin") {
             coin.removeFromParent()
+            coins += 1
+            coinlabel.text = "\(coins)"
             if coin.accessibilityLabel == "lastcoin" {
                 app.playCoins()
             }
