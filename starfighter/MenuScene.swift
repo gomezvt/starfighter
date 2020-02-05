@@ -52,6 +52,7 @@ class MenuScene: SKScene {
         if let _ = UserDefaults.standard.object(forKey: "level") as? Int,
             let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
+            let _ = UserDefaults.standard.object(forKey: "coins") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
             newGameLabel?.text = NSLocalizedString("Continue", comment: "")
         } else {
@@ -178,13 +179,6 @@ class MenuScene: SKScene {
         let seq = SKAction.sequence([wait, SKAction.repeatForever(action)])
         ship.run(SKAction.repeatForever(seq))
         self.ship = ship
-    }
-    
-    func clearDefaults() {
-        UserDefaults.standard.removeObject(forKey: "level")
-        UserDefaults.standard.removeObject(forKey: "lives")
-        UserDefaults.standard.removeObject(forKey: "weaponCount")
-        UserDefaults.standard.removeObject(forKey: "weaponType")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

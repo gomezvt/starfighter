@@ -929,6 +929,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         weaponType = .Gun
         if isContinuing {
+            if let coins = UserDefaults.standard.object(forKey: "coins") as? Int {
+                self.coins = coins
+            }
+            
             if let level = UserDefaults.standard.object(forKey: "level") as? Int {
                 self.level = level
             }
@@ -996,7 +1000,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.level = level
         }
         
-        coins = 0
         setBG()
         isRequestingReview = false
         
@@ -3082,6 +3085,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func clearDefaults() {
+        UserDefaults.standard.removeObject(forKey: "level")
+        UserDefaults.standard.removeObject(forKey: "lives")
+        UserDefaults.standard.removeObject(forKey: "weaponCount")
+        UserDefaults.standard.removeObject(forKey: "weaponType")
+        UserDefaults.standard.removeObject(forKey: "coins")
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         for s in children {
             if s.name == "coin" {
@@ -3110,11 +3121,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if didBeatGame {
-            UserDefaults.standard.removeObject(forKey: "level")
-            UserDefaults.standard.removeObject(forKey: "lives")
-            UserDefaults.standard.removeObject(forKey: "weaponCount")
-            UserDefaults.standard.removeObject(forKey: "weaponType")
-        } else if let weaponType = self.weaponType as WeaponType?,
+            clearDefaults()
+        }
+        else if let weaponType = self.weaponType as WeaponType?,
             let wepCount = self.wepCount as Int?,
             let level = self.level as Int?,
             let lives = self.lives as Int?  {
@@ -3122,6 +3131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
             UserDefaults.standard.setValue(level, forKey: "level")
             UserDefaults.standard.setValue(lives, forKey: "lives")
+            UserDefaults.standard.setValue(coins, forKey: "coins")
         }
         
         if weaponType == .Tomahawk {
@@ -3208,7 +3218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.lifeLabel.text = "\(lives)"
         self.scoreLabel.text = "\(score)"
         self.levelLabel.text = "\(level)"
-        
+        self.coinlabel.text = "\(coins)"
         if lives <= 0 {
             ship.physicsBody?.pinned = true
             ship.isHidden = true
@@ -3220,11 +3230,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let menuNode = menuScene.rootNode as? MenuScene,
                     let app = UIApplication.shared.delegate as? AppDelegate,
                     let player = app.musicPlayer {
+                    clearDefaults()
                     player.setVolume(0, fadeDuration: 3)
                     menuNode.entities = menuScene.entities
                     menuNode.graphs = menuScene.graphs
                     menuNode.scaleMode = .aspectFit
-                    menuNode.clearDefaults()
                     menuNode.newGameLabel?.text = NSLocalizedString("Start", comment: "")
                     
                     let transition = SKTransition.fade(withDuration: 2)
@@ -3317,6 +3327,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let _ = UserDefaults.standard.object(forKey: "level") as? Int,
             let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
+            let _ = UserDefaults.standard.object(forKey: "coins") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
             isSaved = true
         }
@@ -3352,10 +3363,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if touchedNode == endGameReturnMenuLabel,
                     let view = self.view as SKView?,
                     let menuScene = SKScene(fileNamed: "MenuScene") as? MenuScene {
+                    clearDefaults()
                     app.playMenuItemSound()
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
-                    menuScene.clearDefaults()
                     menuScene.newGameLabel?.text = NSLocalizedString("Start", comment: "")
                     view.ignoresSiblingOrder = true
                     view.presentScene(menuScene, transition: transition)
@@ -3734,9 +3745,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let coin = getNodeForCollision(first: firstBody, second: secondBody, name: "coin") {
             coin.removeFromParent()
             coins += 1
-            coinlabel.text = "\(coins)"
             if coin.accessibilityLabel == "lastcoin" {
                 app.playCoins()
+                UserDefaults.standard.setValue(coins, forKey: "coins")
             }
         }
         
