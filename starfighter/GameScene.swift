@@ -401,12 +401,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid4texture))
         
-        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
         weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
         
         playerArray.append(playerAtlas.textureNamed("player"))
@@ -3538,25 +3538,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     func giveCoins(enemy: SKSpriteNode) {
-        let qty = [1,2,3,4,5]
-        if let q = qty.randomElement() {
-            for i in 1...q {
-                let coin = SKSpriteNode(texture: SKTextureAtlas(named:"coins").textureNamed("1"))
-                coin.physicsBody = SKPhysicsBody(circleOfRadius: coin.size.width / 2)
-                coin.physicsBody?.categoryBitMask = CollisionBitMask.coinCategory
-                coin.physicsBody?.collisionBitMask = CollisionBitMask.shipCategory | CollisionBitMask.coinCategory
-                coin.physicsBody?.contactTestBitMask = CollisionBitMask.shipCategory | CollisionBitMask.coinCategory
-                coin.physicsBody?.affectedByGravity = false
-                coin.physicsBody?.isDynamic = false
-                coin.physicsBody?.restitution = 0
-                coin.physicsBody?.linearDamping = 1.1
-                coin.size = CGSize(width: 40, height: 40)
-                coin.name = "coin"
-                coin.zPosition = 4
-                if let buffer = i == 1 ? 0 : i == 2 ? 50 : i == 3 ? 100 : i == 4 ? 150 : 200 {
-                    let v = CGFloat(buffer)
-                    coin.position = CGPoint(x:enemy.position.x + v, y: enemy.position.y)
-                    addChild(coin)
+        let shouldGiveCoins = [true, false].randomElement()
+        if shouldGiveCoins == true {
+            let qty = [1,2,3,4,5]
+            if let q = qty.randomElement() {
+                for i in 1...q {
+                    let coin = SKSpriteNode(texture: SKTextureAtlas(named:"coins").textureNamed("1"))
+                    coin.physicsBody = SKPhysicsBody(circleOfRadius: coin.size.width / 2)
+                    coin.physicsBody?.categoryBitMask = CollisionBitMask.coinCategory
+                    coin.physicsBody?.collisionBitMask = CollisionBitMask.shipCategory | CollisionBitMask.coinCategory
+                    coin.physicsBody?.contactTestBitMask = CollisionBitMask.shipCategory | CollisionBitMask.coinCategory
+                    coin.physicsBody?.affectedByGravity = false
+                    coin.physicsBody?.isDynamic = false
+                    coin.physicsBody?.restitution = 0
+                    coin.physicsBody?.linearDamping = 1.1
+                    coin.size = CGSize(width: 50, height: 50)
+                    coin.name = "coin"
+                    coin.zPosition = 4
+                    if i == q {
+                        coin.accessibilityLabel = "lastcoin"
+                    }
+                    if let buffer = i == 1 ? 0 : i == 2 ? 50 : i == 3 ? 100 : i == 4 ? 150 : 200 {
+                        let v = CGFloat(buffer)
+                        coin.position = CGPoint(x:enemy.position.x + v, y: enemy.position.y)
+                        addChild(coin)
+                    }
                 }
             }
         }
@@ -3586,7 +3592,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         showKillScore(node: enemy)
         enemy.physicsBody = nil
         enemy.removeAllActions()
-        
+        giveCoins(enemy: enemy)
+
         let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
         enemy.run(explosion, completion: {
             self.score += 50
@@ -3715,6 +3722,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if isShip && isCoin,
             let coin = getNodeForCollision(first: firstBody, second: secondBody, name: "coin") {
             coin.removeFromParent()
+            if coin.accessibilityLabel == "lastcoin" {
+                app.playCoins()
+            }
         }
         
         if isShip && isLife,
@@ -3773,7 +3783,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shipfire.removeFromParent()
             destroyEnemy(enemy)
             app.playKill()
-            giveCoins(enemy: enemy)
         }
         
         if isEnemy && isShip {
