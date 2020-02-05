@@ -401,12 +401,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid4texture))
         
-//        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
         weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
         
         playerArray.append(playerAtlas.textureNamed("player"))
