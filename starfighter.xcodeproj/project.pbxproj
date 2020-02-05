@@ -148,6 +148,11 @@
 		64A20BCB220BB3CC008BD8C2 /* greenBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = greenBullet.atlas; sourceTree = "<group>"; };
 		64A20BCD220BB9C1008BD8C2 /* redBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = redBullet.atlas; sourceTree = "<group>"; };
 		64AB250921DAB47B00F0E7D6 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
+		64B152A923EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64B152AA23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/AboutScene.sks; sourceTree = "<group>"; };
+		64B152AB23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/GameScene.sks; sourceTree = "<group>"; };
+		64B152AD23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/OptionsScene.sks; sourceTree = "<group>"; };
+		64B152AE23EB766E00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/TutorialScene.sks; sourceTree = "<group>"; };
 		64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust6.atlas; sourceTree = "<group>"; };
 		64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust.atlas; sourceTree = "<group>"; };
 		64DC866F21FE9BF000566AED /* enemy8.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy8.atlas; sourceTree = "<group>"; };
@@ -396,6 +401,7 @@
 				"vi-VN",
 				"zh-Hans",
 				es,
+				ja,
 			);
 			mainGroup = 649743622123A7C4008D74BB;
 			productRefGroup = 6497436C2123A7C4008D74BB /* Products */;
@@ -561,6 +567,7 @@
 				642679AE23B3EF82006E9925 /* vi-VN */,
 				643E143323C6C22B00CC41EE /* zh-Hans */,
 				643E143823C6C24200CC41EE /* es */,
+				64B152AE23EB766E00C57F27 /* ja */,
 			);
 			name = TutorialScene.sks;
 			sourceTree = "<group>";
@@ -572,6 +579,7 @@
 				642679B323B3F23C006E9925 /* vi-VN */,
 				643E142F23C6C22A00CC41EE /* zh-Hans */,
 				643E143423C6C24200CC41EE /* es */,
+				64B152AA23EB766D00C57F27 /* ja */,
 			);
 			name = AboutScene.sks;
 			sourceTree = "<group>";
@@ -583,6 +591,7 @@
 				642679B823B3F2E3006E9925 /* vi-VN */,
 				643E143023C6C22A00CC41EE /* zh-Hans */,
 				643E143523C6C24200CC41EE /* es */,
+				64B152AB23EB766D00C57F27 /* ja */,
 			);
 			name = GameScene.sks;
 			sourceTree = "<group>";
@@ -602,6 +611,7 @@
 				642679C223B3F4E3006E9925 /* vi-VN */,
 				643E143223C6C22A00CC41EE /* zh-Hans */,
 				643E143723C6C24200CC41EE /* es */,
+				64B152AD23EB766D00C57F27 /* ja */,
 			);
 			name = OptionsScene.sks;
 			sourceTree = "<group>";
@@ -629,6 +639,7 @@
 				64E2498923C7E98D00EFE2B9 /* zh-Hans */,
 				64E2498A23C7E98F00EFE2B9 /* es */,
 				64E2498B23C7E99000EFE2B9 /* vi-VN */,
+				64B152A923EB766D00C57F27 /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

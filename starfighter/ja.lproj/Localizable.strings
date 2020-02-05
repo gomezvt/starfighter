@@ -1,0 +1,15 @@
+/* 
+ Localizable.strings
+ 
+ 
+ Created by Greg on 1/9/20.
+ 
+ */
+
+"Options" = "ゲームオプション";
+"About" = "私たちに関しては";
+"Continue" = "継続する";
+"Start" = "開始";
+"Asteroids" = "小惑星の警告";
+"Boss" = "ビッグエネミー";
+"Bomb" = "ビッグボム";
