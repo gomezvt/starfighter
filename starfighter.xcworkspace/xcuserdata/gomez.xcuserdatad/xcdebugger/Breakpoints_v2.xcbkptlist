@@ -14,8 +14,8 @@
             filePath = "starfighter/GameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3726"
-            endingLineNumber = "3726"
+            startingLineNumber = "3728"
+            endingLineNumber = "3728"
             landmarkName = "didBegin(_:)"
             landmarkType = "7">
          </BreakpointContent>
