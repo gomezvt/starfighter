@@ -54,6 +54,8 @@
 		64A20BCC220BB3CC008BD8C2 /* greenBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BCB220BB3CC008BD8C2 /* greenBullet.atlas */; };
 		64A20BCE220BB9C1008BD8C2 /* redBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BCD220BB9C1008BD8C2 /* redBullet.atlas */; };
 		64AB250A21DAB47C00F0E7D6 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 64AB250921DAB47B00F0E7D6 /* sounds */; };
+		64B152B023EB929F00C57F27 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B152AF23EB929F00C57F27 /* Store.swift */; };
+		64B152B223EB92BE00C57F27 /* Store.sks in Resources */ = {isa = PBXBuildFile; fileRef = 64B152B123EB92BE00C57F27 /* Store.sks */; };
 		64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */; };
 		64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */; };
 		64DC867021FE9BF000566AED /* enemy8.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC866F21FE9BF000566AED /* enemy8.atlas */; };
@@ -153,6 +155,8 @@
 		64B152AB23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/GameScene.sks; sourceTree = "<group>"; };
 		64B152AD23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/OptionsScene.sks; sourceTree = "<group>"; };
 		64B152AE23EB766E00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/TutorialScene.sks; sourceTree = "<group>"; };
+		64B152AF23EB929F00C57F27 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		64B152B123EB92BE00C57F27 /* Store.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Store.sks; sourceTree = "<group>"; };
 		64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust6.atlas; sourceTree = "<group>"; };
 		64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust.atlas; sourceTree = "<group>"; };
 		64DC866F21FE9BF000566AED /* enemy8.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy8.atlas; sourceTree = "<group>"; };
@@ -251,6 +255,8 @@
 				64AB250921DAB47B00F0E7D6 /* sounds */,
 				642679AC23B3EF6F006E9925 /* TutorialScene.sks */,
 				6498A37A21A5000600AE5CDC /* TutorialScene.swift */,
+				64B152AF23EB929F00C57F27 /* Store.swift */,
+				64B152B123EB92BE00C57F27 /* Store.sks */,
 			);
 			path = starfighter;
 			sourceTree = "<group>";
@@ -429,6 +435,7 @@
 				641D683E237CEC8F00E8C5EA /* brainBossAttack.atlas in Resources */,
 				641D683F237CEC8F00E8C5EA /* brainBossNorm.atlas in Resources */,
 				642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */,
+				64B152B223EB92BE00C57F27 /* Store.sks in Resources */,
 				64AB250A21DAB47C00F0E7D6 /* sounds in Resources */,
 				64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */,
 				6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */,
@@ -523,6 +530,7 @@
 				649743752123A7C4008D74BB /* MenuScene.swift in Sources */,
 				649743772123A7C4008D74BB /* GameViewController.swift in Sources */,
 				643D6B402124F46100EF8B6F /* AboutScene.swift in Sources */,
+				64B152B023EB929F00C57F27 /* Store.swift in Sources */,
 				643D6B3E2124F45300EF8B6F /* GameScene.swift in Sources */,
 				6498A37B21A5000600AE5CDC /* TutorialScene.swift in Sources */,
 				6497436F2123A7C4008D74BB /* AppDelegate.swift in Sources */,
