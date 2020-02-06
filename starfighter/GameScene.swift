@@ -290,8 +290,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 v.removeGestureRecognizer(shipPan)
             }
             ship.position = CGPoint(x: scoreLabel.position.x, y: 0)
-            
-
         }
     }
     
@@ -303,7 +301,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
         } else if lives > 0 {
-            
             if let three = self.childNode(withName: "//3") {
                 three.alpha = 1.0
             }
@@ -3052,16 +3049,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     animateShipAfterLevel()
                     DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
-                        if let v = self.view,
-                            let window = v.window,
-                            let root = window.rootViewController,
-                            root.isKind(of: GameViewController.self),
-                            let gameVC = root as? GameViewController,
-                            self.level != 10 {
-                            
-                            
-                            gameVC.presentAd()
-                        }
+                        self.navigateToStore()
                     }
                 } else if self.level == 3 || self.level == 6 || self.level == 9 {
                     self.isAsteroidBoss = true
@@ -3458,6 +3446,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func navigateToStore() {
+        if let store = SKScene(fileNamed: "Store") as? Store,
+            let view = self.view {
+            store.scaleMode = .aspectFit
+            let transition = SKTransition.fade(withDuration: 1.5)
+            view.presentScene(store, transition: transition)
+        }
+    }
+    
     func animateShipAfterLevel() {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
 
@@ -3506,14 +3503,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
-                                if let v = self.view,
-                                    let window = v.window,
-                                    let root = window.rootViewController,
-                                    root.isKind(of: GameViewController.self),
-                                    let gameVC = root as? GameViewController,
-                                    self.level != 10 {
-                                    gameVC.presentAd()
-                                } else if self.level == 10 {
+                                if self.level != 10 {
+                                    self.navigateToStore()
+                                } else {
                                     // END OF GAME!
                                     self.stopActions()
                                     self.ship.removeAllActions()
