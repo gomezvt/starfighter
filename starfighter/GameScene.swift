@@ -52,6 +52,7 @@ struct CollisionBitMask {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    
     var isShipUp: Bool = false
     var isShipDown: Bool = false
     
@@ -258,96 +259,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameMusicPlayer.setVolume(0.3, fadeDuration: 3)
         }
 
-        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 1)
-        for sprite in children {
-            if sprite.name == "playerfire" || sprite.name == "enemy" || sprite.name == "enemyfire" {
-                sprite.physicsBody = nil
-                sprite.run(fadeOut)
-                sprite.removeFromParent()
-            }
-        }
-        
-        for sprite in children {
-            if sprite.name == "bgship" || sprite.name == "satellite" {
-                sprite.alpha = 1.0
-            }
-        }
-        
-        stopActions()
-        physicsWorld.speed = 0
-
-        if lives > 0 {
-            level += 1
-            minute = 3
-            seconds = 00
-            timeLabel.text = "3:00"
-            setBG()
-            bossStaticLifeLabel.isHidden = true
-            bossLifeLabel.isHidden = true
-            bossShot = 0
-            bossLife = 100
-            
-            UserDefaults.standard.setValue(self.level, forKey: "level")
-
-            if let v = view {
-                v.removeGestureRecognizer(shipPan)
-            }
-            ship.position = CGPoint(x: scoreLabel.position.x, y: 0)
-        }
     }
     
     @objc func adWasDismissed(_ notification: Notification) {
-        // You died so lets present a review request
         if let menuScene = GKScene(fileNamed: "MenuScene"),
             let _ = menuScene.rootNode as? MenuScene,
             lives <= 0, isRequestingReview == false {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
-        } else if lives > 0 {
-            if let three = self.childNode(withName: "//3") {
-                three.alpha = 1.0
-            }
-            if let app = UIApplication.shared.delegate as? AppDelegate,
-                let gameMusicPlayer = app.musicPlayer {
-                gameMusicPlayer.play()
-                app.playMusic(isMenu: false, isBoss: false, level: self.level)
-                gameMusicPlayer.setVolume(1, fadeDuration: 3)
-            }
-            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
-            let fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                if let three = self.childNode(withName: "//3"),
-                    let two = self.childNode(withName: "//2"),
-                    let one = self.childNode(withName: "//1"),
-                    let go = self.childNode(withName: "//go") {
-                    three.run(fadeOut, completion: {
-                        two.run(fadeIn, completion: {
-                            two.run(fadeOut, completion: {
-                                one.run(fadeIn, completion: {
-                                    one.run(fadeOut, completion: {
-                                        go.run(fadeIn, completion: {
-                                            go.run(fadeOut, completion: {
-                                                self.shipPan.isEnabled = true
-                                                self.physicsWorld.speed = 1
-                                                self.startActions()
-                                                self.setEnemyActions()
-                                                
-                                                if let v = self.view {
-                                                    v.addGestureRecognizer(self.shipPan)
-                                                }
-
-                                                if let fire = self.ship.action(forKey: "playerFireAction") {
-                                                    fire.speed = 1
-                                                }
-                                            })
-                                        })
-                                    })
-                                })
-                            })
-                        })
-                    })
-                }
-            }
         }
     }
     
@@ -409,12 +328,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid4texture))
         
-//        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
-//        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
+        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
         weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
         
         playerArray.append(playerAtlas.textureNamed("player"))
@@ -930,9 +849,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createShip()
         
         weaponType = .Gun
-        if isContinuing {
-            if let bombs = UserDefaults.standard.object(forKey: "bombs") as? Int {
-                megaBombCount = bombs
+        
+        if let sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
+            sentinelDur > 0 {
+            self.sentinelDur = sentinelDur
+            sentinelLabel.text = "\(sentinelDur)"
+            applySentinel()
+        }
+        
+        if let bombs = UserDefaults.standard.object(forKey: "bombs") as? Int {
+            megaBombCount = bombs
                 bombCountLabel.text = "\(megaBombCount)"
             }
             
@@ -964,11 +890,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let wep = WeaponType(rawValue: type) {
                 weaponType = wep
             }
-        } else {
-            if let _ = UserDefaults.standard.value(forKey: "hiscore") as? Int {
-                UserDefaults.standard.removeObject(forKey: "hiscore")
-            }
-        }
         
         if weaponType == .Gun {
             selectedWeapon.texture = Textures.guntexture
@@ -1009,7 +930,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-
+        
         setBG()
         isRequestingReview = false
         
@@ -1032,12 +953,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             self.gameStarted = true
                                             self.fadeIn.duration = 0.15
                                             self.fadeOut.duration = 0.15
-                                            
-                                            if self.isContinuing {
-                                                if self.weaponType == .Lightning {
-                                                    self.setLightningAction()
-                                                }
-                                            }
                                             
                                             self.shipPan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
                                             view.addGestureRecognizer(self.shipPan)
@@ -1484,6 +1399,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.sentinel?.removeFromParent()
                     self.sentinel = nil
                 }
+                UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
             }
         }
     }
@@ -3059,7 +2975,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     animateShipAfterLevel()
                     DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
-                        self.navigateToStore()
+                        if self.level != 10 {
+                            self.navigateToStore()
+                        }
                     }
                 } else if self.level == 3 || self.level == 6 || self.level == 9 {
                     self.isAsteroidBoss = true
@@ -3090,6 +3008,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UserDefaults.standard.removeObject(forKey: "weaponType")
         UserDefaults.standard.removeObject(forKey: "coins")
         UserDefaults.standard.removeObject(forKey: "bombs")
+        UserDefaults.standard.removeObject(forKey: "sentinelDur")
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -3125,13 +3044,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if let weaponType = self.weaponType as WeaponType?,
             let wepCount = self.wepCount as Int?,
             let level = self.level as Int?,
-            let lives = self.lives as Int?  {
+            let lives = self.lives as Int?,
+            let coins = self.coins as Int?,
+            let megaBombCount = self.megaBombCount as Int?,
+            let sentinelDur = self.sentinelDur as Int? {
             UserDefaults.standard.setValue(weaponType.rawValue, forKey: "weaponType")
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
             UserDefaults.standard.setValue(level, forKey: "level")
             UserDefaults.standard.setValue(lives, forKey: "lives")
             UserDefaults.standard.setValue(coins, forKey: "coins")
             UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
+            UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
         }
         
         if weaponType == .Tomahawk {
@@ -3220,6 +3143,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.levelLabel.text = "\(level)"
         self.coinlabel.text = "\(coins)"
         self.bombCountLabel.text = "\(megaBombCount)"
+        self.sentinelLabel.text = "\(sentinelDur)"
         if lives <= 0 {
             ship.physicsBody?.pinned = true
             ship.isHidden = true
@@ -3330,6 +3254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
             let _ = UserDefaults.standard.object(forKey: "coins") as? Int,
             let _ = UserDefaults.standard.object(forKey: "bombs") as? Int,
+            let _ = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
             isSaved = true
         }
@@ -3468,6 +3393,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func navigateToStore() {
+        level += 1
+        UserDefaults.standard.setValue(self.level, forKey: "level")
         if let store = SKScene(fileNamed: "Store") as? Store,
             let view = self.view {
             store.scaleMode = .aspectFit
@@ -3479,7 +3406,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func animateShipAfterLevel() {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
 
-        self.shipPan.isEnabled = false
+        shipPan.isEnabled = false
+        ship.physicsBody = nil
         let one = SKAction.moveTo(x: self.bossStaticLifeLabel.frame.minX, duration: 4)
         let two = SKAction.moveTo(x: self.frame.maxX + 200, duration: 2)
         self.ship.run(one) {
@@ -3662,6 +3590,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    func applySentinel() {
+        let sentinel = SKSpriteNode(imageNamed: "sentinel")
+        sentinel.size = CGSize(width: 35, height: 35)
+        sentinel.position = CGPoint(x: ship.frame.maxX - 20, y: ship.frame.maxY)
+        sentinel.zPosition = 5
+        addChild(sentinel)
+
+        self.sentinel = sentinel
+    }
+    
     func setWeapon(_ weapon: SKSpriteNode) {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
         
@@ -3686,6 +3624,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sentinelDur = 30
             self.sentinel = sentinel
             sentinelLabel.text = "\(sentinelDur)"
+            UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
             
             return
         }

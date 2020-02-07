@@ -54,6 +54,7 @@ class MenuScene: SKScene {
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
             let _ = UserDefaults.standard.object(forKey: "coins") as? Int,
             let _ = UserDefaults.standard.object(forKey: "bombs") as? Int,
+            let _ = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
             newGameLabel?.text = NSLocalizedString("Continue", comment: "")
         } else {
