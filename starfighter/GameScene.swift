@@ -175,6 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyExhausts = [[SKTexture]]()
     var bgShipsArray = [[SKTexture]]()
     
+    var megaBombCount = Int(0)
     var coins = Int(0)
     var sentinelDur = Int(0)
     var bossShot = Int(0)
@@ -198,6 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isAddingSentinelFire: Bool = false
     var weaponType: WeaponType = .Gun
     
+    var bombCountLabel = SKLabelNode()
     var isRequestingReview: Bool = false
     var scoreLabel = SKLabelNode()
     var levelLabel = SKLabelNode()
@@ -224,6 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coinIcon: SKSpriteNode!
     var coinlabel = SKLabelNode()
 
+    var megaBomb: SKSpriteNode!
     var shipExhaust: SKSpriteNode!
     var enemyExhaust: SKSpriteNode!
     var enemyExhaust2: SKSpriteNode!
@@ -363,6 +366,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(adWasPresented), name: NSNotification.Name(rawValue: "adWasPresented"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(adWasDismissed), name: NSNotification.Name(rawValue: "adWasDismissed"), object: nil)
         
+        bombCountLabel = self.childNode(withName: "//bombLabel") as! SKLabelNode
+        megaBomb = self.childNode(withName: "//bomb") as? SKSpriteNode
         shipIcon = self.childNode(withName: "//shipIcon") as? SKSpriteNode
         shipIconExhaust = self.childNode(withName: "//shipIconExhaust") as? SKSpriteNode
         bossStaticLifeLabel = self.childNode(withName: "//bossStaticLifeLabel") as! SKLabelNode
@@ -404,12 +409,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid4texture))
         
-        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
         weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
         
         playerArray.append(playerAtlas.textureNamed("player"))
@@ -926,16 +931,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         weaponType = .Gun
         if isContinuing {
+            if let bombs = UserDefaults.standard.object(forKey: "bombs") as? Int {
+                megaBombCount = bombs
+                bombCountLabel.text = "\(megaBombCount)"
+            }
+            
             if let coins = UserDefaults.standard.object(forKey: "coins") as? Int {
                 self.coins = coins
+                coinlabel.text = "\(coins)"
             }
             
             if let level = UserDefaults.standard.object(forKey: "level") as? Int {
                 self.level = level
+                levelLabel.text = "\(level)"
             }
             
             if let lives = UserDefaults.standard.object(forKey: "lives") as? Int {
                 self.lives = lives
+                lifeLabel.text = "\(lives)"
             }
             
             if let wepCount = UserDefaults.standard.object(forKey: "weaponCount") as? Int {
@@ -996,8 +1009,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-        minute = 0
-        seconds = 00
+
         setBG()
         isRequestingReview = false
         
@@ -1831,9 +1843,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             availableWeps = availableWeps.filter({$0.texture != Textures.sentineltexture})
         }
         if let texture = availableWeps.randomElement()?.texture {
-            if (texture == Textures.megabombtexture && boss != nil) {
-                return;
-            }
+            guard boss == nil else { return }
+            
             let weapon = SKSpriteNode(texture: texture)
             addBlinkingShell(sprite: weapon)
             let width = UIScreen.main.bounds.width
@@ -1862,8 +1873,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let actions = SKAction.group([rotateAction, moveAction])
             weapon.run(SKAction.repeatForever(actions))
-            
-            
         }
     }
     
@@ -3080,6 +3089,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UserDefaults.standard.removeObject(forKey: "weaponCount")
         UserDefaults.standard.removeObject(forKey: "weaponType")
         UserDefaults.standard.removeObject(forKey: "coins")
+        UserDefaults.standard.removeObject(forKey: "bombs")
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -3121,6 +3131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(level, forKey: "level")
             UserDefaults.standard.setValue(lives, forKey: "lives")
             UserDefaults.standard.setValue(coins, forKey: "coins")
+            UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
         }
         
         if weaponType == .Tomahawk {
@@ -3208,6 +3219,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.scoreLabel.text = "\(score)"
         self.levelLabel.text = "\(level)"
         self.coinlabel.text = "\(coins)"
+        self.bombCountLabel.text = "\(megaBombCount)"
         if lives <= 0 {
             ship.physicsBody?.pinned = true
             ship.isHidden = true
@@ -3317,6 +3329,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
             let _ = UserDefaults.standard.object(forKey: "coins") as? Int,
+            let _ = UserDefaults.standard.object(forKey: "bombs") as? Int,
             let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
             isSaved = true
         }
@@ -3389,6 +3402,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     view.presentScene(menuScene, transition: transition)
                     app.level = 0
                     app.playIntro()
+                } else if touchedNode == megaBomb,
+                    megaBombCount > 0 {
+                    megaBombCount -= 1
+                    bombCountLabel.text = "\(megaBombCount)"
+                    UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
+
+                    dropMegaBomb()
                 }
             }
         }
@@ -3509,6 +3529,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 } else {
                                     // END OF GAME!
                                     self.stopActions()
+                                    self.bombCountLabel.isHidden = true
+                                    self.megaBomb.isHidden = true
                                     self.ship.removeAllActions()
                                     self.coinIcon.isHidden = true
                                     self.coinlabel.isHidden = true
@@ -3616,29 +3638,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         });
     }
     
+    func dropMegaBomb() {
+        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        app.playMegabomb()
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
+        let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 0.3)
+        let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.3)
+        self.bossAlertLabel.text = NSLocalizedString("Bomb", comment: "")
+        redBG.run(fadeIn, completion: {
+            self.bossAlertLabel.run(bossfadeIn) {
+                self.redBG.run(fadeOut, completion: {
+                    self.bossAlertLabel.run(fadeOut)
+                    for sprite in self.children {
+                        if sprite.name == "enemy",
+                            let enemy = sprite as? SKSpriteNode {
+                            self.destroyEnemy(enemy)
+                        }
+                    }
+                    app.playKill()
+                })
+            }
+        })
+    }
+    
     func setWeapon(_ weapon: SKSpriteNode) {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
         
         guard weapon.texture != Textures.megabombtexture else {
-            app.playMegabomb()
-            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
-            let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 0.3)
-            let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.3)
-            self.bossAlertLabel.text = NSLocalizedString("Bomb", comment: "")
-            redBG.run(fadeIn, completion: {
-                self.bossAlertLabel.run(bossfadeIn) {
-                    self.redBG.run(fadeOut, completion: {
-                        self.bossAlertLabel.run(fadeOut)
-                        for sprite in self.children {
-                            if sprite.name == "enemy",
-                                let enemy = sprite as? SKSpriteNode {
-                                self.destroyEnemy(enemy)
-                            }
-                        }
-                        app.playKill()
-                    })
-                }
-            })
+            app.playNewWeapon()
+            megaBombCount += 1
+            bombCountLabel.text = "\(megaBombCount)"
+            UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
+            
             return
         }
         
