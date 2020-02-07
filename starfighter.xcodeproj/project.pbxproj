@@ -53,9 +53,9 @@
 		64A20BC6220BA596008BD8C2 /* blueBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BC5220BA596008BD8C2 /* blueBullet.atlas */; };
 		64A20BCC220BB3CC008BD8C2 /* greenBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BCB220BB3CC008BD8C2 /* greenBullet.atlas */; };
 		64A20BCE220BB9C1008BD8C2 /* redBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BCD220BB9C1008BD8C2 /* redBullet.atlas */; };
+		64A3428223EDE3E7007AC4EB /* Store.sks in Resources */ = {isa = PBXBuildFile; fileRef = 64A3428423EDE3E7007AC4EB /* Store.sks */; };
 		64AB250A21DAB47C00F0E7D6 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 64AB250921DAB47B00F0E7D6 /* sounds */; };
 		64B152B023EB929F00C57F27 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B152AF23EB929F00C57F27 /* Store.swift */; };
-		64B152B223EB92BE00C57F27 /* Store.sks in Resources */ = {isa = PBXBuildFile; fileRef = 64B152B123EB92BE00C57F27 /* Store.sks */; };
 		64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */; };
 		64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */; };
 		64DC867021FE9BF000566AED /* enemy8.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC866F21FE9BF000566AED /* enemy8.atlas */; };
@@ -149,6 +149,11 @@
 		64A20BC5220BA596008BD8C2 /* blueBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blueBullet.atlas; sourceTree = "<group>"; };
 		64A20BCB220BB3CC008BD8C2 /* greenBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = greenBullet.atlas; sourceTree = "<group>"; };
 		64A20BCD220BB9C1008BD8C2 /* redBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = redBullet.atlas; sourceTree = "<group>"; };
+		64A3428323EDE3E7007AC4EB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/Store.sks"; sourceTree = "<group>"; };
+		64A3428523EDE3ED007AC4EB /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/Store.sks; sourceTree = "<group>"; };
+		64A3428623EDE3F4007AC4EB /* es */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = es; path = es.lproj/Store.sks; sourceTree = "<group>"; };
+		64A3428723EDE3F6007AC4EB /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/Store.sks"; sourceTree = "<group>"; };
+		64A3428823EDE3FA007AC4EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/Store.sks; sourceTree = "<group>"; };
 		64AB250921DAB47B00F0E7D6 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 		64B152A923EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		64B152AA23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/AboutScene.sks; sourceTree = "<group>"; };
@@ -156,7 +161,6 @@
 		64B152AD23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/OptionsScene.sks; sourceTree = "<group>"; };
 		64B152AE23EB766E00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/TutorialScene.sks; sourceTree = "<group>"; };
 		64B152AF23EB929F00C57F27 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
-		64B152B123EB92BE00C57F27 /* Store.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Store.sks; sourceTree = "<group>"; };
 		64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust6.atlas; sourceTree = "<group>"; };
 		64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust.atlas; sourceTree = "<group>"; };
 		64DC866F21FE9BF000566AED /* enemy8.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy8.atlas; sourceTree = "<group>"; };
@@ -256,7 +260,7 @@
 				642679AC23B3EF6F006E9925 /* TutorialScene.sks */,
 				6498A37A21A5000600AE5CDC /* TutorialScene.swift */,
 				64B152AF23EB929F00C57F27 /* Store.swift */,
-				64B152B123EB92BE00C57F27 /* Store.sks */,
+				64A3428423EDE3E7007AC4EB /* Store.sks */,
 			);
 			path = starfighter;
 			sourceTree = "<group>";
@@ -435,7 +439,7 @@
 				641D683E237CEC8F00E8C5EA /* brainBossAttack.atlas in Resources */,
 				641D683F237CEC8F00E8C5EA /* brainBossNorm.atlas in Resources */,
 				642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */,
-				64B152B223EB92BE00C57F27 /* Store.sks in Resources */,
+				64A3428223EDE3E7007AC4EB /* Store.sks in Resources */,
 				64AB250A21DAB47C00F0E7D6 /* sounds in Resources */,
 				64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */,
 				6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */,
@@ -638,6 +642,18 @@
 				643E141E23C6B1EE00CC41EE /* en */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		64A3428423EDE3E7007AC4EB /* Store.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64A3428323EDE3E7007AC4EB /* zh-Hans */,
+				64A3428523EDE3ED007AC4EB /* ja */,
+				64A3428623EDE3F4007AC4EB /* es */,
+				64A3428723EDE3F6007AC4EB /* vi-VN */,
+				64A3428823EDE3FA007AC4EB /* Base */,
+			);
+			name = Store.sks;
 			sourceTree = "<group>";
 		};
 		64E2498823C7E98B00EFE2B9 /* Localizable.strings */ = {

@@ -996,7 +996,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-        
+        minute = 0
+        seconds = 00
         setBG()
         isRequestingReview = false
         
