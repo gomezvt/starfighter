@@ -926,11 +926,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-//
-//        weaponType = .Tomahawk
-//        wepCount = 5
-//        minute = 0
-//        seconds = 00
+
+        weaponType = .Tomahawk
+        wepCount = 5
+        minute = 0
+        seconds = 00
         setBG()
         isRequestingReview = false
         
