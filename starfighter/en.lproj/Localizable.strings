@@ -10,6 +10,7 @@
 "About" = "About";
 "Continue" = "Continue";
 "Start" = "Start";
-"Asteroids" = "Asteroid Alert";
-"Boss" = "Boss Alert";
+"Asteroids" = "Asteroids";
+"Boss" = "Boss";
 "Bomb" = "Mega Bomb";
+"Shield" = "Shield Life";

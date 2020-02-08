@@ -15,7 +15,8 @@ import StoreKit
 class Store: SKScene, SKPhysicsContactDelegate {
     
     var exit = SKLabelNode()
-    
+    var buy = SKLabelNode()
+
     var lives = Int(0)
     var megaBombCount = Int(0)
     var coins = Int(0)
@@ -30,6 +31,19 @@ class Store: SKScene, SKPhysicsContactDelegate {
     var bar: SKSpriteNode!
     var barTexture: SKTexture!
     
+    var sgun: SKSpriteNode!
+    var sfireball: SKSpriteNode!
+    var slightning: SKSpriteNode!
+    var sspread: SKSpriteNode!
+    var stomahawk: SKSpriteNode!
+    var ssentinel: SKSpriteNode!
+    var sbomb: SKSpriteNode!
+    var sshield: SKSpriteNode!
+    var slife: SKSpriteNode!
+    var scoin1: SKSpriteNode!
+    var scoin2: SKSpriteNode!
+    var scoin3: SKSpriteNode!
+
     @objc func adWasDismissed(_ notification: Notification) {
         if let view = self.view,
             let gameScene = SKScene(fileNamed: "GameScene") as? GameScene {
@@ -43,13 +57,27 @@ class Store: SKScene, SKPhysicsContactDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(adWasDismissed), name: NSNotification.Name(rawValue: "adWasDismissed"), object: nil)
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         exit = self.childNode(withName: "//exit") as! SKLabelNode
-        
+        buy = self.childNode(withName: "//buy") as! SKLabelNode
+
         bombCountLabel = self.childNode(withName: "//bombLabel") as! SKLabelNode
         lifeLabel = self.childNode(withName: "//lifeLabel") as! SKLabelNode
         selectedWeapon = self.childNode(withName: "//weapon") as? SKSpriteNode
         coinlabel = self.childNode(withName: "//coinlabel") as! SKLabelNode
         sentinelLabel = self.childNode(withName: "//sentinelLabel") as! SKLabelNode
         bar = self.childNode(withName: "//bar") as? SKSpriteNode
+        
+        sgun = self.childNode(withName: "//sgun") as? SKSpriteNode
+        sfireball = self.childNode(withName: "//sfireball") as? SKSpriteNode
+        slightning = self.childNode(withName: "//slightning") as? SKSpriteNode
+        sspread = self.childNode(withName: "//sspread") as? SKSpriteNode
+        stomahawk = self.childNode(withName: "//stomahawk") as? SKSpriteNode
+        ssentinel = self.childNode(withName: "//ssentinel") as? SKSpriteNode
+        sbomb = self.childNode(withName: "//sbomb") as? SKSpriteNode
+        sshield = self.childNode(withName: "//sshield") as? SKSpriteNode
+        slife = self.childNode(withName: "//slife") as? SKSpriteNode
+        scoin1 = self.childNode(withName: "//scoin1") as? SKSpriteNode
+        scoin2 = self.childNode(withName: "//scoin2") as? SKSpriteNode
+        scoin3 = self.childNode(withName: "//scoin3") as? SKSpriteNode
         
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.playIntro()
@@ -101,12 +129,25 @@ class Store: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         // TODO: ONLY let the user select sentinel if their current sentinelDur is less than 30 or else return (use guard)
         for touch: AnyObject in touches {
             let positionInScene = touch.location(in: self)
             let touchedNode = self.atPoint(positionInScene)
             
+            sgun.alpha = 0.1
+            sfireball.alpha = 0.1
+            sspread.alpha = 0.1
+            slightning.alpha = 0.1
+            stomahawk.alpha = 0.1
+            ssentinel.alpha = 0.1
+            sbomb.alpha = 0.1
+            sshield.alpha = 0.1
+            slife.alpha = 0.1
+            scoin1.alpha = 0.1
+            scoin2.alpha = 0.1
+            scoin3.alpha = 0.1
+            buy.color = UIColor.systemBlue
+
             if touchedNode == exit {
                 if let v = self.view,
                     let window = v.window,
@@ -115,6 +156,42 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     let gameVC = root as? GameViewController {
                     gameVC.presentAd()
                 }
+            } else if touchedNode == sgun {
+                sgun.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == sfireball {
+                sfireball.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == sspread {
+                sspread.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == slightning {
+                slightning.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == stomahawk {
+                stomahawk.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == ssentinel {
+                ssentinel.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == sbomb {
+                sbomb.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == sshield {
+                sshield.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == slife {
+                slife.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == scoin1 {
+                scoin1.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == scoin2 {
+                scoin2.alpha = 0.2
+                buy.color = UIColor.systemTeal
+            } else if touchedNode == scoin3 {
+                scoin3.alpha = 0.2
+                buy.color = UIColor.systemTeal
             }
         }
     }

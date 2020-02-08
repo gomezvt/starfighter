@@ -49,13 +49,8 @@ class MenuScene: SKScene {
         aboutLabel?.text = NSLocalizedString("About", comment: "")
         optionsLabel?.text = NSLocalizedString("Options", comment: "")
         
-        if let _ = UserDefaults.standard.object(forKey: "level") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "coins") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "bombs") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
+        if let lives = UserDefaults.standard.object(forKey: "lives") as? Int,
+            lives > 0 {
             newGameLabel?.text = NSLocalizedString("Continue", comment: "")
         } else {
             newGameLabel?.text = NSLocalizedString("Start", comment: "")
@@ -207,7 +202,6 @@ class MenuScene: SKScene {
                     
                     if let gameScene = SKScene(fileNamed: "GameScene") as? GameScene {
                         gameScene.scaleMode = .aspectFit
-                        gameScene.isContinuing = newGameLabel?.text == NSLocalizedString("Continue", comment: "") ? true : false
                         view.presentScene(gameScene, transition: transition)
                     }
                 } else if touchedNode == optionsLabel,

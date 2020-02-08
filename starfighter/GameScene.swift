@@ -191,7 +191,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var isAsteroidBoss: Bool = false
     var didBeatGame: Bool = false
-    var isContinuing: Bool = false
     var didMoveUp: Bool = false
     var didMoveDown: Bool = false
     var gameStarted = Bool(false)
@@ -927,7 +926,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-        
+//
+//        weaponType = .Tomahawk
+//        wepCount = 5
+//        minute = 0
+//        seconds = 00
         setBG()
         isRequestingReview = false
         
@@ -3037,8 +3040,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if didBeatGame {
             clearDefaults()
+        } else if let weaponType = self.weaponType as WeaponType?,
+            let wepCount = self.wepCount as Int?,
+            let level = self.level as Int?,
+            let lives = self.lives as Int?,
+            let coins = self.coins as Int?,
+            let megaBombCount = self.megaBombCount as Int?,
+            let sentinelDur = self.sentinelDur as Int? {
+            UserDefaults.standard.setValue(weaponType.rawValue, forKey: "weaponType")
+            UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
+            UserDefaults.standard.setValue(level, forKey: "level")
+            UserDefaults.standard.setValue(lives, forKey: "lives")
+            UserDefaults.standard.setValue(coins, forKey: "coins")
+            UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
+            UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
         }
-
         
         if weaponType == .Tomahawk {
             let enemies = children.filter({$0.name == "enemy"}) as [SKNode]?
@@ -3224,13 +3240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func assessSavedGame() -> Bool? {
         var isSaved = false
-        if let _ = UserDefaults.standard.object(forKey: "level") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "lives") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "weaponCount") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "coins") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "bombs") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
-            let _ = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue {
+            if let _ = UserDefaults.standard.object(forKey: "lives") as? Int {
             isSaved = true
         }
         return isSaved
