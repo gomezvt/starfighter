@@ -859,37 +859,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if let bombs = UserDefaults.standard.object(forKey: "bombs") as? Int {
             megaBombCount = bombs
-                bombCountLabel.text = "\(megaBombCount)"
+            bombCountLabel.text = "\(megaBombCount)"
+        }
+        
+        if let coins = UserDefaults.standard.object(forKey: "coins") as? Int {
+            self.coins = coins
+            coinlabel.text = "\(coins)"
+        }
+        
+        if let level = UserDefaults.standard.object(forKey: "level") as? Int {
+            self.level = level
+            levelLabel.text = "\(level)"
+        }
+        
+        if let lives = UserDefaults.standard.object(forKey: "lives") as? Int {
+            self.lives = lives
+            lifeLabel.text = "\(lives)"
+        }
+        
+        if let wepCount = UserDefaults.standard.object(forKey: "weaponCount") as? Int {
+            self.wepCount = wepCount
+            if wepCount == 1 {
+                bar.texture = SKTexture(imageNamed: "bar")
+            } else {
+                bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
             }
-            
-            if let coins = UserDefaults.standard.object(forKey: "coins") as? Int {
-                self.coins = coins
-                coinlabel.text = "\(coins)"
-            }
-            
-            if let level = UserDefaults.standard.object(forKey: "level") as? Int {
-                self.level = level
-                levelLabel.text = "\(level)"
-            }
-            
-            if let lives = UserDefaults.standard.object(forKey: "lives") as? Int {
-                self.lives = lives
-                lifeLabel.text = "\(lives)"
-            }
-            
-            if let wepCount = UserDefaults.standard.object(forKey: "weaponCount") as? Int {
-                self.wepCount = wepCount
-                if wepCount == 1 {
-                    bar.texture = SKTexture(imageNamed: "bar")
-                } else {
-                    bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
-                }
-            }
-            
-            if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
-                let wep = WeaponType(rawValue: type) {
-                weaponType = wep
-            }
+        }
+        
+        if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
+            let wep = WeaponType(rawValue: type) {
+            weaponType = wep
+        }
         
         if weaponType == .Gun {
             selectedWeapon.texture = Textures.guntexture
@@ -904,12 +904,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if let hiScore = UserDefaults.standard.value(forKey: "hiscore") as? Int {
-            hiLabel.isHidden = false
-            hiScoreLabel.isHidden = false
             hiScoreLabel.text = "\(hiScore)"
         } else {
-            hiLabel.isHidden = true
-            hiScoreLabel.isHidden = true
+            hiScoreLabel.text = "0"
         }
         
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
@@ -3041,21 +3038,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if didBeatGame {
             clearDefaults()
         }
-        else if let weaponType = self.weaponType as WeaponType?,
-            let wepCount = self.wepCount as Int?,
-            let level = self.level as Int?,
-            let lives = self.lives as Int?,
-            let coins = self.coins as Int?,
-            let megaBombCount = self.megaBombCount as Int?,
-            let sentinelDur = self.sentinelDur as Int? {
-            UserDefaults.standard.setValue(weaponType.rawValue, forKey: "weaponType")
-            UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
-            UserDefaults.standard.setValue(level, forKey: "level")
-            UserDefaults.standard.setValue(lives, forKey: "lives")
-            UserDefaults.standard.setValue(coins, forKey: "coins")
-            UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
-            UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
-        }
+
         
         if weaponType == .Tomahawk {
             let enemies = children.filter({$0.name == "enemy"}) as [SKNode]?
@@ -3128,14 +3111,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if let sentinel = sentinel {
             sentinel.position = CGPoint(x: ship.frame.maxX - 20, y: ship.frame.maxY)
-        }
-        
-        if let hiScore = UserDefaults.standard.value(forKey: "hiscore") as? Int {
-            if score > hiScore {
-                UserDefaults.standard.setValue(score, forKey: "hiscore")
-            }
-        } else {
-            UserDefaults.standard.setValue(score, forKey: "hiscore")
         }
         
         self.lifeLabel.text = "\(lives)"
@@ -3434,6 +3409,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     boss.run(self.fadeOut, completion: {
                         boss.run(self.fadeIn, completion: {
                             self.score += 500
+                            self.setHiScore()
                             app.playBossPlayerDeathSound()
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(0.25)) {
                                 app.playBossPlayerDeathSound()
@@ -3553,6 +3529,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func setHiScore() {
+        if let hiScore = UserDefaults.standard.value(forKey: "hiscore") as? Int {
+            if score > hiScore {
+                UserDefaults.standard.setValue(score, forKey: "hiscore")
+                hiScoreLabel.text = "\(score)"
+            }
+        } else {
+            UserDefaults.standard.setValue(score, forKey: "hiscore")
+        }
+    }
+    
     func destroyEnemy(_ enemy: SKSpriteNode) {
         showKillScore(node: enemy)
         enemy.physicsBody = nil
@@ -3562,6 +3549,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
         enemy.run(explosion, completion: {
             self.score += 50
+            self.setHiScore()
             enemy.removeFromParent()
         });
     }
