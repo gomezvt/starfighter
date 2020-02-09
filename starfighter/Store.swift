@@ -12,6 +12,22 @@ import GameplayKit
 import AVFoundation
 import StoreKit
 
+//enum Item: String {
+//    case sgun = "sgun"
+//    case sfireball = "sfireball"
+//    case slightning = "slightning"
+//    case sspread = "sspread"
+//    case stomahawk = "stomahawk"
+//    case ssentinel = "ssentinel"
+//    case sbomb = "sbomb"
+//    case sshield = "sshield"
+//    case slife = "slife"
+//    case coin1 = "coin1"
+//    case coin2 = "coin2"
+//    case coin3 = "coin3"
+//    case none = ""
+//}
+
 class Store: SKScene, SKPhysicsContactDelegate {
     
     var exit = SKLabelNode()
@@ -132,9 +148,6 @@ class Store: SKScene, SKPhysicsContactDelegate {
         
         // TODO: ONLY let the user select sentinel if their current sentinelDur is less than 30 or else return (use guard)
         for touch: AnyObject in touches {
-            let positionInScene = touch.location(in: self)
-            let touchedNode = self.atPoint(positionInScene)
-            
             sgun.alpha = 0.1
             sfireball.alpha = 0.1
             sspread.alpha = 0.1
@@ -148,8 +161,9 @@ class Store: SKScene, SKPhysicsContactDelegate {
             scoin2.alpha = 0.1
             scoin3.alpha = 0.1
             exit.fontColor = UIColor.systemTeal
-            buy.fontColor = UIColor.systemBlue
             
+            let positionInScene = touch.location(in: self)
+            let touchedNode = self.atPoint(positionInScene)
             if touchedNode == exit {
                 if let v = self.view,
                     let window = v.window,
@@ -174,13 +188,11 @@ class Store: SKScene, SKPhysicsContactDelegate {
                 app.playMenuItemSound()
                 touchedNode.alpha = 0.2
                 selectedItem = touchedNode
-            } else if touchedNode == buy,
-                let item = selectedItem {
+            } else if touchedNode == buy {
                 app.playMenuItemSound()
                 selectedItem.alpha = 0.2
-                buy.fontColor = UIColor.systemTeal
-                item.alpha = 0.2
             } else {
+                buy.fontColor = UIColor.systemBlue
                 selectedItem = nil
             }
         }
