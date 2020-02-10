@@ -12,24 +12,25 @@ import GameplayKit
 import AVFoundation
 import StoreKit
 
-//enum Item: String {
-//    case sgun = "sgun"
-//    case sfireball = "sfireball"
-//    case slightning = "slightning"
-//    case sspread = "sspread"
-//    case stomahawk = "stomahawk"
-//    case ssentinel = "ssentinel"
-//    case sbomb = "sbomb"
-//    case sshield = "sshield"
-//    case slife = "slife"
-//    case coin1 = "coin1"
-//    case coin2 = "coin2"
-//    case coin3 = "coin3"
-//    case none = ""
-//}
+enum Item: String {
+    case sgun
+    case sfireball
+    case slightning
+    case sspread
+    case stomahawk
+    case ssentinel
+    case sbomb
+    case sshield
+    case slife
+    case scoin1
+    case scoin2
+    case scoin3
+    case none
+}
 
 class Store: SKScene, SKPhysicsContactDelegate {
-    
+    var storeItem: Item = .none
+    var currentType: WeaponType = .Gun
     var exit = SKLabelNode()
     var buy = SKLabelNode()
     
@@ -126,27 +127,11 @@ class Store: SKScene, SKPhysicsContactDelegate {
                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
             }
         }
-        
-        if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
-            let wep = WeaponType(rawValue: type) {
-            if wep == .Gun {
-                selectedWeapon.texture = Textures.guntexture
-            } else if wep == .Fireball {
-                selectedWeapon.texture = Textures.fireballtexture
-            } else if wep == .Spread {
-                selectedWeapon.texture = Textures.spreadtexture
-            } else if wep == .Lightning {
-                selectedWeapon.texture = Textures.lightningtexture
-            } else if wep == .Tomahawk {
-                selectedWeapon.texture = Textures.tomahawktexture
-            }
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        // TODO: ONLY let the user select sentinel if their current sentinelDur is less than 30 or else return (use guard)
         for touch: AnyObject in touches {
             sgun.alpha = 0.1
             sfireball.alpha = 0.1
@@ -184,22 +169,155 @@ class Store: SKScene, SKPhysicsContactDelegate {
                 touchedNode == scoin1 ||
                 touchedNode == scoin2 ||
                 touchedNode == scoin3 {
-                buy.fontColor = UIColor.systemTeal
-                app.playMenuItemSound()
-                touchedNode.alpha = 0.2
-                selectedItem = touchedNode
-            } else if touchedNode == buy {
-                app.playMenuItemSound()
-                selectedItem.alpha = 0.2
+                
+                if let name = touchedNode.name,
+                    let item = Item(rawValue: name) {
+                    buy.fontColor = UIColor.systemTeal
+                    app.playMenuItemSound()
+                    touchedNode.alpha = 0.3
+                    selectedItem = touchedNode
+                    storeItem = item
+                }
+            } else if touchedNode == buy,
+                let item = selectedItem,
+                let storeItem = self.storeItem as Item? {
+                item.alpha = 0.3
+
+                switch storeItem {
+                    case .sgun:
+                        coins -= 50
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
+                            let currentType = WeaponType(rawValue: type) {
+                            if WeaponType.Gun != currentType {
+                                wepCount = 1
+                                app.playNewWeapon()
+                                bar.texture = SKTexture(imageNamed: "bar")
+                                selectedWeapon.texture = Textures.guntexture
+                                UserDefaults.standard.setValue(WeaponType.Gun.rawValue, forKey: "weaponType")
+                            } else if wepCount < 5 {
+                                app.playLevelUp()
+                                wepCount += 1
+                                bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
+                            }
+                            UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
+                        }
+                    case .sfireball:
+                        coins -= 50
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
+                            let currentType = WeaponType(rawValue: type) {
+                            if WeaponType.Fireball != currentType {
+                                wepCount = 1
+                                app.playNewWeapon()
+                                bar.texture = SKTexture(imageNamed: "bar")
+                                selectedWeapon.texture = Textures.fireballtexture
+                                UserDefaults.standard.setValue(WeaponType.Fireball.rawValue, forKey: "weaponType")
+                            } else if wepCount < 5 {
+                                app.playLevelUp()
+                                wepCount += 1
+                                bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
+                            }
+                            UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
+                        }
+                    case .slightning:
+                        coins -= 100
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
+                            let currentType = WeaponType(rawValue: type) {
+                            if WeaponType.Lightning != currentType {
+                                wepCount = 1
+                                app.playNewWeapon()
+                                bar.texture = SKTexture(imageNamed: "bar")
+                                selectedWeapon.texture = Textures.lightningtexture
+                                UserDefaults.standard.setValue(WeaponType.Lightning.rawValue, forKey: "weaponType")
+                            } else if wepCount < 5 {
+                                app.playLevelUp()
+                                wepCount += 1
+                                bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
+                            }
+                            UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
+                        }
+                    case .sspread:
+                        coins -= 100
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
+                            let currentType = WeaponType(rawValue: type) {
+                            if WeaponType.Spread != currentType {
+                                wepCount = 1
+                                app.playNewWeapon()
+                                bar.texture = SKTexture(imageNamed: "bar")
+                                selectedWeapon.texture = Textures.spreadtexture
+                                UserDefaults.standard.setValue(WeaponType.Spread.rawValue, forKey: "weaponType")
+                            } else if wepCount < 5 {
+                                app.playLevelUp()
+                                wepCount += 1
+                                bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
+                            }
+                            UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
+                        }
+                    case .stomahawk:
+                        coins -= 150
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
+                            let currentType = WeaponType(rawValue: type) {
+                            if WeaponType.Tomahawk != currentType {
+                                wepCount = 1
+                                app.playNewWeapon()
+                                bar.texture = SKTexture(imageNamed: "bar")
+                                selectedWeapon.texture = Textures.tomahawktexture
+                                UserDefaults.standard.setValue(WeaponType.Tomahawk.rawValue, forKey: "weaponType")
+                            } else if wepCount < 5 {
+                                app.playLevelUp()
+                                wepCount += 1
+                                bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
+                            }
+                            UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
+                        }
+                    case .ssentinel:
+                        app.playNewWeapon()
+                        coins -= 150
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        sentinelDur = 30
+                        sentinelLabel.text = "\(sentinelDur)"
+                        UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
+                    case .sbomb:
+                        app.playNewWeapon()
+                        coins -= 150
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        megaBombCount += 1
+                        bombCountLabel.text = "\(megaBombCount)"
+                        UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
+                    case .sshield:
+                        app.playNewWeapon()
+                    case .slife:
+                        app.playLife()
+                        coins -= 200
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
+                        lives += 1
+                        lifeLabel.text = "\(lives)"
+                        UserDefaults.standard.setValue(lives, forKey: "lives")
+                    case .scoin1:
+                        app.playCoins()
+                    case .scoin2:
+                        app.playCoins()
+                    case .scoin3:
+                        app.playCoins()
+                    default:
+                        break
+                }
             } else {
                 buy.fontColor = UIColor.systemBlue
                 selectedItem = nil
             }
         }
     }
-    
-    override func update(_ currentTime: TimeInterval) {
-        
-    }
-    
 }
