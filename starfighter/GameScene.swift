@@ -1565,11 +1565,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if wepCount < 3 {
                 node.size = CGSize(width: 60, height: 60)
             } else if wepCount < 5 {
-                node.size = CGSize(width: 75, height: 75)
+                node.size = CGSize(width: 65, height: 65)
                 node.colorBlendFactor = 0.6
                 node.color = UIColor.purple
             } else {
-                node.size = CGSize(width: 90, height: 90)
+                node.size = CGSize(width: 70, height: 70)
                 node.colorBlendFactor = 0.6
                 node.color = UIColor.red
             }
@@ -1600,11 +1600,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if wepCount < 3 {
                 nextNode.size = CGSize(width: 60, height: 60)
             } else if wepCount < 5 {
-                nextNode.size = CGSize(width: 75, height: 75)
+                nextNode.size = CGSize(width: 65, height: 65)
                 nextNode.colorBlendFactor = 0.6
                 nextNode.color = UIColor.purple
             } else {
-                nextNode.size = CGSize(width: 90, height: 90)
+                nextNode.size = CGSize(width: 70, height: 70)
                 nextNode.colorBlendFactor = 0.6
                 nextNode.color = UIColor.red
             }
