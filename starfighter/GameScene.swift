@@ -48,6 +48,7 @@ struct CollisionBitMask {
     static let bossFireCategory:UInt32 = 0x1 << 6
     static let lifeCategory:UInt32 = 0x1 << 7
     static let coinCategory:UInt32 = 0x1 << 8
+    static let shieldCategory:UInt32 = 0x1 << 9
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -227,6 +228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coinIcon: SKSpriteNode!
     var coinlabel = SKLabelNode()
 
+    var playerShield: SKShapeNode?
     var megaBomb: SKSpriteNode!
     var shipExhaust: SKSpriteNode!
     var enemyExhaust: SKSpriteNode!
@@ -3360,25 +3362,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func destroyPlayer() {
-        guard let app = UIApplication.shared.delegate as? AppDelegate,
-            shield == 0 else {
-                // TODO: make different noise when shield is hit and fix issue where shield isnt
-                // taking anymore hits after the first.. e.g. this code isn't read again
-                shield -= 20
-                shieldLabel.text = "\(shield)%"
-                UserDefaults.standard.setValue(shield, forKey: "shield")
-                
-                return
-        }
+        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        if lives == 1 {
-            app.playBossPlayerDeathSound()
-            let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
-            self.ship.run(explosion, completion: {
-                self.lives -= 1
-            })
+        if shield >= 20 {
+            // TODO: make different noise when shield is hit and fix issue where shield isnt
+            // taking anymore hits after the first.. e.g. this code isn't read again
+            app.playHit()
+            blinkPurple()
+            shield -= 20
+            shieldLabel.text = "\(shield)%"
+            UserDefaults.standard.setValue(shield, forKey: "shield")
+            if shield == 0,
+                let _ = playerShield {
+                playerShield?.physicsBody = nil
+                playerShield?.removeFromParent()
+                playerShield = nil
+            }
         } else {
-            self.deductPlayerLife()
+            if lives == 1 {
+                app.playBossPlayerDeathSound()
+                let explosion = SKAction.animate(with: self.expArray, timePerFrame: 0.1)
+                self.ship.run(explosion, completion: {
+                    self.lives -= 1
+                })
+            } else {
+                self.deductPlayerLife()
+            }
         }
     }
     
@@ -3391,12 +3400,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shield.zPosition = ship.zPosition - 1
             shield.name = "shipshield"
             shield.position = ship.position
+            shield.physicsBody = SKPhysicsBody(circleOfRadius: 70)
+            shield.physicsBody?.linearDamping = 0
+            shield.physicsBody?.restitution = 0
+            shield.physicsBody?.categoryBitMask = CollisionBitMask.shieldCategory
+            shield.physicsBody?.collisionBitMask = CollisionBitMask.enemyFireCategory | CollisionBitMask.enemyCategory | CollisionBitMask.bossCategory | CollisionBitMask.bossFireCategory
+            shield.physicsBody?.contactTestBitMask = CollisionBitMask.enemyFireCategory | CollisionBitMask.enemyCategory | CollisionBitMask.bossCategory | CollisionBitMask.bossFireCategory
+            shield.physicsBody?.affectedByGravity = false
+            shield.physicsBody?.isDynamic = true
+            shield.physicsBody?.allowsRotation = false
             
             let fOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
             let fIn = SKAction.fadeAlpha(to: 0.4, duration: 0.5)
             let actions = SKAction.sequence([fOut, fIn])
             shield.run(SKAction.repeatForever(actions))
             addChild(shield)
+            
+            playerShield = shield
+        }
+    }
+    
+    func blinkPurple() {
+        if let ship = self.ship {
+            ship.color = UIColor.purple
+            ship.colorBlendFactor = 1
+            ship.run(fadeOut) {
+                ship.colorBlendFactor = 0.1
+                ship.run(self.fadeIn, completion: {
+                    ship.colorBlendFactor = 1
+                    ship.run(self.fadeOut, completion: {
+                        ship.colorBlendFactor = 0.1
+                        ship.run(self.fadeIn, completion: {
+                            ship.colorBlendFactor = 0
+                            self.playerHit = false
+                        })
+                    })
+                })
+            }
         }
     }
 
@@ -3748,6 +3788,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondBody.categoryBitMask == CollisionBitMask.lifeCategory
         let isCoin = firstBody.categoryBitMask == CollisionBitMask.coinCategory ||
             secondBody.categoryBitMask == CollisionBitMask.coinCategory
+        let isShield = firstBody.categoryBitMask == CollisionBitMask.shieldCategory ||
+            secondBody.categoryBitMask == CollisionBitMask.shieldCategory
         
         if isShip && isCoin,
             let coin = getNodeForCollision(first: firstBody, second: secondBody, name: "coin") {
@@ -3768,7 +3810,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(lives, forKey: "lives")
         }
         
-        if isShip && isBossFire,
+        if isShip && isBossFire || isShield && isBossFire,
             let bossFire = getNodeForCollision(first: firstBody, second: secondBody, name: "bossfire") {
             bossFire.removeFromParent()
             if playerHit == false {
@@ -3786,7 +3828,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             destroyBoss(boss)
         }
         
-        if isBoss && isShip {
+        if isBoss && isShip || isBoss && isShield {
             if playerHit == false {
                 playerHit = true
                 destroyPlayer()
@@ -3799,7 +3841,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             setWeapon(weapon)
         }
         
-        if isShip && isEnemyFire,
+        if isShip && isEnemyFire || isShield && isEnemyFire,
             let enemyfire = getNodeForCollision(first: firstBody, second: secondBody, name: "enemyfire") {
             enemyfire.removeFromParent()
             if playerHit == false {
@@ -3817,7 +3859,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playKill()
         }
         
-        if isEnemy && isShip {
+        if isEnemy && isShip || isEnemy && isShield {
             if playerHit == false {
                 playerHit = true
                 destroyPlayer()
