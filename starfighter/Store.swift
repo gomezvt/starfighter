@@ -214,7 +214,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
                 switch storeItem {
                     case .sgun:
                         if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue, // ********* BUY GUN *********
-                            let currentType = WeaponType(rawValue: type) {
+                            let currentType = WeaponType(rawValue: type),
+                            coins >= 50 {
                             if WeaponType.Gun != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
@@ -235,7 +236,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         }
                     case .sfireball:
                         if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue, // ********* BUY FIREBALL *********
-                            let currentType = WeaponType(rawValue: type) {
+                            let currentType = WeaponType(rawValue: type),
+                            coins >= 50 {
                             if WeaponType.Fireball != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
@@ -255,7 +257,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         }
                     case .slightning:
                         if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue, // ********* BUY LIGHTNING *********
-                            let currentType = WeaponType(rawValue: type) {
+                            let currentType = WeaponType(rawValue: type),
+                            coins >= 100 {
                             if WeaponType.Lightning != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
@@ -275,7 +278,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         }
                     case .sspread:
                         if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue, // ********* BUY SPREAD *********
-                            let currentType = WeaponType(rawValue: type) {
+                            let currentType = WeaponType(rawValue: type),
+                            coins >= 100 {
                             if WeaponType.Spread != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
@@ -295,7 +299,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         }
                     case .stomahawk:
                         if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue, // ********* BUY MISSILES *********
-                            let currentType = WeaponType(rawValue: type) {
+                            let currentType = WeaponType(rawValue: type),
+                            coins >= 150 {
                             if WeaponType.Tomahawk != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
@@ -314,7 +319,9 @@ class Store: SKScene, SKPhysicsContactDelegate {
                             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
                         }
                     case .ssentinel:
-                        guard var sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int, sentinelDur < 30 else { return }
+                        guard var sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
+                            sentinelDur < 30,
+                            coins >= 150 else { return }
                         
                         app.playNewWeapon()
                         coins -= 150
@@ -324,6 +331,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         sentinelLabel.text = "\(sentinelDur)"
                         UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur") // ********* BUY SENTINEL *********
                     case .sbomb:
+                        guard coins >= 150 else { return }
+                        
                         app.playNewWeapon()
                         coins -= 150
                         coinlabel.text = "\(coins)"
@@ -333,7 +342,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         UserDefaults.standard.setValue(megaBombCount, forKey: "bombs") // ********* BUY MEGABOMB *********
                     case .sshield:
                         var shield = UserDefaults.standard.object(forKey: "shield") as? Int ?? 0
-                        if shield < 100 {
+                        if shield < 100, coins >= 150 {
                             app.playNewWeapon()
                             coins -= 150
                             coinlabel.text = "\(coins)"
@@ -343,6 +352,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
                             UserDefaults.standard.setValue(shield, forKey: "shield") // ********* BUY SHIELD *********
                         }
                     case .slife:
+                        guard coins >= 200 else { return }
+                        
                         app.playLife()
                         coins -= 200
                         coinlabel.text = "\(coins)"
