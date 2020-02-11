@@ -895,6 +895,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = UserDefaults.standard.object(forKey: "shield") as? Int {
             self.shield = shield
             shieldLabel.text = "\(shield)%"
+            if shield > 0 {
+                activateShield()
+            }
         }
         
         if weaponType == .Gun {
@@ -934,9 +937,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.level = level
         }
 
-        coins = 100000
-        minute = 0
-        seconds = 00
+//        coins = 100000
+//        minute = 0
+//        seconds = 00
         setBG()
         isRequestingReview = false
         
@@ -3025,6 +3028,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if shield > 0,
+            let ship = self.ship,
+            let copy = children.filter({ $0.name == "shipshield" }) as [SKNode]?,
+            copy.count > 0 {
+            copy[0].position = ship.position
+        }
+        
         if boss != nil || isAsteroidBoss {
             let fadeOut = SKAction.fadeAlpha(to: 0.5, duration: 4)
             for sprite in children {
@@ -3350,7 +3360,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func destroyPlayer() {
-        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
+        guard let app = UIApplication.shared.delegate as? AppDelegate,
+            shield == 0 else {
+                // TODO: make different noise when shield is hit and fix issue where shield isnt
+                // taking anymore hits after the first.. e.g. this code isn't read again
+                shield -= 20
+                shieldLabel.text = "\(shield)%"
+                UserDefaults.standard.setValue(shield, forKey: "shield")
+                
+                return
+        }
         
         if lives == 1 {
             app.playBossPlayerDeathSound()
@@ -3363,6 +3382,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func activateShield() {
+        // TODO: make oscillating noise when shield is active?
+        if let ship = self.ship {
+            let shield = SKShapeNode(circleOfRadius: 70 ) // Size of Circle
+            shield.fillColor = UIColor.purple
+            shield.alpha = 0.4
+            shield.zPosition = ship.zPosition - 1
+            shield.name = "shipshield"
+            shield.position = ship.position
+            
+            let fOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+            let fIn = SKAction.fadeAlpha(to: 0.4, duration: 0.5)
+            let actions = SKAction.sequence([fOut, fIn])
+            shield.run(SKAction.repeatForever(actions))
+            addChild(shield)
+        }
+    }
+
     func blinkRed(sprite: SKSpriteNode) {
         sprite.color = UIColor.red
         sprite.colorBlendFactor = 1
