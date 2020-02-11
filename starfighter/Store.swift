@@ -81,7 +81,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
         shieldLabel = self.childNode(withName: "//shieldLabel") as! SKLabelNode
         bombCountLabel = self.childNode(withName: "//bombLabel") as! SKLabelNode
         lifeLabel = self.childNode(withName: "//lifeLabel") as! SKLabelNode
-        selectedWeapon = self.childNode(withName: "//weapon") as? SKSpriteNode
+        selectedWeapon = self.childNode(withName: "//sweapon") as? SKSpriteNode
         coinlabel = self.childNode(withName: "//coinlabel") as! SKLabelNode
         sentinelLabel = self.childNode(withName: "//sentinelLabel") as! SKLabelNode
         bar = self.childNode(withName: "//bar") as? SKSpriteNode
