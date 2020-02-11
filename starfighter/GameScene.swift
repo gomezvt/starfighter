@@ -3365,8 +3365,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
         
         if shield >= 20 {
-            // TODO: make different noise when shield is hit and fix issue where shield isnt
-            // taking anymore hits after the first.. e.g. this code isn't read again
             app.playHit()
             blinkPurple()
             shield -= 20
@@ -3392,11 +3390,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func activateShield() {
-        // TODO: make oscillating noise when shield is active?
         if let ship = self.ship {
             let shield = SKShapeNode(circleOfRadius: 70 ) // Size of Circle
-            shield.fillColor = UIColor.purple
-            shield.alpha = 0.4
+            shield.fillColor = UIColor.systemPurple
+            shield.alpha = 0.2
             shield.zPosition = ship.zPosition - 1
             shield.name = "shipshield"
             shield.position = ship.position
@@ -3410,8 +3407,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shield.physicsBody?.isDynamic = true
             shield.physicsBody?.allowsRotation = false
             
-            let fOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
-            let fIn = SKAction.fadeAlpha(to: 0.4, duration: 0.5)
+            let fOut = SKAction.fadeAlpha(to: 0.1, duration: 0.5)
+            let fIn = SKAction.fadeAlpha(to: 0.2, duration: 0.5)
             let actions = SKAction.sequence([fOut, fIn])
             shield.run(SKAction.repeatForever(actions))
             addChild(shield)
