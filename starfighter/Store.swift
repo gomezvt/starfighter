@@ -35,6 +35,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
     var exit = SKLabelNode()
     var buy = SKLabelNode()
     
+    var shield = Int(0)
     var lives = Int(0)
     var megaBombCount = Int(0)
     var coins = Int(0)
@@ -45,6 +46,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
     var selectedWeapon: SKSpriteNode!
     var coinlabel = SKLabelNode()
     var sentinelLabel = SKLabelNode()
+    var shieldLabel = SKLabelNode()
     var bar: SKSpriteNode!
     var barTexture: SKTexture!
     var sgun: SKSpriteNode!
@@ -76,6 +78,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
         exit = self.childNode(withName: "//exit") as! SKLabelNode
         buy = self.childNode(withName: "//buy") as! SKLabelNode
         
+        shieldLabel = self.childNode(withName: "//shieldLabel") as! SKLabelNode
         bombCountLabel = self.childNode(withName: "//bombLabel") as! SKLabelNode
         lifeLabel = self.childNode(withName: "//lifeLabel") as! SKLabelNode
         selectedWeapon = self.childNode(withName: "//weapon") as? SKSpriteNode
@@ -114,6 +117,11 @@ class Store: SKScene, SKPhysicsContactDelegate {
         if let lives = UserDefaults.standard.object(forKey: "lives") as? Int {
             self.lives = lives
             lifeLabel.text = "\(lives)"
+        }
+        
+        if let shield = UserDefaults.standard.object(forKey: "shield") as? Int {
+            self.shield = shield
+            shieldLabel.text = "\(shield)%"
         }
         
         if let wepCount = UserDefaults.standard.object(forKey: "weaponCount") as? Int {
@@ -324,7 +332,16 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         bombCountLabel.text = "\(megaBombCount)"
                         UserDefaults.standard.setValue(megaBombCount, forKey: "bombs") // ********* BUY MEGABOMB *********
                     case .sshield:
-                        app.playNewWeapon() // ********* BUY SHIELD *********
+                        var shield = UserDefaults.standard.object(forKey: "shield") as? Int ?? 0
+                        if shield < 100 {
+                            app.playNewWeapon()
+                            coins -= 150
+                            coinlabel.text = "\(coins)"
+                            UserDefaults.standard.setValue(coins, forKey: "coins")
+                            shield = 100
+                            shieldLabel.text = "\(shield)%"
+                            UserDefaults.standard.setValue(shield, forKey: "shield") // ********* BUY SHIELD *********
+                        }
                     case .slife:
                         app.playLife()
                         coins -= 200

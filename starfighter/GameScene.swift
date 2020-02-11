@@ -181,6 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var sentinelDur = Int(0)
     var bossShot = Int(0)
     var lightningCount = Int(0)
+    var shield = Int(0)
     var lives = Int(3)
     var score = Int(0)
     var level = Int(1)
@@ -222,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var livesXLabel = SKLabelNode()
     var lifeLabel = SKLabelNode()
     var sentinelLabel = SKLabelNode()
-    
+    var shieldLabel = SKLabelNode()
     var coinIcon: SKSpriteNode!
     var coinlabel = SKLabelNode()
 
@@ -303,6 +304,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bar = self.childNode(withName: "//bar") as? SKSpriteNode
         headerView = self.childNode(withName: "//headerView") as? SKSpriteNode
         lifeLabel = self.childNode(withName: "//lifeLabel") as! SKLabelNode
+        shieldLabel = self.childNode(withName: "//shieldLabel") as! SKLabelNode
         levelLabel = self.childNode(withName: "//levelLabel") as! SKLabelNode
         scoreLabel = self.childNode(withName: "//scoreLabel") as! SKLabelNode
         timeLabel = self.childNode(withName: "//timeLabel") as! SKLabelNode
@@ -888,6 +890,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
             let wep = WeaponType(rawValue: type) {
             weaponType = wep
+        }
+        
+        if let shield = UserDefaults.standard.object(forKey: "shield") as? Int {
+            self.shield = shield
+            shieldLabel.text = "\(shield)%"
         }
         
         if weaponType == .Gun {
