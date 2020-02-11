@@ -3380,7 +3380,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level += 1
         UserDefaults.standard.setValue(self.level, forKey: "level")
         if let store = SKScene(fileNamed: "Store") as? Store,
-            let view = self.view {
+            let view = self.view,
+            let app = UIApplication.shared.delegate as? AppDelegate {
+            app.playIntro()
+            store.gameStarted = true
             store.scaleMode = .aspectFit
             let transition = SKTransition.fade(withDuration: 1.5)
             view.presentScene(store, transition: transition)

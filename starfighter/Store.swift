@@ -29,6 +29,7 @@ enum Item: String {
 }
 
 class Store: SKScene, SKPhysicsContactDelegate {
+    var gameStarted = Bool(false)
     var storeItem: Item = .none
     var currentType: WeaponType = .Gun
     var exit = SKLabelNode()
@@ -94,10 +95,6 @@ class Store: SKScene, SKPhysicsContactDelegate {
         scoin1 = self.childNode(withName: "//scoin1") as? SKSpriteNode
         scoin2 = self.childNode(withName: "//scoin2") as? SKSpriteNode
         scoin3 = self.childNode(withName: "//scoin3") as? SKSpriteNode
-        
-        if let app = UIApplication.shared.delegate as? AppDelegate {
-            app.playIntro()
-        }
         
         if let sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int {
             self.sentinelDur = sentinelDur
@@ -169,8 +166,16 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     let window = v.window,
                     let root = window.rootViewController,
                     root.isKind(of: GameViewController.self),
+                    gameStarted == true,
                     let gameVC = root as? GameViewController {
                     gameVC.presentAd()
+                } else if let view = self.view as SKView?,
+                    let menuScene = SKScene(fileNamed: "MenuScene") {
+                        app.playMenuItemSound()
+                        let transition = SKTransition.fade(withDuration: 1.5)
+                        menuScene.scaleMode = .aspectFit
+                        view.ignoresSiblingOrder = true
+                        view.presentScene(menuScene, transition: transition)
                 }
             } else if touchedNode == sgun ||
                 touchedNode == sfireball ||

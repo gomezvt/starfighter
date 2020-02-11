@@ -19,6 +19,8 @@ class MenuScene: SKScene {
     var newGameLabel : SKLabelNode?
     var optionsLabel : SKLabelNode?
     var aboutLabel : SKLabelNode?
+    var storeLabel : SKLabelNode?
+
     var clearUserDefaults: Bool = false
     var shipExhaustArray = Array<SKTexture>()
     let shipAtlas = SKTextureAtlas(named:"shipexhaust")
@@ -45,7 +47,8 @@ class MenuScene: SKScene {
         newGameLabel = self.childNode(withName: "//newGameLabel") as? SKLabelNode
         optionsLabel = self.childNode(withName: "//optionsLabel") as? SKLabelNode
         aboutLabel = self.childNode(withName: "//aboutLabel") as? SKLabelNode
-        
+        storeLabel = self.childNode(withName: "//storeLabel") as? SKLabelNode
+        storeLabel?.text = NSLocalizedString("Store", comment: "")
         aboutLabel?.text = NSLocalizedString("About", comment: "")
         optionsLabel?.text = NSLocalizedString("Options", comment: "")
         
@@ -204,7 +207,13 @@ class MenuScene: SKScene {
                         gameScene.scaleMode = .aspectFit
                         view.presentScene(gameScene, transition: transition)
                     }
-                } else if touchedNode == optionsLabel,
+                } else if touchedNode == storeLabel,
+                    let storeScene = SKScene(fileNamed: "Store"),
+                    let app = UIApplication.shared.delegate as? AppDelegate {
+                    app.playMenuItemSound()
+                    storeScene.scaleMode = .aspectFit
+                    view.presentScene(storeScene, transition: transition)
+                }  else if touchedNode == optionsLabel,
                     let optionsScene = SKScene(fileNamed: "OptionsScene"),
                     let app = UIApplication.shared.delegate as? AppDelegate {
                     app.playMenuItemSound()
