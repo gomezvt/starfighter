@@ -938,7 +938,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.level = level
         }
-
+        
+        if let shield = self.playerShield {
+            shield.physicsBody?.isDynamic = true
+        }
+        
         setBG()
         isRequestingReview = false
         
@@ -3475,6 +3479,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ship.physicsBody = nil
         let one = SKAction.moveTo(x: self.bossStaticLifeLabel.frame.minX, duration: 4)
         let two = SKAction.moveTo(x: self.frame.maxX + 200, duration: 2)
+        if let shield = self.playerShield {
+            shield.physicsBody?.isDynamic = false
+        }
         self.ship.run(one) {
             app.playMissileSound()
             self.ship.run(two)
