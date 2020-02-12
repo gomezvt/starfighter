@@ -362,7 +362,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         var shield = UserDefaults.standard.object(forKey: "shield") as? Int ?? 0
                         if shield < 100, coins >= 600 {
                             app.playNewWeapon()
-                            coins -= 150
+                            coins -= 600
                             coinlabel.text = "\(coins)"
                             UserDefaults.standard.setValue(coins, forKey: "coins")
                             shield = 100
