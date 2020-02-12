@@ -360,7 +360,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         UserDefaults.standard.setValue(megaBombCount, forKey: "bombs") // ********* BUY MEGABOMB *********
                     case .sshield:
                         var shield = UserDefaults.standard.object(forKey: "shield") as? Int ?? 0
-                        if shield < 100, coins >= 150 {
+                        if shield < 100, coins >= 600 {
                             app.playNewWeapon()
                             coins -= 150
                             coinlabel.text = "\(coins)"
@@ -386,10 +386,19 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         lifeLabel.text = "\(lives)"
                         UserDefaults.standard.setValue(lives, forKey: "lives")
                     case .scoin1:
+                        coins += 100
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
                         app.playCoins() // ********* BUY COIN1 *********
                     case .scoin2:
+                        coins += 300
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
                         app.playCoins() // ********* BUY COIN2 *********
                     case .scoin3:
+                        coins += 500
+                        coinlabel.text = "\(coins)"
+                        UserDefaults.standard.setValue(coins, forKey: "coins")
                         app.playCoins() // ********* BUY COIN3 *********
                     default:
                         break

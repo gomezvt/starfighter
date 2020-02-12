@@ -939,9 +939,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.level = level
         }
 
-//        coins = 100000
-//        minute = 0
-//        seconds = 00
         setBG()
         isRequestingReview = false
         
