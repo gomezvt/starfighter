@@ -388,18 +388,18 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     case .scoin1:
                         coins += 100
                         coinlabel.text = "\(coins)"
-                        UserDefaults.standard.setValue(coins, forKey: "coins")
-                        app.playCoins() // ********* BUY COIN1 *********
+                        UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 100 COINS *********
+                        app.playCoins()
                     case .scoin2:
                         coins += 300
                         coinlabel.text = "\(coins)"
-                        UserDefaults.standard.setValue(coins, forKey: "coins")
-                        app.playCoins() // ********* BUY COIN2 *********
+                        UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 300 COINS *********
+                        app.playCoins()
                     case .scoin3:
                         coins += 500
                         coinlabel.text = "\(coins)"
-                        UserDefaults.standard.setValue(coins, forKey: "coins")
-                        app.playCoins() // ********* BUY COIN3 *********
+                        UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 500 COINS *********
+                        app.playCoins()
                     default:
                         break
                 }
