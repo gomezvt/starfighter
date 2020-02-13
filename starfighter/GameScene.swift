@@ -945,7 +945,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
-  
+//        level = 3
+//        minute = 0
+//        seconds = 00
         setBG()
         isRequestingReview = false
         
