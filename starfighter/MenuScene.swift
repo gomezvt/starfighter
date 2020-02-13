@@ -52,8 +52,8 @@ class MenuScene: SKScene {
         aboutLabel?.text = NSLocalizedString("About", comment: "")
         optionsLabel?.text = NSLocalizedString("Options", comment: "")
         
-        if let lives = UserDefaults.standard.object(forKey: "lives") as? Int,
-            lives > 0 {
+        if let willContinue = UserDefaults.standard.object(forKey: "willContinue") as? Bool,
+            willContinue == true {
             newGameLabel?.text = NSLocalizedString("Continue", comment: "")
         } else {
             newGameLabel?.text = NSLocalizedString("Start", comment: "")

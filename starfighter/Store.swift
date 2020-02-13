@@ -36,7 +36,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
     var buy = SKLabelNode()
     
     var shield = Int(0)
-    var lives = Int(0)
+    var lives = Int(3)
     var megaBombCount = Int(0)
     var coins = Int(0)
     var sentinelDur = Int(0)

@@ -849,6 +849,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.isDynamic = false
         self.physicsBody?.affectedByGravity = false
         self.physicsWorld.contactDelegate = self
+        
+        UserDefaults.standard.setValue(true, forKey: "willContinue")
+        
         createShip()
         
         weaponType = .Gun
@@ -942,7 +945,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
-        
+  
         setBG()
         isRequestingReview = false
         
@@ -3155,6 +3158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.bombCountLabel.text = "\(megaBombCount)"
         self.sentinelLabel.text = "\(sentinelDur)"
         if lives <= 0 {
+            UserDefaults.standard.setValue(false, forKey: "willContinue")
             ship.physicsBody?.pinned = true
             ship.isHidden = true
             shipExhaust.isHidden = true
@@ -3256,14 +3260,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
-    func assessSavedGame() -> Bool? {
-        var isSaved = false
-            if let _ = UserDefaults.standard.object(forKey: "lives") as? Int {
-            isSaved = true
-        }
-        return isSaved
-    }
 
     func pauseGame() {
         guard let _ = physicsWorld as SKPhysicsWorld?,
@@ -3326,7 +3322,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     app.playMenuItemSound()
                     let transition = SKTransition.fade(withDuration: 1)
                     menuScene.scaleMode = .aspectFit
-                    menuScene.newGameLabel?.text = assessSavedGame() == true ? NSLocalizedString("Continue", comment: "") : NSLocalizedString("Start", comment: "")
+                    if let willContinue = UserDefaults.standard.object(forKey: "willContinue") as? Bool,
+                        willContinue == true {
+                        menuScene.newGameLabel?.text = NSLocalizedString("Continue", comment: "")
+                    } else {
+                        menuScene.newGameLabel?.text = NSLocalizedString("Start", comment: "")
+                    }
                     view.ignoresSiblingOrder = true
                     view.presentScene(menuScene, transition: transition)
                     app.level = 0
@@ -3393,7 +3394,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func activateShield() {
         if let ship = self.ship {
             let shield = SKShapeNode(circleOfRadius: 70 ) // Size of Circle
-            shield.fillColor = UIColor.systemPurple
+            shield.fillColor = UIColor.magenta
             shield.alpha = 0.2
             shield.zPosition = ship.zPosition - 1
             shield.name = "shipshield"
