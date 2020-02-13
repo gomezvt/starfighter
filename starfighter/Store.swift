@@ -228,7 +228,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
                                 coins -= 50
-                            } else {
+                            } else if wepCount == 5 {
                                 app.playFail()
                             }
                             coinlabel.text = "\(coins)"
@@ -259,7 +259,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                             coinlabel.text = "\(coins)"
                             UserDefaults.standard.setValue(coins, forKey: "coins")
                             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
-                        } else {
+                        } else if wepCount == 5 {
                             app.playFail()
                     }
                     case .slightning:
@@ -278,7 +278,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
                                 coins -= 100
-                            } else {
+                            } else if wepCount == 5 {
                                 app.playFail()
                             }
                             coinlabel.text = "\(coins)"
@@ -303,7 +303,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
                                 coins -= 100
-                            } else {
+                            } else if wepCount == 5 {
                                 app.playFail()
                             }
                             coinlabel.text = "\(coins)"
@@ -328,7 +328,7 @@ class Store: SKScene, SKPhysicsContactDelegate {
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
                                 coins -= 150
-                            } else {
+                            } else if wepCount == 5 {
                                 app.playFail()
                             }
                             coinlabel.text = "\(coins)"
@@ -338,21 +338,18 @@ class Store: SKScene, SKPhysicsContactDelegate {
                             app.playFail()
                     }
                     case .ssentinel:
-                        guard var sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
-                            sentinelDur < 30,
-                            coins >= 150 else {
-                                app.playFail()
-                                
-                                return
-                        }
-                        
-                        app.playNewWeapon()
-                        coins -= 150
-                        coinlabel.text = "\(coins)"
-                        UserDefaults.standard.setValue(coins, forKey: "coins")
-                        sentinelDur = 30
-                        sentinelLabel.text = "\(sentinelDur)"
-                        UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur") // ********* BUY SENTINEL *********
+                        var sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int ?? 0
+                        if sentinelDur < 30, coins >= 150 {
+                            app.playNewWeapon()
+                            coins -= 150
+                            coinlabel.text = "\(coins)"
+                            UserDefaults.standard.setValue(coins, forKey: "coins")
+                            sentinelDur = 30
+                            sentinelLabel.text = "\(sentinelDur)"
+                            UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur") // ********* BUY SENTINEL *********
+                        } else {
+                            app.playFail()
+                    }
                     case .sbomb:
                         guard coins >= 150 else {
                             app.playFail()
