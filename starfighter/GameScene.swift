@@ -3506,8 +3506,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 boss.run(self.fadeIn, completion: {
                     boss.run(self.fadeOut, completion: {
                         boss.run(self.fadeIn, completion: {
-                            self.score += 500
-                            self.setHiScore()
                             app.playBossPlayerDeathSound()
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(0.25)) {
                                 app.playBossPlayerDeathSound()
@@ -3522,50 +3520,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             boss.removeFromParent()
                             self.boss = nil
                             
-                            self.animateShipAfterLevel()
+                            self.score += 500
+                            self.giveCoins(enemy: boss)
+                            self.setHiScore()
                             
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
-                                if self.level != 10 {
-                                    self.navigateToStore()
-                                } else {
-                                    // END OF GAME!
-                                    self.stopActions()
-                                    self.bombCountLabel.isHidden = true
-                                    self.megaBomb.isHidden = true
-                                    self.ship.removeAllActions()
-                                    self.coinIcon.isHidden = true
-                                    self.coinlabel.isHidden = true
-                                    self.ship.isHidden = true
-                                    self.grayBar.isHidden = true
-                                    self.shipIcon.isHidden = true
-                                    self.shipIconExhaust.isHidden = true
-                                    self.pauseBtn.isHidden = true
-                                    self.livesXLabel.isHidden = true
-                                    self.congratsLabel.isHidden = false
-                                    self.congratsDetailsLabel.isHidden = false
-                                    self.endGameReturnMenuLabel.isHidden = false
-                                    self.bar.isHidden = true
-                                    self.selectedWeapon.isHidden = true
-                                    self.sentinelIcon?.isHidden = true
-                                    self.sentinelLabel.isHidden = true
-                                    self.sentinel?.isHidden = true
-                                    self.lifeLabel.isHidden = true
-                                    self.weaponPowerLabel.isHidden = true
-                                    self.timeLabel.isHidden = true
-                                    self.hiScoreLabel.isHidden = true
-                                    self.scoreLabel.isHidden = true
-                                    self.staticScoreLabel.isHidden = true
-                                    self.staticLevelLabel.isHidden = true
-                                    self.hiLabel.isHidden = true
-                                    self.levelLabel.isHidden = true
-                                    self.bg.alpha = 0.4
-                                    self.didBeatGame = true
-                                    self.bossLifeLabel.isHidden = true
-                                    self.bossStaticLifeLabel.isHidden = true
-                                    self.shipExhaust.isHidden = true
-                                    self.headerView.isHidden = true
-                                    app.playIntro()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
+                                self.animateShipAfterLevel()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
+                                    if self.level != 10 {
+                                        self.navigateToStore()
+                                    } else {
+                                        // END OF GAME!
+                                        self.stopActions()
+                                        self.bombCountLabel.isHidden = true
+                                        self.megaBomb.isHidden = true
+                                        self.ship.removeAllActions()
+                                        self.coinIcon.isHidden = true
+                                        self.coinlabel.isHidden = true
+                                        self.ship.isHidden = true
+                                        self.grayBar.isHidden = true
+                                        self.shipIcon.isHidden = true
+                                        self.shipIconExhaust.isHidden = true
+                                        self.pauseBtn.isHidden = true
+                                        self.livesXLabel.isHidden = true
+                                        self.congratsLabel.isHidden = false
+                                        self.congratsDetailsLabel.isHidden = false
+                                        self.endGameReturnMenuLabel.isHidden = false
+                                        self.bar.isHidden = true
+                                        self.selectedWeapon.isHidden = true
+                                        self.sentinelIcon?.isHidden = true
+                                        self.sentinelLabel.isHidden = true
+                                        self.sentinel?.isHidden = true
+                                        self.lifeLabel.isHidden = true
+                                        self.weaponPowerLabel.isHidden = true
+                                        self.timeLabel.isHidden = true
+                                        self.hiScoreLabel.isHidden = true
+                                        self.scoreLabel.isHidden = true
+                                        self.staticScoreLabel.isHidden = true
+                                        self.staticLevelLabel.isHidden = true
+                                        self.hiLabel.isHidden = true
+                                        self.levelLabel.isHidden = true
+                                        self.bg.alpha = 0.4
+                                        self.didBeatGame = true
+                                        self.bossLifeLabel.isHidden = true
+                                        self.bossStaticLifeLabel.isHidden = true
+                                        self.shipExhaust.isHidden = true
+                                        self.headerView.isHidden = true
+                                        app.playIntro()
+                                    }
                                 }
                             }
                         })
@@ -3575,9 +3577,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     func giveCoins(enemy: SKSpriteNode) {
-        let shouldGiveCoins = [true, false].randomElement()
+        let shouldGiveCoins = enemy.name == "enemy" ? [true, false].randomElement() : true
         if shouldGiveCoins == true {
-            let qty = [1,2,3,4,5]
+            let qty = [1,2,3,4,5,6,7,8,9,10]
             if let q = qty.randomElement() {
                 for i in 1...q {
                     let coin = SKSpriteNode(texture: SKTextureAtlas(named:"coins").textureNamed("1"))
@@ -3595,7 +3597,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if i == q {
                         coin.accessibilityLabel = "lastcoin"
                     }
-                    if let buffer = i == 1 ? 0 : i == 2 ? 50 : i == 3 ? 100 : i == 4 ? 150 : 200 {
+                    if let buffer = i == 1 ? 0 : i == 2 ? 50 : i == 3 ? 100 : i == 4 ? 150 : i == 5 ? 200 : i == 6 ? 250 : i == 7 ? 300 : i == 8 ? 350 : i == 9 ? 400 : 450 {
                         let v = CGFloat(buffer)
                         coin.position = CGPoint(x:enemy.position.x + v, y: enemy.position.y)
                         let animate = SKAction.animate(with: self.coinArray, timePerFrame: 0.1)
