@@ -253,13 +253,13 @@ class Store: SKScene, SKPhysicsContactDelegate {
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
                                 coins -= 50
-                            } else {
+                            } else if wepCount == 5 {
                                 app.playFail()
                             }
                             coinlabel.text = "\(coins)"
                             UserDefaults.standard.setValue(coins, forKey: "coins")
                             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
-                        } else if wepCount == 5 {
+                        } else {
                             app.playFail()
                     }
                     case .slightning:
