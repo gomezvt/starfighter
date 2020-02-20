@@ -12,6 +12,7 @@
 		6403D8E0220692A400BD27DF /* enemyExhaust3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8DF220692A400BD27DF /* enemyExhaust3.atlas */; };
 		6403D8E222069BD200BD27DF /* enemyExhaust4.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8E122069BD100BD27DF /* enemyExhaust4.atlas */; };
 		6403D8E422069CAF00BD27DF /* enemyExhaust5.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8E322069CAE00BD27DF /* enemyExhaust5.atlas */; };
+		640C9B3423FE128F0030532F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 640C9B3323FE128F0030532F /* StoreKit.framework */; };
 		641457C121E1B82900EE98DA /* enemyLightningDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641457BF21E1B82800EE98DA /* enemyLightningDown.atlas */; };
 		641457C221E1B82900EE98DA /* enemyLightningUp.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641457C021E1B82800EE98DA /* enemyLightningUp.atlas */; };
 		641D683E237CEC8F00E8C5EA /* brainBossAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641D683C237CEC8E00E8C5EA /* brainBossAttack.atlas */; };
@@ -92,6 +93,7 @@
 		6403D8DF220692A400BD27DF /* enemyExhaust3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust3.atlas; sourceTree = "<group>"; };
 		6403D8E122069BD100BD27DF /* enemyExhaust4.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust4.atlas; sourceTree = "<group>"; };
 		6403D8E322069CAE00BD27DF /* enemyExhaust5.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust5.atlas; sourceTree = "<group>"; };
+		640C9B3323FE128F0030532F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		641457BF21E1B82800EE98DA /* enemyLightningDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyLightningDown.atlas; sourceTree = "<group>"; };
 		641457C021E1B82800EE98DA /* enemyLightningUp.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyLightningUp.atlas; sourceTree = "<group>"; };
 		641D683C237CEC8E00E8C5EA /* brainBossAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = brainBossAttack.atlas; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				013FD39B82618B5280A82BC1 /* Pods_starfighter.framework in Frameworks */,
+				640C9B3423FE128F0030532F /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +213,7 @@
 		1198A9996CB19A6056A0A1E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				640C9B3323FE128F0030532F /* StoreKit.framework */,
 				A9E5B5EB182AB7AE9C60C3C3 /* Pods_starfighter.framework */,
 			);
 			name = Frameworks;
