@@ -58,10 +58,22 @@ class Store: SKScene, SKPhysicsContactDelegate {
     var sbomb: SKSpriteNode!
     var sshield: SKSpriteNode!
     var slife: SKSpriteNode!
-    var scoin1: SKSpriteNode!
-    var scoin2: SKSpriteNode!
-    var scoin3: SKSpriteNode!
+    var scoin1: SKSpriteNode?
+    var scoin2: SKSpriteNode?
+    var scoin3: SKSpriteNode?
     var selectedItem: SKNode!
+    
+    // Spanish scene only variables below:
+    
+    var sp100: SKLabelNode?
+    var sp200: SKLabelNode?
+    var sp300: SKLabelNode?
+    var coinPrice1: SKLabelNode?
+    var coinPrice2: SKLabelNode?
+    var coinPrice3: SKLabelNode?
+    var coinIcon1: SKSpriteNode?
+    var coinIcon2: SKSpriteNode?
+    var coinIcon3: SKSpriteNode?
     
     @objc func adWasDismissed(_ notification: Notification) {
         if let view = self.view,
@@ -77,7 +89,6 @@ class Store: SKScene, SKPhysicsContactDelegate {
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         exit = self.childNode(withName: "//exit") as! SKLabelNode
         buy = self.childNode(withName: "//buy") as! SKLabelNode
-        
         shieldLabel = self.childNode(withName: "//shieldLabel") as! SKLabelNode
         bombCountLabel = self.childNode(withName: "//bombLabel") as! SKLabelNode
         lifeLabel = self.childNode(withName: "//lifeLabel") as! SKLabelNode
@@ -85,7 +96,6 @@ class Store: SKScene, SKPhysicsContactDelegate {
         coinlabel = self.childNode(withName: "//coinlabel") as! SKLabelNode
         sentinelLabel = self.childNode(withName: "//sentinelLabel") as! SKLabelNode
         bar = self.childNode(withName: "//bar") as? SKSpriteNode
-        
         sgun = self.childNode(withName: "//sgun") as? SKSpriteNode
         sfireball = self.childNode(withName: "//sfireball") as? SKSpriteNode
         slightning = self.childNode(withName: "//slightning") as? SKSpriteNode
@@ -98,6 +108,17 @@ class Store: SKScene, SKPhysicsContactDelegate {
         scoin1 = self.childNode(withName: "//scoin1") as? SKSpriteNode
         scoin2 = self.childNode(withName: "//scoin2") as? SKSpriteNode
         scoin3 = self.childNode(withName: "//scoin3") as? SKSpriteNode
+        
+        // Spanish scene only variables below
+        sp100 = self.childNode(withName: "//sp100") as? SKLabelNode
+        sp200 = self.childNode(withName: "//sp200") as? SKLabelNode
+        sp300 = self.childNode(withName: "//sp300") as? SKLabelNode
+        coinPrice1 = self.childNode(withName: "//coinPrice1") as? SKLabelNode
+        coinPrice2 = self.childNode(withName: "//coinPrice2") as? SKLabelNode
+        coinPrice3 = self.childNode(withName: "//coinPrice3") as? SKLabelNode
+        coinIcon1 = self.childNode(withName: "//coinIcon1") as? SKSpriteNode
+        coinIcon2 = self.childNode(withName: "//coinIcon2") as? SKSpriteNode
+        coinIcon3 = self.childNode(withName: "//coinIcon3") as? SKSpriteNode
         
         if let sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int {
             self.sentinelDur = sentinelDur
@@ -133,6 +154,53 @@ class Store: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        let language = Bundle.main.preferredLocalizations.first
+        if language == "es" {
+            let locale = NSLocale.current
+            let regionCode = locale.regionCode
+            if regionCode == "MX" {
+                sp100?.text = "$19.00"
+                sp200?.text = "$39.00"
+                sp300?.text = "$59.00"
+            } else if regionCode == "ES" {
+                sp100?.text = "1,09 €"
+                sp200?.text = "2,29 €"
+                sp300?.text = "3,49 €"
+            } else if regionCode == "CO" {
+                sp100?.text = "$3.900,00"
+                sp200?.text = "$7.900,00"
+                sp300?.text = "$10.900,00"
+            } else if regionCode == "PR" {
+                sp100?.text = "$0.99"
+                sp200?.text = "$1.99"
+                sp300?.text = "$2.99"
+            } else if regionCode == "AR" {
+                sp100?.text = "$0.99"
+                sp200?.text = "$1.99"
+                sp300?.text = "$2.99"
+            } else if regionCode == "PE" {
+                sp100?.text = "S/ 3.50"
+                sp200?.text = "S/ 6.90"
+                sp300?.text = "S/ 9.90"
+            } else {
+                sp100?.isHidden = true
+                sp200?.isHidden = true
+                sp300?.isHidden = true
+                
+                scoin1?.isHidden = true
+                scoin2?.isHidden = true
+                scoin3?.isHidden = true
+                
+                coinIcon1?.isHidden = true
+                coinIcon2?.isHidden = true
+                coinIcon3?.isHidden = true
+                
+                coinPrice1?.isHidden = true
+                coinPrice2?.isHidden = true
+                coinPrice3?.isHidden = true
+            }
+        }
+        
         if let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue,
             let wep = WeaponType(rawValue: type) {
             if wep == .Gun {
@@ -162,9 +230,9 @@ class Store: SKScene, SKPhysicsContactDelegate {
             sbomb.alpha = 0.1
             sshield.alpha = 0.1
             slife.alpha = 0.1
-            scoin1.alpha = 0.1
-            scoin2.alpha = 0.1
-            scoin3.alpha = 0.1
+            scoin1?.alpha = 0.1
+            scoin2?.alpha = 0.1
+            scoin3?.alpha = 0.1
             exit.fontColor = UIColor.systemTeal
             
             let positionInScene = touch.location(in: self)
