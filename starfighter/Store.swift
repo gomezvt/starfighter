@@ -28,6 +28,12 @@ enum Item: String {
     case none
 }
 
+enum IAPProduct: String {
+    case consumable1 = "com.starfight.100coins"
+    case consumable2 = "com.starfight.300coins"
+    case consumable3 = "com.starfight.500coins"
+}
+
 class Store: SKScene, SKPhysicsContactDelegate {
     var gameStarted = Bool(false)
     var storeItem: Item = .none
@@ -85,6 +91,8 @@ class Store: SKScene, SKPhysicsContactDelegate {
     }
     
     override func sceneDidLoad() {
+        IAPHelper.shared.getProducts()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(adWasDismissed), name: NSNotification.Name(rawValue: "adWasDismissed"), object: nil)
         scene?.scaleMode = SKSceneScaleMode.aspectFit
         exit = self.childNode(withName: "//exit") as! SKLabelNode
@@ -120,6 +128,10 @@ class Store: SKScene, SKPhysicsContactDelegate {
         coinIcon2 = self.childNode(withName: "//coinIcon2") as? SKSpriteNode
         coinIcon3 = self.childNode(withName: "//coinIcon3") as? SKSpriteNode
         
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: coinlabel)
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(encodedData, forKey: "coinLabel")
+                
         if let sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int {
             self.sentinelDur = sentinelDur
             sentinelLabel.text = "\(sentinelDur)"
@@ -158,27 +170,27 @@ class Store: SKScene, SKPhysicsContactDelegate {
         if language == "es" {
             let locale = NSLocale.current
             let regionCode = locale.regionCode
-            if regionCode == "MX" {
+            if regionCode == "MX" || locale.identifier == "es-419_MX" {
                 sp100?.text = "$19.00"
                 sp200?.text = "$39.00"
                 sp300?.text = "$59.00"
-            } else if regionCode == "ES" {
+            } else if regionCode == "ES" || locale.identifier == "es_ES" {
                 sp100?.text = "1,09 €"
                 sp200?.text = "2,29 €"
                 sp300?.text = "3,49 €"
-            } else if regionCode == "CO" {
+            } else if regionCode == "CO" || locale.identifier == "es-419_CO" {
                 sp100?.text = "$3.900,00"
                 sp200?.text = "$7.900,00"
                 sp300?.text = "$10.900,00"
-            } else if regionCode == "PR" {
+            } else if regionCode == "PR" || locale.identifier == "es_PR" {
                 sp100?.text = "$0.99"
                 sp200?.text = "$1.99"
                 sp300?.text = "$2.99"
-            } else if regionCode == "AR" {
+            } else if regionCode == "AR" || locale.identifier == "es-419_AR" {
                 sp100?.text = "$0.99"
                 sp200?.text = "$1.99"
                 sp300?.text = "$2.99"
-            } else if regionCode == "PE" {
+            } else if regionCode == "PE" || locale.identifier == "es-419_PE" {
                 sp100?.text = "S/ 3.50"
                 sp200?.text = "S/ 6.90"
                 sp300?.text = "S/ 9.90"
@@ -460,20 +472,14 @@ class Store: SKScene, SKPhysicsContactDelegate {
                         lifeLabel.text = "\(lives)"
                         UserDefaults.standard.setValue(lives, forKey: "lives")
                     case .scoin1:
-                        coins += 100
-                        coinlabel.text = "\(coins)"
-                        UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 100 COINS *********
-                        app.playCoins()
+                        app.playMenuItemSound()
+                        IAPHelper.shared.purchase(product: .consumable1)
                     case .scoin2:
-                        coins += 300
-                        coinlabel.text = "\(coins)"
-                        UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 300 COINS *********
-                        app.playCoins()
+                        app.playMenuItemSound()
+                        IAPHelper.shared.purchase(product: .consumable2)
                     case .scoin3:
-                        coins += 500
-                        coinlabel.text = "\(coins)"
-                        UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 500 COINS *********
-                        app.playCoins()
+                        app.playMenuItemSound()
+                        IAPHelper.shared.purchase(product: .consumable3)
                     default:
                         break
                 }
@@ -482,5 +488,54 @@ class Store: SKScene, SKPhysicsContactDelegate {
                 selectedItem = nil
             }
         }
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if let coins = UserDefaults.standard.object(forKey: "coins") as? Int {
+            self.coins = coins
+            coinlabel.text = "\(coins)"
+        }
+    }
+}
+
+extension IAPHelper: SKProductsRequestDelegate {
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        self.products = response.products
+        for product in response.products {
+            print(product.localizedTitle)
+        }
+    }
+    
+    func handlePurchased(transaction: SKPaymentTransaction) {
+        guard let app = UIApplication.shared.delegate as? AppDelegate,
+            var coins = UserDefaults.standard.object(forKey: "coins") as? Int ?? 0 as Int? else { return }
+        
+        let identifier = transaction.payment.productIdentifier
+        let item = IAPProduct(rawValue: identifier)
+        switch item {
+            case .consumable1:
+                app.playCoins()
+                coins += 100
+                UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 100 COINS *********
+            case .consumable2:
+                app.playCoins()
+                coins += 300
+                UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 300 COINS *********
+            case .consumable3:
+                app.playCoins()
+                coins += 500
+                UserDefaults.standard.setValue(coins, forKey: "coins") // ********* BUY 500 COINS *********
+            default:
+                break
+        }
+    }
+    
+    func handleFailed(transaction: SKPaymentTransaction) {
+        
+    }
+    
+    func handleRestored(transaction: SKPaymentTransaction) {
+        print("restoring purchases")
+        paymentQueue.restoreCompletedTransactions()
     }
 }

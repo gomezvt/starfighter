@@ -11,41 +11,61 @@ import Foundation
 
 class IAPHelper: NSObject {
     
-    typealias ProductsRequestCompletionHandler = (_ products: [SKProduct]?) -> ()
-    
-    private let productIdentifiers: Set<String>
-    private var productsRequest: SKProductsRequest?
-    private var productsRequestCompletionHandler: ProductsRequestCompletionHandler?
-    
-    init(prodIds: Set<String>) {
-        productIdentifiers = prodIds
-        super.init()
-    }
-}
+    private override init() {}
+    static let shared = IAPHelper()
+    var products = [SKProduct]()
+    let paymentQueue = SKPaymentQueue.default()
 
-extension IAPHelper {
-    func requestProducts(completionHandler: @escaping ProductsRequestCompletionHandler) {
-        productsRequest?.cancel()
-        productsRequestCompletionHandler = completionHandler
+    func getProducts() {
+        let products: Set = [IAPProduct.consumable1.rawValue,
+                             IAPProduct.consumable2.rawValue,
+                             IAPProduct.consumable3.rawValue]
+        let request = SKProductsRequest(productIdentifiers: products)
+        request.delegate = self
+        request.start()
+        paymentQueue.add(self)
+    }
+    
+    func purchase(product: IAPProduct) {
+        guard let productToPurchase = products.filter({ $0.productIdentifier == product.rawValue }).first else { return }
         
-        productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
-        productsRequest?.delegate = self as SKProductsRequestDelegate
-        productsRequest?.start()
+        let payment = SKPayment(product: productToPurchase)
+        paymentQueue.add(payment)
     }
 }
 
-extension IAPHelper: SKProductsRequestDelegate {
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        productsRequestCompletionHandler?(response.products)
-        productsRequestCompletionHandler = .none
-        productsRequest = .none
+extension IAPHelper: SKPaymentTransactionObserver {
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions {
+            switch transaction.transactionState {
+                case .purchasing:
+                    break
+                case .deferred:
+                    break
+                case .purchased:
+                    handlePurchased(transaction: transaction)
+                    queue.finishTransaction(transaction)
+                case .failed:
+                    handleFailed(transaction: transaction)
+                case .restored:
+                    handleRestored(transaction: transaction)
+                default:
+                    queue.finishTransaction(transaction)
+            }
+        }
     }
-    
-    private func request(request: SKRequest, didFailWithError error: NSError) {
-        print("Error: \(error.localizedDescription)")
-        productsRequestCompletionHandler?(.none)
-        productsRequestCompletionHandler = .none
-        productsRequest = .none
+}
+
+extension SKPaymentTransactionState {
+    func status() -> String {
+        switch self {
+            case .deferred: return "deferred"
+            case .failed: return "failed"
+            case .purchased: return "purchased"
+            case .purchasing: return "purchasing"
+            case .restored: return "restored"
+            @unknown default:
+            return "unknown fail"
+        }
     }
-    
 }
