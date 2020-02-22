@@ -69,6 +69,9 @@ class Store: SKScene, SKPhysicsContactDelegate {
     var scoin3: SKSpriteNode?
     var selectedItem: SKNode!
     
+    var coinArray = Array<SKTexture>()
+    let coinAtlas = SKTextureAtlas(named:"coins")
+    
     // Spanish scene only variables below:
     
     var sp100: SKLabelNode?
@@ -127,6 +130,32 @@ class Store: SKScene, SKPhysicsContactDelegate {
         coinIcon1 = self.childNode(withName: "//coinIcon1") as? SKSpriteNode
         coinIcon2 = self.childNode(withName: "//coinIcon2") as? SKSpriteNode
         coinIcon3 = self.childNode(withName: "//coinIcon3") as? SKSpriteNode
+        
+        coinArray.append(coinAtlas.textureNamed("1"))
+        coinArray.append(coinAtlas.textureNamed("2"))
+        coinArray.append(coinAtlas.textureNamed("3"))
+        coinArray.append(coinAtlas.textureNamed("4"))
+        coinArray.append(coinAtlas.textureNamed("5"))
+        coinArray.append(coinAtlas.textureNamed("6"))
+        coinArray.append(coinAtlas.textureNamed("7"))
+        coinArray.append(coinAtlas.textureNamed("8"))
+        coinArray.append(coinAtlas.textureNamed("9"))
+        coinArray.append(coinAtlas.textureNamed("10"))
+        coinArray.append(coinAtlas.textureNamed("11"))
+        coinArray.append(coinAtlas.textureNamed("12"))
+        coinArray.append(coinAtlas.textureNamed("13"))
+        coinArray.append(coinAtlas.textureNamed("14"))
+        coinArray.append(coinAtlas.textureNamed("15"))
+        coinArray.append(coinAtlas.textureNamed("16"))
+        coinArray.append(coinAtlas.textureNamed("17"))
+        coinArray.append(coinAtlas.textureNamed("18"))
+        
+        if let _ = coinIcon1, let _ = coinIcon2, let _ = coinIcon3 {
+            let animate = SKAction.animate(with: self.coinArray, timePerFrame: 0.1)
+            coinIcon1?.run(SKAction.repeatForever(animate), withKey: "coinaction")
+            coinIcon2?.run(SKAction.repeatForever(animate), withKey: "coinaction")
+            coinIcon3?.run(SKAction.repeatForever(animate), withKey: "coinaction")
+        }
         
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: coinlabel)
         let userDefaults = UserDefaults.standard
