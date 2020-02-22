@@ -3395,7 +3395,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let ship = self.ship {
             let shield = SKShapeNode(circleOfRadius: 70 ) // Size of Circle
             shield.fillColor = UIColor.magenta
-            shield.alpha = 0.2
+            shield.alpha = 0.3
             shield.zPosition = ship.zPosition - 1
             shield.name = "shipshield"
             shield.position = ship.position
@@ -3410,7 +3410,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shield.physicsBody?.allowsRotation = false
             
             let fOut = SKAction.fadeAlpha(to: 0.1, duration: 0.5)
-            let fIn = SKAction.fadeAlpha(to: 0.2, duration: 0.5)
+            let fIn = SKAction.fadeAlpha(to: 0.3, duration: 0.5)
             let actions = SKAction.sequence([fOut, fIn])
             shield.run(SKAction.repeatForever(actions))
             addChild(shield)
