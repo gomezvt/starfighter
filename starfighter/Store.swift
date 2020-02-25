@@ -512,6 +512,9 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     default:
                         break
                 }
+            } else if touchedNode == buy,
+                selectedItem == nil {
+                app.playFail()
             } else {
                 buy.fontColor = UIColor.systemBlue
                 selectedItem = nil
