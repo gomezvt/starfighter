@@ -971,21 +971,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             
                                             self.shipPan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
                                             view.addGestureRecognizer(self.shipPan)
-                                            let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 3.0 : self.weaponType == .Tomahawk ? 4.5 : 3.5
-                                            var fireRate = Float(rate)
-                                            if self.wepCount == 2 {
-                                                fireRate -= 0.5
-                                            } else if self.wepCount == 3 {
-                                                fireRate -= 1.0
-                                            } else if self.wepCount == 4 {
-                                                fireRate -= 1.5
-                                            } else if self.wepCount == 5 {
-                                                fireRate -= 2.0
-                                            }
                                             
                                             let fireWeaponAction = SKAction.sequence([SKAction.run {
                                                 self.fireShipWeapon()
-                                                }, SKAction.wait(forDuration: TimeInterval(fireRate))])
+                                                }, SKAction.wait(forDuration: TimeInterval(1))])
                                             self.ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
                                             
                                             let wait1Second = SKAction.wait(forDuration: 1)
@@ -997,10 +986,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             self.run(SKAction.repeatForever(sequence), withKey: "timer")
                                             
                                             // Create a life
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 150) {
-                                                let createLifeAction = SKAction.sequence([SKAction.run(self.createLife), SKAction.wait(forDuration: 150)])
-                                                self.run(SKAction.repeatForever(createLifeAction), withKey: "createlife")
-                                            }
+//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 150) {
+//                                                let createLifeAction = SKAction.sequence([SKAction.run(self.createLife), SKAction.wait(forDuration: 150)])
+//                                                self.run(SKAction.repeatForever(createLifeAction), withKey: "createlife")
+//                                            }
                                             // Create a weapon
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
                                                 let createWeaponAction = SKAction.sequence([SKAction.run(self.createWeapon), SKAction.wait(forDuration: 30)])
@@ -3746,25 +3735,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
             bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
         }
-        
-        let rate = self.weaponType == .Gun || self.weaponType == .Fireball ? 3.0 : self.weaponType == .Tomahawk ? 4.5 : 3.5
-        var fireRate = Float(rate)
-        if self.wepCount == 2 {
-            fireRate -= 0.5
-        } else if self.wepCount == 3 {
-            fireRate -= 1.0
-        } else if self.wepCount == 4 {
-            fireRate -= 1.5
-        } else if self.wepCount == 5 {
-            fireRate -= 2.0
-        }
-        
+
         ship.removeAction(forKey: "playerFireAction")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(2)) {
             let fireWeaponAction = SKAction.sequence([SKAction.run {
                 self.fireShipWeapon()
-                }, SKAction.wait(forDuration: TimeInterval(fireRate))])
+                }, SKAction.wait(forDuration: TimeInterval(1))])
             self.ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
         }
     }
