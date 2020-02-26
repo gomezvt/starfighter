@@ -180,6 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var megaBombCount = Int(0)
     var coins = Int(0)
     var sentinelDur = Int(0)
+    var tomahawkDur = Int(0)
     var bossShot = Int(0)
     var lightningCount = Int(0)
     var shield = Int(0)
@@ -215,15 +216,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var staticScoreLabel = SKLabelNode()
     var staticHiScoreLabel = SKLabelNode()
     var unPauseLabel = SKLabelNode()
-    var timeLabel = SKLabelNode()
     var bossAlertLabel = SKLabelNode()
     var endGameReturnMenuLabel = SKLabelNode()
     var bossStaticLifeLabel = SKLabelNode()
     var bossLifeLabel = SKLabelNode()
-    var weaponPowerLabel = SKLabelNode()
     var livesXLabel = SKLabelNode()
     var lifeLabel = SKLabelNode()
     var sentinelLabel = SKLabelNode()
+    var tomahawkLabel = SKLabelNode()
+
     var shieldLabel = SKLabelNode()
     var coinIcon: SKSpriteNode!
     var coinlabel = SKLabelNode()
@@ -297,6 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bossLifeLabel.isHidden = true
         redBG = self.childNode(withName: "//redBG") as? SKSpriteNode
         sentinelLabel = self.childNode(withName: "//sentinelLabel") as! SKLabelNode
+        tomahawkLabel = self.childNode(withName: "//tomahawkLabel") as! SKLabelNode
         pausedLabel = self.childNode(withName: "//pausedLabel") as! SKLabelNode
         pausedLabelBG = self.childNode(withName: "//pausedLabelBG") as? SKSpriteNode
         returnToMenuLabel = self.childNode(withName: "//returnToMenuLabel") as! SKLabelNode
@@ -309,9 +311,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shieldLabel = self.childNode(withName: "//shieldLabel") as! SKLabelNode
         levelLabel = self.childNode(withName: "//levelLabel") as! SKLabelNode
         scoreLabel = self.childNode(withName: "//scoreLabel") as! SKLabelNode
-        timeLabel = self.childNode(withName: "//timeLabel") as! SKLabelNode
         bossAlertLabel = self.childNode(withName: "//bossAlertLabel") as! SKLabelNode
-        weaponPowerLabel = self.childNode(withName: "//weaponPowerLabel") as! SKLabelNode
         sentinelIcon = self.childNode(withName: "//sentinelIcon") as? SKSpriteNode
         livesXLabel = self.childNode(withName: "//livesXLabel") as! SKLabelNode
         grayBar = self.childNode(withName: "//grayBar") as? SKSpriteNode
@@ -331,13 +331,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid4texture))
         
-        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
         weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
         
         playerArray.append(playerAtlas.textureNamed("player"))
         playerUpArray.append(playerUpAtlas.textureNamed("playerup"))
@@ -856,6 +856,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         weaponType = .Gun
         
+        if let tomahawkDur = UserDefaults.standard.object(forKey: "tomahawkDur") as? Int,
+            tomahawkDur > 0 {
+            self.tomahawkDur = tomahawkDur
+            tomahawkLabel.text = "\(tomahawkDur)"
+            applyTomahawk()
+        }
+        
         if let sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
             sentinelDur > 0 {
             self.sentinelDur = sentinelDur
@@ -863,9 +870,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             applySentinel()
         }
         
+        // TODO: fix megabomb blinking and make sure to remove when value is 0
         if let bombs = UserDefaults.standard.object(forKey: "bombs") as? Int {
             megaBombCount = bombs
             bombCountLabel.text = "\(megaBombCount)"
+            if let _ = megaBomb, bombs > 0 {
+                addBlinkingShell(sprite: megaBomb)
+            }
         }
         
         if let coins = UserDefaults.standard.object(forKey: "coins") as? Int {
@@ -913,8 +924,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             selectedWeapon.texture = Textures.spreadtexture
         } else if weaponType == .Lightning {
             selectedWeapon.texture = Textures.lightningtexture
-        } else if weaponType == .Tomahawk {
-            selectedWeapon.texture = Textures.tomahawktexture
         }
         
         if let hiScore = UserDefaults.standard.value(forKey: "hiscore") as? Int {
@@ -981,7 +990,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             let incrementCounter = SKAction.run { [weak self] in
                                                 self?.timer()
                                             }
-                                            
+
                                             let sequence = SKAction.sequence([wait1Second, incrementCounter])
                                             self.run(SKAction.repeatForever(sequence), withKey: "timer")
                                             
@@ -1711,45 +1720,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func createLife() {
-        if let life = SKSpriteNode(texture: Textures.lifetexture) as SKSpriteNode? {
-            addBlinkingShell(sprite: life)
-            let width = UIScreen.main.bounds.width
-            
-            let bot = -UIScreen.main.bounds.height + 150
-            let top = UIScreen.main.bounds.height - 125
-            let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
-            life.position = CGPoint(x:width + 150, y: randomY)
-            life.size = CGSize(width: 50, height: 50)
-            life.zPosition = 3
-            life.name = "createdlife"
-            life.physicsBody = SKPhysicsBody(circleOfRadius: life.size.width)
-            life.physicsBody?.categoryBitMask = CollisionBitMask.lifeCategory
-            life.physicsBody?.collisionBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
-            life.physicsBody?.contactTestBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
-            life.physicsBody?.affectedByGravity = false
-            life.physicsBody?.isDynamic = false
-            life.physicsBody?.restitution = 0
-            life.physicsBody?.linearDamping = 1.1
-            self.addChild(life)
-            
-            let randomMoveDuration = TimeInterval(CGFloat(arc4random() % UInt32(10))) + 10
-            let rotateAction = SKAction.rotate(byAngle: 45, duration: randomMoveDuration * 2)
-            let moveAction = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
-            moveAction.timingMode = .linear
-            
-            let actions = SKAction.group([rotateAction, moveAction])
-            life.run(SKAction.repeatForever(actions))
-        }
-    }
+//    func createLife() {
+//        if let life = SKSpriteNode(texture: Textures.lifetexture) as SKSpriteNode? {
+//            addBlinkingShell(sprite: life)
+//            let width = UIScreen.main.bounds.width
+//
+//            let bot = -UIScreen.main.bounds.height + 150
+//            let top = UIScreen.main.bounds.height - 125
+//            let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
+//            life.position = CGPoint(x:width + 150, y: randomY)
+//            life.size = CGSize(width: 50, height: 50)
+//            life.zPosition = 3
+//            life.name = "createdlife"
+//            life.physicsBody = SKPhysicsBody(circleOfRadius: life.size.width)
+//            life.physicsBody?.categoryBitMask = CollisionBitMask.lifeCategory
+//            life.physicsBody?.collisionBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
+//            life.physicsBody?.contactTestBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
+//            life.physicsBody?.affectedByGravity = false
+//            life.physicsBody?.isDynamic = false
+//            life.physicsBody?.restitution = 0
+//            life.physicsBody?.linearDamping = 1.1
+//            self.addChild(life)
+//
+//            let randomMoveDuration = TimeInterval(CGFloat(arc4random() % UInt32(10))) + 10
+//            let rotateAction = SKAction.rotate(byAngle: 45, duration: randomMoveDuration * 2)
+//            let moveAction = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
+//            moveAction.timingMode = .linear
+//
+//            let actions = SKAction.group([rotateAction, moveAction])
+//            life.run(SKAction.repeatForever(actions))
+//        }
+//    }
     
     func addBlinkingShell(sprite: SKSpriteNode) {
         if let shell = SKSpriteNode(texture: Textures.shelltexture) as SKSpriteNode? {
-            shell.size = CGSize(width: 70, height: 70)
+            shell.size = CGSize(width: 60, height: 60)
             shell.position = sprite.position
             shell.zPosition = sprite.zPosition - 1
             sprite.addChild(shell)
-            
+
             let fOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
             let fIn = SKAction.fadeAlpha(to: 1.0, duration: 0.5)
             let actions = SKAction.sequence([fOut, fIn])
@@ -1839,7 +1848,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let linearAcross2 = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
         let linearAcross3 = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
         let linear1Action = SKAction.moveTo(x: sentinelIcon.position.x, duration: randomMoveDuration)
-        let linear2Action = SKAction.moveTo(x: weaponPowerLabel.position.x, duration: randomMoveDuration)
+        let linear2Action = SKAction.moveTo(x: selectedWeapon.position.x, duration: randomMoveDuration)
         let diagonalDownAction = SKAction.moveBy(x: bar.frame.minX, y: ship.position.y - 25, duration: 3)
         let diagonalUpAction = SKAction.moveBy(x: selectedWeapon.position.x, y: ship.position.y + 25, duration: 3)
         let seqDownUp = SKAction.sequence([linear1Action, diagonalDownAction, linear2Action, diagonalUpAction, linearAcross])
@@ -2489,7 +2498,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let animate = SKAction.animate(with: self.boss1Array, timePerFrame: 0.1)
                 boss.run(SKAction.repeatForever(animate), withKey: "bossanimate")
                 boss.size = CGSize(width: 256, height: 256)
-                boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
+                boss.position = CGPoint(x:levelLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.run( {self.fireEnemyAndBossWeapon(boss) } )]), count: 5)
             }
         } else if level == 2 {
@@ -2501,7 +2510,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 boss.run(SKAction.repeatForever(sequence), withKey: "bossanimate")
                 boss.size = CGSize(width: 256, height: 256)
-                boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
+                boss.position = CGPoint(x:levelLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.run( {self.fireEnemyAndBossWeapon(boss) } )]), count: 5)
                 enemyExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"enemyExhaust6").textureNamed("thrust_gunner"))
                 enemyExhaust.position = CGPoint(x: 150, y: 0)
@@ -2517,7 +2526,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let animate = SKAction.animate(with: self.enemy2Array, timePerFrame: 0.1)
                 boss.run(SKAction.repeatForever(animate), withKey: "bossanimate")
                 boss.size = CGSize(width: 140, height: 120)
-                boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
+                boss.position = CGPoint(x:levelLabel.position.x, y: randomY)
                 enemyExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"enemyExhaust2").textureNamed("thrust_green"))
                 enemyExhaust.position = CGPoint(x: 85, y: 0)
                 enemyExhaust.size = CGSize(width: 100, height: 80)
@@ -2545,7 +2554,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let animate = SKAction.animate(with: self.boss3Array, timePerFrame: 0.1)
                 boss.run(SKAction.repeatForever(animate), withKey: "bossanimate")
                 boss.size = CGSize(width: 120, height: 120)
-                boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
+                boss.position = CGPoint(x:levelLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.run( {self.setBoss5Fire(boss: boss) } )]), count: 5)
             }
         } else if level == 7 {
@@ -2554,7 +2563,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let animate = SKAction.animate(with: self.enemy6Array, timePerFrame: 0.1)
                 boss.run(SKAction.repeatForever(animate), withKey: "bossanimate")
                 boss.size = CGSize(width: 120, height: 120)
-                boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
+                boss.position = CGPoint(x:levelLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.run( {self.setBoss7Fire(boss: boss) } )]), count: 8)
                 
                 enemyExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"enemyExhaust6").textureNamed("thrust_gunner"))
@@ -2570,7 +2579,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let animate = SKAction.animate(with: self.enemy4Array, timePerFrame: 0.1)
                 boss.run(SKAction.repeatForever(animate), withKey: "bossanimate")
                 boss.size = CGSize(width: 120, height: 120)
-                boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
+                boss.position = CGPoint(x:levelLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.run( {self.setBoss8Fire(boss: boss) } )]), count: 10)
                 
                 enemyExhaust = SKSpriteNode(texture: SKTextureAtlas(named:"enemyExhaust3").textureNamed("thrust_pink"))
@@ -2588,7 +2597,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let sequence = SKAction.sequence([animate,SKAction.wait(forDuration: 0.3), attack])
                 boss.run(SKAction.repeatForever(sequence), withKey: "bossanimate")
                 boss.size = CGSize(width: 256, height: 256)
-                boss.position = CGPoint(x:timeLabel.position.x, y: randomY)
+                boss.position = CGPoint(x:levelLabel.position.x, y: randomY)
                 fireAction = SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 0.4), SKAction.run( {self.setBoss10Fire(boss: boss) } )]), count: 4)
             }
         }
@@ -2605,7 +2614,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let up = SKAction.moveTo(y: top, duration: randomMoveDuration)
             let down = SKAction.moveTo(y: bot, duration: randomMoveDuration)
             let left = SKAction.moveTo(x: bar.position.x, duration: randomMoveDuration)
-            let right = SKAction.moveTo(x: timeLabel.position.x, duration: randomMoveDuration)
+            let right = SKAction.moveTo(x: levelLabel.position.x, duration: randomMoveDuration)
             
             up.timingMode = .linear
             down.timingMode = .linear
@@ -2810,9 +2819,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             action.speed = 0
         }
         
-        if let action = action(forKey: "createlife") {
-            action.speed = 0
-        }
+//        if let action = action(forKey: "createlife") {
+//            action.speed = 0
+//        }
     }
     
     func startActions() {
@@ -2865,9 +2874,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             action.speed = 1
         }
         
-        if let action = self.action(forKey: "createlife") {
-            action.speed = 1
-        }
+//        if let action = self.action(forKey: "createlife") {
+//            action.speed = 1
+//        }
     }
     
     func showAsteroids() {
@@ -2995,14 +3004,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             seconds -= 1
         }
-        
-        if seconds < 10 {
-            timeLabel.text = "\(minute):0\(seconds)"
-            
-        } else {
-            timeLabel.text = "\(minute):\(seconds)"
-            
-        }
     }
     
     func clearDefaults() {
@@ -3013,10 +3014,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UserDefaults.standard.removeObject(forKey: "coins")
         UserDefaults.standard.removeObject(forKey: "bombs")
         UserDefaults.standard.removeObject(forKey: "sentinelDur")
+        UserDefaults.standard.removeObject(forKey: "tomahawkDur")
     }
     
     override func update(_ currentTime: TimeInterval) {
         for s in children {
+//            if s.name == "megaBombIconShell",
+//                megaBombCount == 0 {
+//                s.removeFromParent()
+//            }
+            
             if s.name == "coin" {
                 let move = SKAction.move(to: ship.position, duration: 0.5)
                 s.run(move)
@@ -3046,7 +3053,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if let boss = self.boss, level != 2 && level != 5 {
-            boss.position.x = timeLabel.position.x
+            boss.position.x = levelLabel.position.x
         }
         
         if didBeatGame {
@@ -3057,7 +3064,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let lives = self.lives as Int?,
             let coins = self.coins as Int?,
             let megaBombCount = self.megaBombCount as Int?,
-            let sentinelDur = self.sentinelDur as Int? {
+            let sentinelDur = self.sentinelDur as Int?,
+            let tomahawkDur = self.tomahawkDur as Int? {
             UserDefaults.standard.setValue(weaponType.rawValue, forKey: "weaponType")
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
             UserDefaults.standard.setValue(level, forKey: "level")
@@ -3065,6 +3073,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(coins, forKey: "coins")
             UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
             UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
+            UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
         }
         
         if weaponType == .Tomahawk {
@@ -3146,6 +3155,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.coinlabel.text = "\(coins)"
         self.bombCountLabel.text = "\(megaBombCount)"
         self.sentinelLabel.text = "\(sentinelDur)"
+        self.tomahawkLabel.text = "\(tomahawkDur)"
+        
         if lives <= 0 {
             UserDefaults.standard.setValue(false, forKey: "willContinue")
             ship.physicsBody?.pinned = true
@@ -3541,8 +3552,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         self.sentinelLabel.isHidden = true
                                         self.sentinel?.isHidden = true
                                         self.lifeLabel.isHidden = true
-                                        self.weaponPowerLabel.isHidden = true
-                                        self.timeLabel.isHidden = true
                                         self.hiScoreLabel.isHidden = true
                                         self.scoreLabel.isHidden = true
                                         self.staticScoreLabel.isHidden = true
@@ -3677,6 +3686,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.sentinel = sentinel
     }
     
+    func applyTomahawk() {
+        // TODO: make 2 missiles fire from sides of the ship 90 degrees out. set each to ship top and bottom positions then apply action
+    }
+    
     func setWeapon(_ weapon: SKSpriteNode) {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
         
@@ -3684,6 +3697,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playNewWeapon()
             megaBombCount += 1
             bombCountLabel.text = "\(megaBombCount)"
+            if let _ = megaBomb {
+                addBlinkingShell(sprite: megaBomb)
+            }
             UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
             
             return
@@ -3695,13 +3711,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             sentinel.position = CGPoint(x: ship.frame.maxX - 20, y: ship.frame.maxY)
             sentinel.zPosition = 5
             addChild(sentinel)
-            if let app = UIApplication.shared.delegate as? AppDelegate {
-                app.playNewWeapon()
-            }
+            app.playNewWeapon()
             sentinelDur = 30
             self.sentinel = sentinel
             sentinelLabel.text = "\(sentinelDur)"
             UserDefaults.standard.setValue(sentinelDur, forKey: "sentinelDur")
+            
+            return
+        }
+        
+        guard weapon.texture != Textures.tomahawktexture else {
+            if let app = UIApplication.shared.delegate as? AppDelegate {
+                app.playNewWeapon()
+            }
+            tomahawkDur = 30
+            tomahawkLabel.text = "\(tomahawkDur)"
+            UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
+            applyTomahawk()
             
             return
         }
@@ -3712,8 +3738,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 weaponType = .Spread
             } else if selectedWeapon.texture == Textures.lightningtexture {
                 weaponType = .Lightning
-            } else if selectedWeapon.texture == Textures.tomahawktexture {
-                weaponType = .Tomahawk
             } else if selectedWeapon.texture == Textures.fireballtexture {
                 weaponType = .Fireball
             } else if selectedWeapon.texture == Textures.guntexture {
