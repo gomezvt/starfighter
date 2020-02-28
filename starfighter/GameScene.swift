@@ -997,10 +997,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             self.run(SKAction.repeatForever(sequence), withKey: "timer")
                                             
                                             // Create a life
-//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 150) {
-//                                                let createLifeAction = SKAction.sequence([SKAction.run(self.createLife), SKAction.wait(forDuration: 150)])
-//                                                self.run(SKAction.repeatForever(createLifeAction), withKey: "createlife")
-//                                            }
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 150) {
+                                                let createLifeAction = SKAction.sequence([SKAction.run(self.createLife), SKAction.wait(forDuration: 150)])
+                                                self.run(SKAction.repeatForever(createLifeAction), withKey: "createlife")
+                                            }
                                             // Create a weapon
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
                                                 let createWeaponAction = SKAction.sequence([SKAction.run(self.createWeapon), SKAction.wait(forDuration: 30)])
@@ -1774,37 +1774,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-//    func createLife() {
-//        if let life = SKSpriteNode(texture: Textures.lifetexture) as SKSpriteNode? {
-//            addBlinkingShell(sprite: life)
-//            let width = UIScreen.main.bounds.width
-//
-//            let bot = -UIScreen.main.bounds.height + 150
-//            let top = UIScreen.main.bounds.height - 125
-//            let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
-//            life.position = CGPoint(x:width + 150, y: randomY)
-//            life.size = CGSize(width: 50, height: 50)
-//            life.zPosition = 3
-//            life.name = "createdlife"
-//            life.physicsBody = SKPhysicsBody(circleOfRadius: life.size.width)
-//            life.physicsBody?.categoryBitMask = CollisionBitMask.lifeCategory
-//            life.physicsBody?.collisionBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
-//            life.physicsBody?.contactTestBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
-//            life.physicsBody?.affectedByGravity = false
-//            life.physicsBody?.isDynamic = false
-//            life.physicsBody?.restitution = 0
-//            life.physicsBody?.linearDamping = 1.1
-//            self.addChild(life)
-//
-//            let randomMoveDuration = TimeInterval(CGFloat(arc4random() % UInt32(10))) + 10
-//            let rotateAction = SKAction.rotate(byAngle: 45, duration: randomMoveDuration * 2)
-//            let moveAction = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
-//            moveAction.timingMode = .linear
-//
-//            let actions = SKAction.group([rotateAction, moveAction])
-//            life.run(SKAction.repeatForever(actions))
-//        }
-//    }
+    func createLife() {
+        if let life = SKSpriteNode(texture: Textures.lifetexture) as SKSpriteNode? {
+            addBlinkingShell(sprite: life)
+            let width = UIScreen.main.bounds.width
+
+            let bot = -UIScreen.main.bounds.height + 150
+            let top = UIScreen.main.bounds.height - 125
+            let randomY = CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(top - bot) + min(top, bot)
+            life.position = CGPoint(x:width + 150, y: randomY)
+            life.size = CGSize(width: 50, height: 50)
+            life.zPosition = 3
+            life.name = "createdlife"
+            life.physicsBody = SKPhysicsBody(circleOfRadius: life.size.width)
+            life.physicsBody?.categoryBitMask = CollisionBitMask.lifeCategory
+            life.physicsBody?.collisionBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
+            life.physicsBody?.contactTestBitMask = CollisionBitMask.shipCategory | CollisionBitMask.lifeCategory
+            life.physicsBody?.affectedByGravity = false
+            life.physicsBody?.isDynamic = false
+            life.physicsBody?.restitution = 0
+            life.physicsBody?.linearDamping = 1.1
+            self.addChild(life)
+
+            let randomMoveDuration = TimeInterval(CGFloat(arc4random() % UInt32(10))) + 10
+            let rotateAction = SKAction.rotate(byAngle: 45, duration: randomMoveDuration * 2)
+            let moveAction = SKAction.moveTo(x: -width - 150, duration: randomMoveDuration)
+            moveAction.timingMode = .linear
+
+            let actions = SKAction.group([rotateAction, moveAction])
+            life.run(SKAction.repeatForever(actions))
+        }
+    }
     
     func addBlinkingShell(sprite: SKSpriteNode) {
         if let shell = SKSpriteNode(texture: Textures.shelltexture) as SKSpriteNode? {
