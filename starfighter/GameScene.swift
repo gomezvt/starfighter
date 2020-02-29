@@ -960,7 +960,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
-        
+                
         setBG()
         isRequestingReview = false
         
@@ -2930,6 +2930,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playAlert()
         }
         
+        shakeScreen()
+        
         redBG.run(fadeIn, completion: {
             self.bossAlertLabel.run(bossfadeIn)
             self.redBG.run(fadeOut, completion: {
@@ -2945,6 +2947,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 if let app = UIApplication.shared.delegate as? AppDelegate {
                                     app.playMusic(isMenu: false, isBoss: true, level: self.level)
                                 }
+                                
+                                self.bg.removeAction(forKey: "shake")
 
                                 self.seconds = 00
                                 self.minute = 1
@@ -2965,6 +2969,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    func shakeScreen() {
+        if let bg = self.bg {
+            let left = SKAction.moveTo(x: -10, duration: 0.01)
+            let origin = SKAction.moveTo(x: 0, duration: 0.01)
+            let right = SKAction.moveTo(x: 10, duration: 0.01)
+            let actions = SKAction.sequence([left, origin, right, origin])
+            
+            bg.run(SKAction.repeatForever(actions), withKey: "shake")
+        }
+    }
+    
     func showRedBossBG() {
         self.bossAlertLabel.text = NSLocalizedString("Boss", comment: "")
         
@@ -2977,6 +2992,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playAlert()
         }
         
+        shakeScreen()
+        
         redBG.run(fadeIn, completion: {
             self.bossAlertLabel.run(bossfadeIn)
             self.redBG.run(fadeOut, completion: {
@@ -2988,6 +3005,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.redBG.run(fadeIn, completion: {
                             self.bossAlertLabel.run(bossfadeIn)
                             self.redBG.run(fadeOut, completion: {
+                                self.bg.removeAction(forKey: "shake")
                                 self.bossAlertLabel.run(fadeOut)
                                 if let app = UIApplication.shared.delegate as? AppDelegate {
                                     app.playMusic(isMenu: false, isBoss: true, level: self.level)
