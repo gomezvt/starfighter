@@ -244,6 +244,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var selectedWeapon: SKSpriteNode!
     var bar: SKSpriteNode!
     var sentinelIcon: SKSpriteNode!
+    var tomahawkIcon: SKSpriteNode!
+    var shieldIcon: SKSpriteNode!
     var shipIcon: SKSpriteNode!
     var shipIconExhaust: SKSpriteNode!
     var grayBar: SKSpriteNode!
@@ -313,6 +315,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = self.childNode(withName: "//scoreLabel") as! SKLabelNode
         bossAlertLabel = self.childNode(withName: "//bossAlertLabel") as! SKLabelNode
         sentinelIcon = self.childNode(withName: "//sentinelIcon") as? SKSpriteNode
+        tomahawkIcon = self.childNode(withName: "//tomahawkIcon") as? SKSpriteNode
+        shieldIcon = self.childNode(withName: "//shieldIcon") as? SKSpriteNode
         livesXLabel = self.childNode(withName: "//livesXLabel") as! SKLabelNode
         grayBar = self.childNode(withName: "//grayBar") as? SKSpriteNode
         congratsLabel = self.childNode(withName: "//congratsLabel") as! SKLabelNode
@@ -331,13 +335,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid3texture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid4texture))
         
-        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.guntexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.fireballtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.lightningtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.sentineltexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.spreadtexture))
         weaponSprites.append(SKSpriteNode(texture: Textures.tomahawktexture))
-        weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
+//        weaponSprites.append(SKSpriteNode(texture: Textures.megabombtexture))
         
         playerArray.append(playerAtlas.textureNamed("player"))
         playerUpArray.append(playerUpAtlas.textureNamed("playerup"))
@@ -956,7 +960,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
-
+        
         setBG()
         isRequestingReview = false
         
@@ -1413,22 +1417,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if tomahawkDur > 0 {
             app.playMissileSound()
-            tomahawkDur -= 2
+            tomahawkDur -= 1
             UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
             
             let m1 = SKSpriteNode(imageNamed: "tomahawk")
-            let m2 = SKSpriteNode(imageNamed: "tomahawk")
             m1.accessibilityLabel = "tomahawk"
             m1.size = CGSize(width: 50, height: 30)
             m1.position = ship.position
             m1.name = "playerfire"
             setShipFirePhysics(for: m1)
-            
-            m2.accessibilityLabel = "tomahawk"
-            m2.size = CGSize(width: 50, height: 30)
-            m2.position = ship.position
-            m2.name = "playerfire"
-            setShipFirePhysics(for: m2)
             
             let missileExhaust1 = SKSpriteNode(texture: SKTextureAtlas(named:"missileExhaust").textureNamed("redthrust"))
             missileExhaust1.size = CGSize(width: 60, height: 40)
@@ -1437,15 +1434,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let topmoveAction = SKAction.move(to: toppoint, duration: 3)
             m1.run(topmoveAction)
             
-            let missileExhaust2 = SKSpriteNode(texture: SKTextureAtlas(named:"missileExhaust").textureNamed("redthrust"))
-            missileExhaust2.size = CGSize(width: 60, height: 40)
-            missileExhaust2.position = CGPoint(x: -40, y: 0)
-            let botpoint = CGPoint(x: ship.position.x, y: ship.position.y - 150)
-            let botmoveAction = SKAction.move(to: botpoint, duration: 3)
-            m2.run(botmoveAction)
-            
             m1.addChild(missileExhaust1)
-            m2.addChild(missileExhaust2)
             
             let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
             missileExhaust1.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
@@ -1453,24 +1442,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let missileSpark = SKAction.sequence([SKAction.run(self.setMissileSpark), SKAction.wait(forDuration: 0.25)])
             run(SKAction.repeatForever(missileSpark), withKey: "missileSpark")
             
-            let animateexhaust2 = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
-            missileExhaust2.run(SKAction.repeatForever(animateexhaust2), withKey: "exhaustAction")
-            
             let missileSpark2 = SKAction.sequence([SKAction.run(self.setMissileSpark), SKAction.wait(forDuration: 0.25)])
             run(SKAction.repeatForever(missileSpark2), withKey: "missileSpark")
             addChild(m1)
-            addChild(m2)
             m1.alpha = 1.0
             m1.zPosition = 4
-            m2.alpha = 1.0
-            m2.zPosition = 4
         } else {
             ship.removeAction(forKey: "launchTomahawkAction")
         }
     }
     
     func setTomahawkAction() {
-        let launchTomahawk = SKAction.sequence([SKAction.wait(forDuration: TimeInterval(7)), SKAction.run {
+        let launchTomahawk = SKAction.sequence([SKAction.wait(forDuration: TimeInterval(5)), SKAction.run {
             self.launchTomahawk()
             }])
         self.ship.run(SKAction.repeatForever(launchTomahawk), withKey: "launchTomahawkAction")
@@ -3020,16 +3003,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func fireMissiles() {
-        guard let enemies = children.filter({$0.name == "enemy"}) as [SKNode]?,
-            enemies.count > 0 else { return }
-        
         let size = UIScreen.main.bounds
         
         for node in children {
             if node.isKind(of: SKSpriteNode.self),
                 let sprite = node as? SKSpriteNode,
-                sprite.accessibilityLabel == "tomahawk",
-                sprite.hasActions() == false {
+                sprite.accessibilityLabel == "tomahawk" {
                 
                 if let sparks = children.filter({$0.name == "missilespark"}) as [SKNode]?,
                     sparks.count > 0 {
@@ -3049,30 +3028,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 }
-
-                var moveAction = SKAction.moveTo(x: size.width * 2, duration: 5) as SKAction?
-                let onScreen = size.width - 150
                 
-                for enemy in enemies {
-                    if sprite.position.x < enemy.position.x && enemy.position.x < onScreen {
-                        moveAction = SKAction.move(to: enemy.position, duration: 1.5)
-                        let close = enemy.position.x - 300
-                        if sprite.position.x >= close {
-                            moveAction = SKAction.move(to: enemy.position, duration: 0.2)
+                if sprite.hasActions() == false {
+                    var moveAction = SKAction.moveTo(x: size.width * 2, duration: 5) as SKAction?
+                    let onScreen = size.width - 50
+                    
+                    if let enemies = children.filter({$0.name == "enemy"}) as [SKNode]?,
+                        enemies.count > 0 {
+                        
+                        for enemy in enemies {
+                            if sprite.position.x < enemy.position.x && enemy.position.x < onScreen {
+                                moveAction = SKAction.move(to: enemy.position, duration: 1.5)
+                                let close = enemy.position.x - 300
+                                if sprite.position.x >= close {
+                                    moveAction = SKAction.move(to: enemy.position, duration: 0.5)
+                                }
+                            }
                         }
                     }
-                }
-                
-                if let boss = self.boss, sprite.position.x < boss.position.x {
-                    moveAction = SKAction.move(to: boss.position, duration: 1.5)
-                    let close = boss.position.x - 300
-                    if sprite.position.x >= close {
-                        moveAction = SKAction.move(to: boss.position, duration: 0.2)
+                    
+                    if let boss = self.boss, sprite.position.x < boss.position.x {
+                        moveAction = SKAction.move(to: boss.position, duration: 1.5)
+                        let close = boss.position.x - 300
+                        if sprite.position.x >= close {
+                            moveAction = SKAction.move(to: boss.position, duration: 0.5)
+                        }
                     }
-                }
-                
-                if let action = moveAction {
-                    sprite.run(action)
+                    
+                    if let action = moveAction {
+                        sprite.run(action)
+                    }
                 }
             }
         }
@@ -3578,6 +3563,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     } else {
                                         // END OF GAME!
                                         self.stopActions()
+                                        self.shieldIcon.isHidden = true
+                                        self.shieldLabel.isHidden = true
+                                        self.tomahawkIcon.isHidden = true
+                                        self.tomahawkLabel.isHidden = true
                                         self.bombCountLabel.isHidden = true
                                         self.megaBomb.isHidden = true
                                         self.ship.removeAllActions()
@@ -3594,7 +3583,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         self.endGameReturnMenuLabel.isHidden = false
                                         self.bar.isHidden = true
                                         self.selectedWeapon.isHidden = true
-                                        self.sentinelIcon?.isHidden = true
+                                        self.sentinelIcon.isHidden = true
                                         self.sentinelLabel.isHidden = true
                                         self.sentinel?.isHidden = true
                                         self.lifeLabel.isHidden = true
