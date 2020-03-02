@@ -960,7 +960,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
-                
+
         setBG()
         isRequestingReview = false
         
@@ -1203,62 +1203,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bg.texture = SKTexture(image: i)
     }
     
-    func setEnemyLightning(enemy: SKSpriteNode!) {
-        guard let enemySpeed = enemy.action(forKey: "enemyMoveAction")?.duration else { return }
-        
-        // Create top lightning node
-        let fire = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningUp").textureNamed("enemyLightningUp1"))
-        fire.size = CGSize(width: 50, height: 50)
-        
-        setEnemyAndBossFirePhysics(for: fire)
-        fire.name = self.boss != nil ? "bossfire" : "enemyfire"
-        fire.zPosition = 2
-        self.addChild(fire)
-        
-        let toppoint = CGPoint(x: -size.width * 2, y: enemy.position.y + 150)
-        fire.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY + 50)
-        
-        let topmoveAction = SKAction.move(to: toppoint, duration: enemySpeed - 6)
-        topmoveAction.timingMode = .linear
-        
-        let animateTop = SKAction.animate(with: self.enemyLightningUpSprites, timePerFrame: 0.1)
-        let animateTopForever = SKAction.repeatForever(animateTop)
-        setTracer(node: fire, action: topmoveAction, isEnemy: true, isLightning: true)
-        let actions = SKAction.group([topmoveAction, animateTopForever])
-        fire.run(actions, withKey: "enemyLightningAction")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            fire.removeFromParent()
-        }
-        
-        // Create bottom lightning node
-        let fire2 = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningDown").textureNamed("enemyLightningDown1"))
-        fire2.size = CGSize(width: 50, height: 50)
-        
-        setEnemyAndBossFirePhysics(for: fire2)
-        fire2.name = "enemyfire"
-        fire2.zPosition = 2
-        self.addChild(fire2)
-        
-        let bottomPoint = CGPoint(x: -size.width * 2, y: enemy.position.y - 150)
-        fire2.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY - 50)
-        
-        let bottomMoveAction = SKAction.move(to: bottomPoint, duration: enemySpeed - 6)
-        bottomMoveAction.timingMode = .linear
-        
-        let animateBottom = SKAction.animate(with: self.enemyLightningDownSprites, timePerFrame: 0.1)
-        let animateBottomForever = SKAction.repeatForever(animateBottom)
-        setTracer(node: fire2, action: bottomMoveAction, isEnemy: true, isLightning: true)
-        let actions2 = SKAction.group([bottomMoveAction, animateBottomForever])
-        fire2.run(actions2, withKey: "enemyLightningAction")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            fire2.removeFromParent()
-        }
-    }
+//    func setEnemyLightning(enemy: SKSpriteNode!) {
+//        guard let enemySpeed = enemy.action(forKey: "enemyMoveAction")?.duration else { return }
+//
+//        // Create top lightning node
+//        let fire = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningUp").textureNamed("enemyLightningUp1"))
+//        fire.size = CGSize(width: 50, height: 50)
+//
+//        setEnemyAndBossFirePhysics(for: fire)
+//        fire.name = self.boss != nil ? "bossfire" : "enemyfire"
+//        fire.zPosition = 2
+//        self.addChild(fire)
+//
+//        let toppoint = CGPoint(x: -size.width * 2, y: enemy.position.y + 150)
+//        fire.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY + 50)
+//
+//        let topmoveAction = SKAction.move(to: toppoint, duration: enemySpeed - 6)
+//        topmoveAction.timingMode = .linear
+//
+//        let animateTop = SKAction.animate(with: self.enemyLightningUpSprites, timePerFrame: 0.1)
+//        let animateTopForever = SKAction.repeatForever(animateTop)
+//        setTracer(node: fire, action: topmoveAction, isEnemy: true, isLightning: true)
+//        let actions = SKAction.group([topmoveAction, animateTopForever])
+//        fire.run(actions, withKey: "enemyLightningAction")
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+//            fire.removeFromParent()
+//        }
+//
+//        // Create bottom lightning node
+//        let fire2 = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningDown").textureNamed("enemyLightningDown1"))
+//        fire2.size = CGSize(width: 50, height: 50)
+//
+//        setEnemyAndBossFirePhysics(for: fire2)
+//        fire2.name = "enemyfire"
+//        fire2.zPosition = 2
+//        self.addChild(fire2)
+//
+//        let bottomPoint = CGPoint(x: -size.width * 2, y: enemy.position.y - 150)
+//        fire2.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY - 50)
+//
+//        let bottomMoveAction = SKAction.move(to: bottomPoint, duration: enemySpeed - 6)
+//        bottomMoveAction.timingMode = .linear
+//
+//        let animateBottom = SKAction.animate(with: self.enemyLightningDownSprites, timePerFrame: 0.1)
+//        let animateBottomForever = SKAction.repeatForever(animateBottom)
+//        setTracer(node: fire2, action: bottomMoveAction, isEnemy: true, isLightning: true)
+//        let actions2 = SKAction.group([bottomMoveAction, animateBottomForever])
+//        fire2.run(actions2, withKey: "enemyLightningAction")
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+//            fire2.removeFromParent()
+//        }
+//    }
     
     @objc func fireEnemyAndBossWeapon(_ enemy: SKSpriteNode) {
         let width = UIScreen.main.bounds.width
         var fire = SKSpriteNode(imageNamed: "gun2")
-        let weapons: [WeaponType] = [.Gun, .Fireball, .Lightning]
+        let weapons: [WeaponType] = [.Gun, .Fireball]
         let rotateAction = SKAction.rotate(byAngle: 45, duration: 10)
         if var weapon = weapons.randomElement() {
             if let _ = self.boss {
@@ -1306,9 +1306,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let actions = SKAction.group([action, rotateAction])
                 fire.run(actions)
-            } else if weapon == .Lightning {
-                setEnemyLightning(enemy: enemy)
             }
+//            else if weapon == .Lightning {
+//                setEnemyLightning(enemy: enemy)
+//            }
             
             if let app = UIApplication.shared.delegate as? AppDelegate {
                 if let _ = self.boss {
@@ -1441,9 +1442,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let missileSpark = SKAction.sequence([SKAction.run(self.setMissileSpark), SKAction.wait(forDuration: 0.25)])
             run(SKAction.repeatForever(missileSpark), withKey: "missileSpark")
-            
-            let missileSpark2 = SKAction.sequence([SKAction.run(self.setMissileSpark), SKAction.wait(forDuration: 0.25)])
-            run(SKAction.repeatForever(missileSpark2), withKey: "missileSpark")
             addChild(m1)
             m1.alpha = 1.0
             m1.zPosition = 4
@@ -1453,9 +1451,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setTomahawkAction() {
-        let launchTomahawk = SKAction.sequence([SKAction.wait(forDuration: TimeInterval(5)), SKAction.run {
-            self.launchTomahawk()
-            }])
+        let launchTomahawk = SKAction.sequence([SKAction.wait(forDuration: TimeInterval(3)), SKAction.run { self.launchTomahawk() }, SKAction.wait(forDuration: TimeInterval(3))])
         self.ship.run(SKAction.repeatForever(launchTomahawk), withKey: "launchTomahawkAction")
     }
     
@@ -3053,21 +3049,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     if let enemies = children.filter({$0.name == "enemy"}) as [SKNode]?,
                         enemies.count > 0 {
-                        
-                        for enemy in enemies {
-                            if sprite.position.x < enemy.position.x && enemy.position.x < onScreen {
-                                moveAction = SKAction.move(to: enemy.position, duration: 1.5)
-                                let close = enemy.position.x - 300
-                                if sprite.position.x >= close {
-                                    moveAction = SKAction.move(to: enemy.position, duration: 0.5)
-                                }
+                        if let enemy = enemies.filter({ $0.position.x > sprite.position.x && $0.position.x < onScreen }).first {
+                            moveAction = SKAction.move(to: enemy.position, duration: 1.5)
+                            let close = enemy.position.x - 400
+                            if sprite.position.x >= close {
+                                moveAction = SKAction.move(to: enemy.position, duration: 0.5)
                             }
                         }
                     }
                     
                     if let boss = self.boss, sprite.position.x < boss.position.x {
                         moveAction = SKAction.move(to: boss.position, duration: 1.5)
-                        let close = boss.position.x - 300
+                        let close = boss.position.x - 400
                         if sprite.position.x >= close {
                             moveAction = SKAction.move(to: boss.position, duration: 0.5)
                         }
