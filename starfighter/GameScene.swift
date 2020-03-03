@@ -959,6 +959,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
+        
+        weaponType = .Fireball
 
         setBG()
         isRequestingReview = false
@@ -1023,7 +1025,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setFireRate() {
         ship.removeAction(forKey: "playerFireAction")
-        let rate = weaponType == .Gun || weaponType == .Fireball ? 1.5 : 3.5
+        let rate = weaponType == .Gun || weaponType == .Fireball ? 2.0 : 3.5
         var fireRate = Float(rate)
         if wepCount == 2 {
             fireRate -= 0.5
@@ -1357,7 +1359,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return nodeToFire
     }
     
-    func setMissileSpark() {
+    func setShipWeaponSparks() {
         let small = SKSpriteNode(imageNamed: "bgstar")
         small.alpha = 0.7
         small.size = CGSize(width: 15, height: 15)
@@ -1373,7 +1375,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let sparks = [small, medium, large]
         if let spark = sparks.randomElement() {
             spark.alpha = 0
-            spark.name = "missilespark"
+            spark.name = "shipWeaponSpark"
             spark.color = UIColor.orange
             spark.colorBlendFactor = 1.0
             self.addChild(spark)
@@ -1439,8 +1441,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
             missileExhaust1.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
             
-            let missileSpark = SKAction.sequence([SKAction.run(self.setMissileSpark), SKAction.wait(forDuration: 0.25)])
-            run(SKAction.repeatForever(missileSpark), withKey: "missileSpark")
+            let missileSpark = SKAction.sequence([SKAction.run(self.setShipWeaponSparks), SKAction.wait(forDuration: 0.25)])
+            run(SKAction.repeatForever(missileSpark), withKey: "shipWeaponSpark")
             addChild(m1)
             m1.alpha = 1.0
             m1.zPosition = 4
@@ -1702,6 +1704,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             self.addChild(node)
             setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
+            setShipWeaponSparks()
             let actions = SKAction.group([rotateAction, moveAction])
             node.run(actions)
         }
@@ -1718,6 +1721,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 self.addChild(node)
                 setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
+                setShipWeaponSparks()
                 let actions = SKAction.group([rotateAction, moveAction])
                 node.run(actions)
             }
@@ -3022,26 +3026,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if node.isKind(of: SKSpriteNode.self),
                 let sprite = node as? SKSpriteNode,
                 sprite.accessibilityLabel == "tomahawk" {
-                
-                if let sparks = children.filter({$0.name == "missilespark"}) as [SKNode]?,
-                    sparks.count > 0 {
-                    for spark in sparks {
-                        if spark.hasActions() == false {
-                            spark.alpha = 1
-                            spark.zPosition = 2
-                            spark.position = CGPoint(x: sprite.frame.minX, y: sprite.position.y)
-                            let width = UIScreen.main.bounds.width
-                            let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
-                            let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
-                            action.timingMode = .linear
-                            spark.run(action)
-                            
-                            let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
-                            spark.run(fade)
-                        }
-                    }
-                }
-                
                 if sprite.hasActions() == false {
                     var moveAction = SKAction.moveTo(x: size.width * 2, duration: 5) as SKAction?
                     let onScreen = size.width - 50
@@ -3114,6 +3098,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func animateShipWeaponSparks() {
+        for node in children {
+            if node.isKind(of: SKSpriteNode.self),
+                let sprite = node as? SKSpriteNode {
+                if let sparks = children.filter({$0.name == "shipWeaponSpark"}) as [SKNode]?,
+                    sparks.count > 0 {
+                    for spark in sparks {
+                        if spark.hasActions() == false {
+                            spark.alpha = 1
+                            spark.zPosition = 2
+                            spark.position = CGPoint(x: sprite.frame.minX, y: sprite.position.y)
+                            let width = UIScreen.main.bounds.width
+                            let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+                            let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
+                            action.timingMode = .linear
+                            spark.run(action)
+                            
+                            let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
+                            spark.run(fade)
+                        }
+                    }
+                }
+            }
+        }
+    }
+        
     func clearDefaults() {
         UserDefaults.standard.removeObject(forKey: "level")
         UserDefaults.standard.removeObject(forKey: "lives")
@@ -3184,6 +3194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
         }
         
+        animateShipWeaponSparks()
         fireMissiles()
         
         if let sentinel = sentinel {
