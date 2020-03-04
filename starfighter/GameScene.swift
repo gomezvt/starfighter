@@ -959,8 +959,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shield.physicsBody?.isDynamic = true
         }
 
-        weaponType = .Gun
-
         setBG()
         isRequestingReview = false
         
@@ -1333,12 +1331,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nodeToFire.size = CGSize(width: 40, height: 40)
             nodeToFire.accessibilityLabel = "fireball"
             if wepCount == 2 {
+                nodeToFire.colorBlendFactor = 0.4
+                nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 45, height: 45)
             } else if wepCount == 3 {
+                nodeToFire.colorBlendFactor = 0.6
+                nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 50, height: 50)
             } else if wepCount == 4 {
+                nodeToFire.colorBlendFactor = 0.8
+                nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 55, height: 55)
             } else if wepCount == 5 {
+                nodeToFire.colorBlendFactor = 1.0
+                nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 60, height: 60)
             }
             let animate = SKAction.animate(with: self.fireballSprites, timePerFrame: 0.1)
