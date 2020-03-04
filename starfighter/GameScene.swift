@@ -16,7 +16,6 @@ enum WeaponType: Int {
     case Fireball
     case Lightning
     case Spread
-    case Tomahawk
 }
 
 struct Textures {
@@ -1294,6 +1293,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if weapon == .Fireball {
                 fire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
                 fire.size = CGSize(width: 40, height: 40)
+                fire.accessibilityLabel = "enemyfireball"
                 
                 setEnemyAndBossFirePhysics(for: fire)
                 fire.name = self.boss != nil ? "bossfire" : "enemyfire"
@@ -1334,6 +1334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if weaponType == .Fireball {
             nodeToFire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
             nodeToFire.size = CGSize(width: 50, height: 50)
+            nodeToFire.accessibilityLabel = "fireball"
             if wepCount == 3 || wepCount == 4 {
                 nodeToFire.size = CGSize(width: 55, height: 55)
             } else if wepCount == 5 {
@@ -1359,7 +1360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return nodeToFire
     }
     
-    func setShipWeaponSparks() {
+    func createSpark() {
         let small = SKSpriteNode(imageNamed: "bgstar")
         small.alpha = 0.7
         small.size = CGSize(width: 15, height: 15)
@@ -1434,18 +1435,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             missileExhaust1.position = CGPoint(x: -40, y: 0)
             let toppoint = CGPoint(x: ship.position.x, y: ship.position.y + 150)
             let topmoveAction = SKAction.move(to: toppoint, duration: 3)
-            m1.run(topmoveAction)
+            m1.run(topmoveAction, withKey: "tomahawkLaunched")
             
             m1.addChild(missileExhaust1)
             
             let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
             missileExhaust1.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
-            
-            let missileSpark = SKAction.sequence([SKAction.run(self.setShipWeaponSparks), SKAction.wait(forDuration: 0.25)])
-            run(SKAction.repeatForever(missileSpark), withKey: "shipWeaponSpark")
             addChild(m1)
             m1.alpha = 1.0
             m1.zPosition = 4
+            
+            let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.1)])
+            m1.run(SKAction.repeatForever(sparks), withKey: "shipWeaponSpark")
         } else {
             ship.removeAction(forKey: "launchTomahawkAction")
         }
@@ -1704,7 +1705,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             self.addChild(node)
             setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
-            setShipWeaponSparks()
+            
             let actions = SKAction.group([rotateAction, moveAction])
             node.run(actions)
         }
@@ -1721,18 +1722,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 self.addChild(node)
                 setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
-                setShipWeaponSparks()
+
                 let actions = SKAction.group([rotateAction, moveAction])
                 node.run(actions)
             }
             
-            if weaponType != .Tomahawk {
-                sentinelDur -= 1
-                sentinelLabel.text = "\(sentinelDur)"
-                if sentinelDur == 0 {
-                    self.sentinel?.removeFromParent()
-                    self.sentinel = nil
-                }
+            sentinelDur -= 1
+            sentinelLabel.text = "\(sentinelDur)"
+            if sentinelDur == 0 {
+                self.sentinel?.removeFromParent()
+                self.sentinel = nil
             }
         }
     }
@@ -1753,6 +1752,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2.5)
             tracer.run(fadeOut)
+            
+            if node.accessibilityLabel == "fireball" {
+                let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.1)])
+                node.run(SKAction.repeatForever(sparks), withKey: "shipWeaponSpark")
+            }
+            
+            if node.accessibilityLabel == "enemyfireball" {
+                let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.1)])
+                node.run(SKAction.repeatForever(sparks), withKey: "enemyWeaponSpark")
+            }
         }
     }
     
@@ -3026,7 +3035,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if node.isKind(of: SKSpriteNode.self),
                 let sprite = node as? SKSpriteNode,
                 sprite.accessibilityLabel == "tomahawk" {
-                if sprite.hasActions() == false {
+                if sprite.action(forKey: "tomahawkLaunched") == nil {
                     var moveAction = SKAction.moveTo(x: size.width * 2, duration: 5) as SKAction?
                     let onScreen = size.width - 50
                     
@@ -3098,26 +3107,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func animateShipWeaponSparks() {
+    func animateWeaponSparks() {
         for node in children {
             if node.isKind(of: SKSpriteNode.self),
-                let sprite = node as? SKSpriteNode {
-                if let sparks = children.filter({$0.name == "shipWeaponSpark"}) as [SKNode]?,
-                    sparks.count > 0 {
-                    for spark in sparks {
-                        if spark.hasActions() == false {
-                            spark.alpha = 1
-                            spark.zPosition = 2
-                            spark.position = CGPoint(x: sprite.frame.minX, y: sprite.position.y)
-                            let width = UIScreen.main.bounds.width
-                            let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
-                            let action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
-                            action.timingMode = .linear
-                            spark.run(action)
-                            
-                            let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
-                            spark.run(fade)
+                node.accessibilityLabel == "tomahawk" || node.accessibilityLabel == "fireball" || node.accessibilityLabel == "enemyfireball",
+                let sparks = children.filter({$0.name == "shipWeaponSpark"}) as [SKNode]?,
+                sparks.count > 0 {
+                for spark in sparks {
+                    if spark.hasActions() == false {
+                        spark.alpha = 1
+                        spark.zPosition = 3
+                        spark.position = CGPoint(x: node.frame.minX, y: node.position.y)
+                        let width = UIScreen.main.bounds.width
+                        let randomDuration = TimeInterval(CGFloat(arc4random() % UInt32(30) + 15))
+                        var action = SKAction.moveTo(x: -width * 2, duration: randomDuration)
+                        if node.accessibilityLabel == "enemyfireball" {
+                            action = SKAction.moveTo(x: width * 2, duration: randomDuration)
                         }
+                        action.timingMode = .linear
+                        spark.run(action)
+                        
+                        let fade = SKAction.fadeAlpha(to: 0.0, duration: 4)
+                        spark.run(fade)
                     }
                 }
             }
@@ -3194,7 +3205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
         }
         
-        animateShipWeaponSparks()
+        animateWeaponSparks()
         fireMissiles()
         
         if let sentinel = sentinel {
@@ -3308,6 +3319,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // Remove enemies, weapons, stars and player/enemy fire
             if sprite.frame.maxX <= frame.minX || (sprite.name == "playerfire" && sprite.frame.minX >= frame.maxX) {
+                if sprite.accessibilityLabel == "fireball" {
+                    removeAction(forKey: "shipWeaponSpark")
+                }
+                if sprite.accessibilityLabel == "enemyfireball" {
+                    removeAction(forKey: "enemyWeaponSpark")
+                }
                 sprite.removeFromParent()
             }
         }
