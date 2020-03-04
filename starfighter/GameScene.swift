@@ -1139,7 +1139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let bg = self.bg else { return }
         
         for sprite in children {
-            if sprite.name == "redplanet" || sprite.name == "yellowplanet" || sprite.name == "orangeplanet" {
+            if sprite.name == "redplanet" || sprite.name == "yellowplanet" || sprite.name == "orangeplanet" || sprite.name == "multiplanet" || sprite.name == "planetring" || sprite.name == "planetstation" {
                 sprite.removeFromParent()
             }
         }
@@ -1148,17 +1148,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if level == 1 {
             bg.alpha = 0.5
             image = UIImage(named: "bg3")
+            createPlanetsMulti()
         } else if level == 2 {
             bg.alpha = 0.6
             image = UIImage(named: "bg2")
-            let ojPlanetAction = SKAction.sequence([SKAction.run(self.createOrangePlanet), SKAction.wait(forDuration: 3)])
-            run(ojPlanetAction)
+            createOrangePlanet()
         } else if level == 3 {
             bg.alpha = 0.8
             image = UIImage(named: "bg")
             
-            let redPlanetAction = SKAction.sequence([SKAction.run(self.createRedPlanet), SKAction.wait(forDuration: 3)])
-            run(redPlanetAction)
+            createRedPlanet()
             
         } else if level == 4 {
             bg.alpha = 0.6
@@ -1169,18 +1168,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if level == 6 {
             bg.alpha = 1.0
             image = UIImage(named: "bg6")
+            createPlanetStation()
         } else if level == 7 {
             bg.alpha = 0.4
             image = UIImage(named: "bg7")
         } else if level == 8 {
             bg.alpha = 0.9
             image = UIImage(named: "bg8")
-            let yellowPlanetAction = SKAction.sequence([SKAction.run(self.createYellowPlanet), SKAction.wait(forDuration: 3)])
-            run(yellowPlanetAction)
+            createYellowPlanet()
         } else if level == 9 {
             bg.alpha = 0.6
             image = UIImage(named: "bg9")
         } else if level == 10 {
+            createPlanetRing()
             bg.alpha = 1.0
             image = UIImage(named: "bg10")
         }
@@ -2150,6 +2150,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let action = SKAction.moveTo(x: -width - 350, duration: 200)
         action.timingMode = .linear
         yellowPlanet.run(action, withKey: "yellowPlanetMove")
+    }
+    
+    @objc func createPlanetsMulti() {
+        let multi = SKSpriteNode(imageNamed: "Planets-Multi")
+        
+        multi.size = CGSize(width: 300, height: 300)
+        multi.name = "multiplanet"
+        
+        let top = UIScreen.main.bounds.height - 300
+        
+        let width = UIScreen.main.bounds.width
+        multi.position = CGPoint(x:width + 150, y: top)
+        multi.zPosition = 1
+        self.addChild(multi)
+        
+        // Move enemy at random duration
+        let action = SKAction.moveTo(x: -width - 350, duration: 200)
+        action.timingMode = .linear
+        multi.run(action, withKey: "multiPlanetMove")
+    }
+    
+    @objc func createPlanetRing() {
+        let ring = SKSpriteNode(imageNamed: "Planets-Ring")
+        
+        ring.size = CGSize(width: 300, height: 300)
+        ring.name = "planetring"
+        
+        let top = UIScreen.main.bounds.height - 300
+        
+        let width = UIScreen.main.bounds.width
+        ring.position = CGPoint(x:width + 150, y: top)
+        ring.zPosition = 1
+        self.addChild(ring)
+        
+        // Move enemy at random duration
+        let action = SKAction.moveTo(x: -width - 350, duration: 200)
+        action.timingMode = .linear
+        ring.run(action, withKey: "planetRingMove")
+    }
+    
+    @objc func createPlanetStation() {
+        let station = SKSpriteNode(imageNamed: "Planets-Station")
+        
+        station.size = CGSize(width: 300, height: 300)
+        station.name = "planetstation"
+        
+        let top = UIScreen.main.bounds.height - 300
+        
+        let width = UIScreen.main.bounds.width
+        station.position = CGPoint(x:width + 150, y: top)
+        station.zPosition = 1
+        self.addChild(station)
+        
+        // Move enemy at random duration
+        let action = SKAction.moveTo(x: -width - 350, duration: 200)
+        action.timingMode = .linear
+        station.run(action, withKey: "planetStationMove")
     }
     
     @objc func createOrangePlanet() {
