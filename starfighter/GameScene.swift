@@ -1445,7 +1445,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             m1.alpha = 1.0
             m1.zPosition = 4
             
-            let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.1)])
+            let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.3)])
             m1.run(SKAction.repeatForever(sparks), withKey: "shipWeaponSpark")
         } else {
             ship.removeAction(forKey: "launchTomahawkAction")
@@ -1754,12 +1754,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             tracer.run(fadeOut)
             
             if node.accessibilityLabel == "fireball" {
-                let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.1)])
+                let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.3)])
                 node.run(SKAction.repeatForever(sparks), withKey: "shipWeaponSpark")
             }
             
             if node.accessibilityLabel == "enemyfireball" {
-                let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.1)])
+                let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.3)])
                 node.run(SKAction.repeatForever(sparks), withKey: "enemyWeaponSpark")
             }
         }
