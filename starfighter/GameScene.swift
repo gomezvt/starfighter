@@ -3281,6 +3281,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+//        if let app = UIApplication.shared.delegate as? AppDelegate {
+//            if app.musicPlayer?.isPlaying == false,
+//                lives > 0 {
+//                app.playMusic(isMenu: false, isBoss: (boss != nil), level: level)
+//            }
+//        }
         for s in children {
 //            if s.name == "megaBombIconShell",
 //                megaBombCount == 0 {

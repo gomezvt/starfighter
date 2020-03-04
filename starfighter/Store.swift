@@ -521,6 +521,12 @@ class Store: SKScene, SKPhysicsContactDelegate {
             self.coins = coins
             coinlabel.text = "\(coins)"
         }
+        
+        if let app = UIApplication.shared.delegate as? AppDelegate {
+            if app.musicPlayer?.isPlaying == false {
+                app.playIntro()
+            }
+        }
     }
 }
 
@@ -557,7 +563,7 @@ extension IAPHelper: SKProductsRequestDelegate {
     }
     
     func handleFailed(transaction: SKPaymentTransaction) {
-        
+
     }
     
     func handleRestored(transaction: SKPaymentTransaction) {
