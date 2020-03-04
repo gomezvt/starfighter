@@ -958,8 +958,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
-        
-        weaponType = .Fireball
+
+        weaponType = .Gun
 
         setBG()
         isRequestingReview = false
@@ -1025,17 +1025,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setFireRate() {
         ship.removeAction(forKey: "playerFireAction")
         let rate = weaponType == .Gun || weaponType == .Fireball ? 2.0 : 3.5
-        var fireRate = Float(rate)
-        if wepCount == 2 {
-            fireRate -= 0.5
-        } else if wepCount == 3 {
-            fireRate -= 1.0
-        } else if wepCount == 4 {
-            fireRate -= 1.5
-        } else if wepCount == 5 {
-            fireRate -= 2.0
-        }
-        
         let fireWeaponAction = SKAction.sequence([SKAction.run {
             self.fireShipWeapon()
             }, SKAction.wait(forDuration: TimeInterval(rate))])
@@ -1325,17 +1314,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func getNode() -> SKSpriteNode? {
         var nodeToFire = SKSpriteNode(imageNamed: "gun")
         if weaponType == .Gun {
-            if wepCount == 3 || wepCount == 4 {
+            nodeToFire.size = CGSize(width: 40, height: 40)
+            if wepCount == 2 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun2")
+                nodeToFire.size = CGSize(width: 45, height: 45)
+            } else if wepCount == 3 {
+                nodeToFire = SKSpriteNode(imageNamed: "gun2")
+                nodeToFire.size = CGSize(width: 50, height: 50)
+            } else if wepCount == 4 {
+                nodeToFire = SKSpriteNode(imageNamed: "gun3")
+                nodeToFire.size = CGSize(width: 55, height: 55)
             } else if wepCount == 5 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun3")
+                nodeToFire.size = CGSize(width: 60, height: 60)
             }
-            nodeToFire.size = CGSize(width: 50, height: 50)
         } else if weaponType == .Fireball {
             nodeToFire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
-            nodeToFire.size = CGSize(width: 50, height: 50)
+            nodeToFire.size = CGSize(width: 40, height: 40)
             nodeToFire.accessibilityLabel = "fireball"
-            if wepCount == 3 || wepCount == 4 {
+            if wepCount == 2 {
+                nodeToFire.size = CGSize(width: 45, height: 45)
+            } else if wepCount == 3 {
+                nodeToFire.size = CGSize(width: 50, height: 50)
+            } else if wepCount == 4 {
                 nodeToFire.size = CGSize(width: 55, height: 55)
             } else if wepCount == 5 {
                 nodeToFire.size = CGSize(width: 60, height: 60)
