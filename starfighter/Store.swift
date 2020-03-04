@@ -330,19 +330,19 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     case .sgun:
                         let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue ?? currentType.rawValue
                         if let currentType = WeaponType(rawValue: type),
-                            coins >= 50 {
+                            coins >= 75 {
                             if WeaponType.Gun != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
                                 bar.texture = SKTexture(imageNamed: "bar")
                                 selectedWeapon.texture = Textures.guntexture
                                 UserDefaults.standard.setValue(WeaponType.Gun.rawValue, forKey: "weaponType")
-                                coins -= 50
+                                coins -= 75
                             } else if wepCount < 5 {
                                 app.playLevelUp()
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
-                                coins -= 50
+                                coins -= 75
                             } else if wepCount == 5 {
                                 app.playFail()
                             }
@@ -355,19 +355,19 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     case .sfireball:
                         let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue ?? currentType.rawValue
                         if let currentType = WeaponType(rawValue: type),
-                            coins >= 50 {
+                            coins >= 75 {
                             if WeaponType.Fireball != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
                                 bar.texture = SKTexture(imageNamed: "bar")
                                 selectedWeapon.texture = Textures.fireballtexture
                                 UserDefaults.standard.setValue(WeaponType.Fireball.rawValue, forKey: "weaponType")
-                                coins -= 50
+                                coins -= 75
                             } else if wepCount < 5 {
                                 app.playLevelUp()
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
-                                coins -= 50
+                                coins -= 75
                             } else if wepCount == 5 {
                                 app.playFail()
                             }
@@ -380,19 +380,19 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     case .slightning:
                         let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue ?? currentType.rawValue
                         if let currentType = WeaponType(rawValue: type),
-                            coins >= 100 {
+                            coins >= 125 {
                             if WeaponType.Lightning != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
                                 bar.texture = SKTexture(imageNamed: "bar")
                                 selectedWeapon.texture = Textures.lightningtexture
-                                coins -= 100
+                                coins -= 125
                                 UserDefaults.standard.setValue(WeaponType.Lightning.rawValue, forKey: "weaponType")
                             } else if wepCount < 5 {
                                 app.playLevelUp()
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
-                                coins -= 100
+                                coins -= 125
                             } else if wepCount == 5 {
                                 app.playFail()
                             }
@@ -405,19 +405,19 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     case .sspread:
                         let type = UserDefaults.standard.object(forKey: "weaponType") as? WeaponType.RawValue ?? currentType.rawValue
                         if let currentType = WeaponType(rawValue: type),
-                            coins >= 100 {
+                            coins >= 125 {
                             if WeaponType.Spread != currentType {
                                 wepCount = 1
                                 app.playNewWeapon()
                                 bar.texture = SKTexture(imageNamed: "bar")
                                 selectedWeapon.texture = Textures.spreadtexture
                                 UserDefaults.standard.setValue(WeaponType.Spread.rawValue, forKey: "weaponType")
-                                coins -= 100
+                                coins -= 125
                             } else if wepCount < 5 {
                                 app.playLevelUp()
                                 wepCount += 1
                                 bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
-                                coins -= 100
+                                coins -= 125
                             } else if wepCount == 5 {
                                 app.playFail()
                             }
@@ -429,9 +429,9 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     }
                     case .stomahawk:
                         var tomahawkDur = UserDefaults.standard.object(forKey: "tomahawkDur") as? Int ?? 0
-                        if tomahawkDur < 30, coins >= 150 {
+                        if tomahawkDur < 30, coins >= 175 {
                             app.playNewWeapon()
-                            coins -= 150
+                            coins -= 175
                             coinlabel.text = "\(coins)"
                             UserDefaults.standard.setValue(coins, forKey: "coins")
                             tomahawkDur = 30
@@ -442,9 +442,9 @@ class Store: SKScene, SKPhysicsContactDelegate {
                     }
                     case .ssentinel:
                         var sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int ?? 0
-                        if sentinelDur < 30, coins >= 150 {
+                        if sentinelDur < 30, coins >= 200 {
                             app.playNewWeapon()
-                            coins -= 150
+                            coins -= 200
                             coinlabel.text = "\(coins)"
                             UserDefaults.standard.setValue(coins, forKey: "coins")
                             sentinelDur = 30
@@ -454,14 +454,14 @@ class Store: SKScene, SKPhysicsContactDelegate {
                             app.playFail()
                     }
                     case .sbomb:
-                        guard coins >= 150 else {
+                        guard coins >= 200 else {
                             app.playFail()
                             
                             return
                         }
                         
                         app.playNewWeapon()
-                        coins -= 150
+                        coins -= 200
                         coinlabel.text = "\(coins)"
                         UserDefaults.standard.setValue(coins, forKey: "coins")
                         megaBombCount += 1
@@ -481,14 +481,14 @@ class Store: SKScene, SKPhysicsContactDelegate {
                             app.playFail()
                     }
                     case .slife:
-                        guard coins >= 200 else {
+                        guard coins >= 250 else {
                             app.playFail()
                             
                             return
                         }
                         
                         app.playLife()
-                        coins -= 200
+                        coins -= 250
                         coinlabel.text = "\(coins)"
                         UserDefaults.standard.setValue(coins, forKey: "coins")
                         lives += 1

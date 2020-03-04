@@ -1312,19 +1312,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func getNode() -> SKSpriteNode? {
         var nodeToFire = SKSpriteNode(imageNamed: "gun")
         if weaponType == .Gun {
-            nodeToFire.size = CGSize(width: 40, height: 40)
+            nodeToFire.size = CGSize(width: 50, height: 50)
             if wepCount == 2 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun2")
-                nodeToFire.size = CGSize(width: 45, height: 45)
+                nodeToFire.size = CGSize(width: 55, height: 55)
+                addTopShot(node: nodeToFire)
             } else if wepCount == 3 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun2")
-                nodeToFire.size = CGSize(width: 50, height: 50)
+                nodeToFire.size = CGSize(width: 65, height: 65)
+                addTopShot(node: nodeToFire)
             } else if wepCount == 4 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun3")
-                nodeToFire.size = CGSize(width: 55, height: 55)
+                nodeToFire.size = CGSize(width: 70, height: 70)
+                addTopShot(node: nodeToFire)
+                addBottomShot(node: nodeToFire)
             } else if wepCount == 5 {
                 nodeToFire = SKSpriteNode(imageNamed: "gun3")
-                nodeToFire.size = CGSize(width: 60, height: 60)
+                nodeToFire.size = CGSize(width: 75, height: 75)
+                addTopShot(node: nodeToFire)
+                addBottomShot(node: nodeToFire)
             }
         } else if weaponType == .Fireball {
             nodeToFire = SKSpriteNode(texture: SKTextureAtlas(named:"fireballwep").textureNamed("fireball1"))
@@ -1334,18 +1340,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 nodeToFire.colorBlendFactor = 0.4
                 nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 45, height: 45)
+                addTopShot(node: nodeToFire)
             } else if wepCount == 3 {
                 nodeToFire.colorBlendFactor = 0.6
                 nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 50, height: 50)
+                addTopShot(node: nodeToFire)
             } else if wepCount == 4 {
                 nodeToFire.colorBlendFactor = 0.8
                 nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 55, height: 55)
+                addTopShot(node: nodeToFire)
+                addBottomShot(node: nodeToFire)
             } else if wepCount == 5 {
                 nodeToFire.colorBlendFactor = 1.0
                 nodeToFire.color = UIColor.red
                 nodeToFire.size = CGSize(width: 60, height: 60)
+                addTopShot(node: nodeToFire)
+                addBottomShot(node: nodeToFire)
             }
             let animate = SKAction.animate(with: self.fireballSprites, timePerFrame: 0.1)
             nodeToFire.run(SKAction.repeatForever(animate), withKey: "fireballaction")
@@ -1618,6 +1630,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func addTopShot(node: SKSpriteNode) {
+        if let copy = node.copy() as? SKSpriteNode {
+            var toppoint: CGPoint!
+            if isAddingSentinelFire {
+                toppoint = CGPoint(x: size.width, y: (sentinel?.position.y)! + 300)
+                copy.position = CGPoint(x: sentinel!.frame.maxX, y: sentinel!.frame.midY + 50)
+            } else {
+                toppoint = CGPoint(x: size.width, y: ship.position.y + 300)
+                copy.position = CGPoint(x: ship.frame.maxX, y: ship.frame.midY)
+            }
+            
+            copy.name = "playerfire"
+            copy.zPosition = 3
+            setShipFirePhysics(for: copy)
+            self.addChild(copy)
+            
+            let topmoveAction = SKAction.move(to: toppoint, duration: 5.6)
+            topmoveAction.timingMode = .linear
+            setTracer(node: copy, action: topmoveAction, isEnemy: false, isLightning: false)
+            
+            var actions = SKAction.group([])
+            let rotateAction = SKAction.rotate(byAngle: -45, duration: 10)
+            if weaponType == .Fireball {
+                actions = SKAction.group([rotateAction, topmoveAction])
+            } else if weaponType == .Gun {
+                actions = topmoveAction
+            }
+            copy.run(actions)
+        }
+    }
+    
+    func addBottomShot(node: SKSpriteNode) {
+        if let copy = node.copy() as? SKSpriteNode {
+            var toppoint: CGPoint!
+            if isAddingSentinelFire {
+                toppoint = CGPoint(x: size.width, y: (sentinel?.position.y)! - 300)
+                copy.position = CGPoint(x: sentinel!.frame.maxX, y: sentinel!.frame.midY + 50)
+            } else {
+                toppoint = CGPoint(x: size.width, y: ship.position.y - 300)
+                copy.position = CGPoint(x: ship.frame.maxX, y: ship.frame.midY)
+            }
+            
+            copy.name = "playerfire"
+            copy.zPosition = 3
+            setShipFirePhysics(for: copy)
+            self.addChild(copy)
+            
+            let topmoveAction = SKAction.move(to: toppoint, duration: 5.6)
+            topmoveAction.timingMode = .linear
+            setTracer(node: copy, action: topmoveAction, isEnemy: false, isLightning: false)
+            
+            var actions = SKAction.group([])
+            let rotateAction = SKAction.rotate(byAngle: -45, duration: 10)
+            if weaponType == .Fireball {
+                actions = SKAction.group([rotateAction, topmoveAction])
+            } else if weaponType == .Gun {
+                actions = topmoveAction
+            }
+            copy.run(actions)
+        }
+    }
+    
     func setLightningAction() {
         if let node = SKSpriteNode(texture: SKTextureAtlas(named:"lightningUp").textureNamed("lightningUp1")) as SKSpriteNode? {
             addChild(node)
@@ -1695,7 +1769,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isAddingSentinelFire = false
         let size = UIScreen.main.bounds
         let rotateAction = SKAction.rotate(byAngle: -45, duration: 10)
-        var moveAction = SKAction.moveTo(x: size.width + 150, duration: 4)
+        let moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
         moveAction.timingMode = .linear
         if weaponType == .Spread {
             setSpreadAction()
@@ -1705,7 +1779,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playLightningSound()
         } else if let node = getNode() {
             if weaponType == .Fireball {
-                moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
                 app.playFireballSound()
             } else {
                 app.playWeaponShot()
@@ -1724,9 +1797,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if weaponType == .Lightning {
                 setLightningAction()
             } else if let node = getNode() {
-                if weaponType == .Fireball {
-                    moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
-                }
                 self.addChild(node)
                 setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
 
