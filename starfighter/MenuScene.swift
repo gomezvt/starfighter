@@ -41,7 +41,7 @@ class MenuScene: SKScene {
         run(SKAction.repeatForever(cometAction), withKey: "createcomet")
         
         createShip()
-                                
+
         lastUpdateTime = 0
         titleLabel = self.childNode(withName: "//titleLabel") as? SKLabelNode
         newGameLabel = self.childNode(withName: "//newGameLabel") as? SKLabelNode
