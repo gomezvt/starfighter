@@ -21,33 +21,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2F4E0FEF-03B5-4A20-BD78-6F598DC752A1"
-            shouldBeEnabled = "Yes"
+            uuid = "3DD7FD71-A0B6-42CF-80FE-361DC2490D4D"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "starfighter/GameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1029"
-            endingLineNumber = "1029"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "3860"
+            endingLineNumber = "3860"
+            landmarkName = "setHiScore()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "ED19124B-45BF-4642-A384-D30035E6F30E"
-            shouldBeEnabled = "Yes"
+            uuid = "6A398D96-0236-4BC6-9A73-6245E98BDED6"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "starfighter/GameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1773"
-            endingLineNumber = "1773"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "943"
+            endingLineNumber = "943"
+            landmarkName = "didMove(to:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

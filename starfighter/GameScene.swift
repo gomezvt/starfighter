@@ -936,6 +936,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hiScoreLabel.text = "0"
         }
         
+        if let score = UserDefaults.standard.value(forKey: "score") as? Int {
+            self.score = score
+            scoreLabel.text = "\(score)"
+        }
+        
         let createBgShipAction = SKAction.sequence([SKAction.run(self.createBgShip), SKAction.wait(forDuration: 25)])
         run(SKAction.repeatForever(createBgShipAction), withKey: "createBgShipAction")
 
@@ -3278,6 +3283,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UserDefaults.standard.removeObject(forKey: "bombs")
         UserDefaults.standard.removeObject(forKey: "sentinelDur")
         UserDefaults.standard.removeObject(forKey: "tomahawkDur")
+        if lives <= 0 {
+            UserDefaults.standard.setValue(0, forKey: "score")
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -3849,6 +3857,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             UserDefaults.standard.setValue(score, forKey: "hiscore")
         }
+        UserDefaults.standard.setValue(score, forKey: "score")
     }
     
     func destroyEnemy(_ enemy: SKSpriteNode) {
