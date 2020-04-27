@@ -1,0 +1,17 @@
+/* 
+ Localizable.strings
+ 
+ 
+ Created by Greg on 1/9/20.
+ 
+ */
+
+"Options" = "选项";
+"About" = "关于我们";
+"Continue" = "继续";
+"Start" = "开始";
+"Asteroids" = "小行星";
+"Boss" = "大敌人";
+"Bomb" = "大炸弹";
+"Shield" = "盾牌";
+"Store" = "武器商店";

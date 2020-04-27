@@ -1,0 +1,17 @@
+/* 
+ Localizable.strings
+ 
+ 
+ Created by Greg on 1/9/20.
+ 
+ */
+
+"Options" = "Options";
+"About" = "About";
+"Continue" = "Continue";
+"Start" = "Start";
+"Asteroids" = "Asteroids";
+"Boss" = "Boss";
+"Bomb" = "Mega Bomb";
+"Shield" = "Shield Life";
+"Store" = "Weapon Store";

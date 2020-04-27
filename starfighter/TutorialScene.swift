@@ -40,18 +40,6 @@ class TutorialScene: SKScene {
 
         let fadeAction = SKAction.sequence([SKAction.run(fadeLabel), SKAction.wait(forDuration: 2)])
         run(SKAction.repeatForever(fadeAction))
-
-        if let savedControls = UserDefaults.standard.object(forKey: "savedControls") as? String {
-            if savedControls == "NO" {
-                controlsArrow.isHidden = true
-                controlsLabel.text = "Tap above and below the\nship to move up and down."
-                bg.texture = TutorialTextures.nocontrolstexture
-            } else {
-                controlsArrow.isHidden = false
-                controlsLabel.text = "Tap to move up and down."
-                bg.texture = TutorialTextures.controlstexture
-            }
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -12,18 +12,23 @@
 		6403D8E0220692A400BD27DF /* enemyExhaust3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8DF220692A400BD27DF /* enemyExhaust3.atlas */; };
 		6403D8E222069BD200BD27DF /* enemyExhaust4.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8E122069BD100BD27DF /* enemyExhaust4.atlas */; };
 		6403D8E422069CAF00BD27DF /* enemyExhaust5.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6403D8E322069CAE00BD27DF /* enemyExhaust5.atlas */; };
+		640C9B3423FE128F0030532F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 640C9B3323FE128F0030532F /* StoreKit.framework */; };
 		641457C121E1B82900EE98DA /* enemyLightningDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641457BF21E1B82800EE98DA /* enemyLightningDown.atlas */; };
 		641457C221E1B82900EE98DA /* enemyLightningUp.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641457C021E1B82800EE98DA /* enemyLightningUp.atlas */; };
+		64199148240EC7650070E479 /* explode.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64199147240EC7650070E479 /* explode.atlas */; };
 		641D683E237CEC8F00E8C5EA /* brainBossAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641D683C237CEC8E00E8C5EA /* brainBossAttack.atlas */; };
 		641D683F237CEC8F00E8C5EA /* brainBossNorm.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641D683D237CEC8F00E8C5EA /* brainBossNorm.atlas */; };
 		641D6842237CEEFA00E8C5EA /* buzzBossAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641D6840237CEEFA00E8C5EA /* buzzBossAttack.atlas */; };
 		641D6843237CEEFA00E8C5EA /* buzzBossNorm.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */; };
+		6420339823FE2BF900062E4F /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6420339723FE2BF900062E4F /* IAPHelper.swift */; };
 		6422729321FD82E000685076 /* enemy6.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6422729221FD82E000685076 /* enemy6.atlas */; };
 		6422729521FD863C00685076 /* enemy7.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6422729421FD863C00685076 /* enemy7.atlas */; };
-		64386D652384D6A500C9C93E /* explode.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64386D642384D6A500C9C93E /* explode.atlas */; };
-		643D6B382124EE8800EF8B6F /* AboutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 643D6B372124EE8800EF8B6F /* AboutScene.sks */; };
-		643D6B3A2124F36800EF8B6F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 643D6B392124F36800EF8B6F /* GameScene.sks */; };
-		643D6B3C2124F38B00EF8B6F /* OptionsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 643D6B3B2124F38B00EF8B6F /* OptionsScene.sks */; };
+		642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679AC23B3EF6F006E9925 /* TutorialScene.sks */; };
+		642679AF23B3F237006E9925 /* AboutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679B123B3F237006E9925 /* AboutScene.sks */; };
+		642679B423B3F2D9006E9925 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679B623B3F2D9006E9925 /* GameScene.sks */; };
+		642679B923B3F440006E9925 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679BB23B3F440006E9925 /* MenuScene.sks */; };
+		642679BE23B3F4DA006E9925 /* OptionsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 642679C023B3F4DA006E9925 /* OptionsScene.sks */; };
+		643B1CD523EA1AC70047BF6C /* coins.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 643B1CD423EA1AC70047BF6C /* coins.atlas */; };
 		643D6B3E2124F45300EF8B6F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3D2124F45300EF8B6F /* GameScene.swift */; };
 		643D6B402124F46100EF8B6F /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3F2124F46100EF8B6F /* AboutScene.swift */; };
 		643D6B422124F46C00EF8B6F /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B412124F46C00EF8B6F /* OptionsScene.swift */; };
@@ -34,10 +39,10 @@
 		64401C802207D5EF0090C30A /* shipexhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C7F2207D5EF0090C30A /* shipexhaust.atlas */; };
 		64401C822207D6140090C30A /* enemy5.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C812207D6140090C30A /* enemy5.atlas */; };
 		64401C842207D66D0090C30A /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C832207D66D0090C30A /* player.atlas */; };
+		644A378123C80D1B00195A25 /* missileExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 644A378023C80D1B00195A25 /* missileExhaust.atlas */; };
 		6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6470382A21C35F8E00EC53B3 /* fireballwep.atlas */; };
 		647F573221FEAE600060A3A7 /* blob.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 647F573121FEAE600060A3A7 /* blob.atlas */; };
 		6497436F2123A7C4008D74BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6497436E2123A7C4008D74BB /* AppDelegate.swift */; };
-		649743712123A7C4008D74BB /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 649743702123A7C4008D74BB /* MenuScene.sks */; };
 		649743732123A7C4008D74BB /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 649743722123A7C4008D74BB /* Actions.sks */; };
 		649743752123A7C4008D74BB /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649743742123A7C4008D74BB /* MenuScene.swift */; };
 		649743772123A7C4008D74BB /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649743762123A7C4008D74BB /* GameViewController.swift */; };
@@ -45,19 +50,19 @@
 		6497437C2123A7C5008D74BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6497437B2123A7C5008D74BB /* Assets.xcassets */; };
 		6497437F2123A7C5008D74BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */; };
 		6498A37B21A5000600AE5CDC /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6498A37A21A5000600AE5CDC /* TutorialScene.swift */; };
-		6498A37F21A5002900AE5CDC /* TutorialScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6498A37E21A5002900AE5CDC /* TutorialScene.sks */; };
 		649CBE0C22016EDB00B10BA2 /* playerdown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 649CBE0B22016EDB00B10BA2 /* playerdown.atlas */; };
 		649CBE0E22016EE000B10BA2 /* playerup.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 649CBE0D22016EE000B10BA2 /* playerup.atlas */; };
 		64A20BC6220BA596008BD8C2 /* blueBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BC5220BA596008BD8C2 /* blueBullet.atlas */; };
 		64A20BCC220BB3CC008BD8C2 /* greenBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BCB220BB3CC008BD8C2 /* greenBullet.atlas */; };
 		64A20BCE220BB9C1008BD8C2 /* redBullet.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64A20BCD220BB9C1008BD8C2 /* redBullet.atlas */; };
+		64A3428223EDE3E7007AC4EB /* Store.sks in Resources */ = {isa = PBXBuildFile; fileRef = 64A3428423EDE3E7007AC4EB /* Store.sks */; };
 		64AB250A21DAB47C00F0E7D6 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 64AB250921DAB47B00F0E7D6 /* sounds */; };
+		64B152B023EB929F00C57F27 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B152AF23EB929F00C57F27 /* Store.swift */; };
 		64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */; };
 		64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */; };
-		64DB6FCE2124FE1E009D00CF /* StoryScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DB6FCD2124FE1E009D00CF /* StoryScene.swift */; };
-		64DB6FD22124FE57009D00CF /* StoryScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 64DB6FD12124FE57009D00CF /* StoryScene.sks */; };
 		64DC867021FE9BF000566AED /* enemy8.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC866F21FE9BF000566AED /* enemy8.atlas */; };
 		64DC867221FE9E5000566AED /* enemy9.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC867121FE9E4F00566AED /* enemy9.atlas */; };
+		64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64E2498823C7E98B00EFE2B9 /* Localizable.strings */; };
 		64EA7B1321DAAD9800229688 /* music in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1221DAAD9800229688 /* music */; };
 		64EA7B1921DAB12B00229688 /* lightningUp.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1821DAB12B00229688 /* lightningUp.atlas */; };
 		64EA7B1B21DAB13100229688 /* lightningDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1A21DAB13000229688 /* lightningDown.atlas */; };
@@ -89,21 +94,40 @@
 		6403D8DF220692A400BD27DF /* enemyExhaust3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust3.atlas; sourceTree = "<group>"; };
 		6403D8E122069BD100BD27DF /* enemyExhaust4.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust4.atlas; sourceTree = "<group>"; };
 		6403D8E322069CAE00BD27DF /* enemyExhaust5.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust5.atlas; sourceTree = "<group>"; };
+		640C9B3323FE128F0030532F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		641457BF21E1B82800EE98DA /* enemyLightningDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyLightningDown.atlas; sourceTree = "<group>"; };
 		641457C021E1B82800EE98DA /* enemyLightningUp.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyLightningUp.atlas; sourceTree = "<group>"; };
+		64199147240EC7650070E479 /* explode.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = explode.atlas; sourceTree = "<group>"; };
 		641D683C237CEC8E00E8C5EA /* brainBossAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = brainBossAttack.atlas; sourceTree = "<group>"; };
 		641D683D237CEC8F00E8C5EA /* brainBossNorm.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = brainBossNorm.atlas; sourceTree = "<group>"; };
 		641D6840237CEEFA00E8C5EA /* buzzBossAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buzzBossAttack.atlas; sourceTree = "<group>"; };
 		641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buzzBossNorm.atlas; sourceTree = "<group>"; };
+		6420339723FE2BF900062E4F /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		6422729221FD82E000685076 /* enemy6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy6.atlas; sourceTree = "<group>"; };
 		6422729421FD863C00685076 /* enemy7.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy7.atlas; sourceTree = "<group>"; };
-		64386D642384D6A500C9C93E /* explode.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = explode.atlas; path = ../../../../Desktop/explode.atlas; sourceTree = "<group>"; };
-		643D6B372124EE8800EF8B6F /* AboutScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = AboutScene.sks; sourceTree = "<group>"; };
-		643D6B392124F36800EF8B6F /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		643D6B3B2124F38B00EF8B6F /* OptionsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = OptionsScene.sks; sourceTree = "<group>"; };
+		642679AB23B3EF6F006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/TutorialScene.sks; sourceTree = "<group>"; };
+		642679AE23B3EF82006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/TutorialScene.sks"; sourceTree = "<group>"; };
+		642679B023B3F237006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/AboutScene.sks; sourceTree = "<group>"; };
+		642679B323B3F23C006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/AboutScene.sks"; sourceTree = "<group>"; };
+		642679B523B3F2D9006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/GameScene.sks; sourceTree = "<group>"; };
+		642679B823B3F2E3006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/GameScene.sks"; sourceTree = "<group>"; };
+		642679BA23B3F440006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/MenuScene.sks; sourceTree = "<group>"; };
+		642679BF23B3F4DA006E9925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/OptionsScene.sks; sourceTree = "<group>"; };
+		642679C223B3F4E3006E9925 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/OptionsScene.sks"; sourceTree = "<group>"; };
+		643B1CD423EA1AC70047BF6C /* coins.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = coins.atlas; sourceTree = "<group>"; };
 		643D6B3D2124F45300EF8B6F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		643D6B3F2124F46100EF8B6F /* AboutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		643D6B412124F46C00EF8B6F /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
+		643E141E23C6B1EE00CC41EE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		643E141F23C6B20300CC41EE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		643E142F23C6C22A00CC41EE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/AboutScene.sks"; sourceTree = "<group>"; };
+		643E143023C6C22A00CC41EE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/GameScene.sks"; sourceTree = "<group>"; };
+		643E143223C6C22A00CC41EE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/OptionsScene.sks"; sourceTree = "<group>"; };
+		643E143323C6C22B00CC41EE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/TutorialScene.sks"; sourceTree = "<group>"; };
+		643E143423C6C24200CC41EE /* es */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = es; path = es.lproj/AboutScene.sks; sourceTree = "<group>"; };
+		643E143523C6C24200CC41EE /* es */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = es; path = es.lproj/GameScene.sks; sourceTree = "<group>"; };
+		643E143723C6C24200CC41EE /* es */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = es; path = es.lproj/OptionsScene.sks; sourceTree = "<group>"; };
+		643E143823C6C24200CC41EE /* es */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = es; path = es.lproj/TutorialScene.sks; sourceTree = "<group>"; };
 		64401C772207D51C0090C30A /* enemy2.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy2.atlas; sourceTree = "<group>"; };
 		64401C782207D51C0090C30A /* enemy3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy3.atlas; sourceTree = "<group>"; };
 		64401C7B2207D59B0090C30A /* enemy1.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy1.atlas; sourceTree = "<group>"; };
@@ -111,34 +135,44 @@
 		64401C7F2207D5EF0090C30A /* shipexhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shipexhaust.atlas; sourceTree = "<group>"; };
 		64401C812207D6140090C30A /* enemy5.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy5.atlas; sourceTree = "<group>"; };
 		64401C832207D66D0090C30A /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = player.atlas; sourceTree = "<group>"; };
+		644A378023C80D1B00195A25 /* missileExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = missileExhaust.atlas; sourceTree = "<group>"; };
 		6470382A21C35F8E00EC53B3 /* fireballwep.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fireballwep.atlas; sourceTree = "<group>"; };
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
 		6497436B2123A7C4008D74BB /* Star Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6497436E2123A7C4008D74BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		649743702123A7C4008D74BB /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		649743722123A7C4008D74BB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		649743742123A7C4008D74BB /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		649743762123A7C4008D74BB /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		649743792123A7C4008D74BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6497437B2123A7C5008D74BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6497437E2123A7C5008D74BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		649743802123A7C5008D74BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		649743852123A7C5008D74BB /* starfighterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		649743902123A7C5008D74BB /* starfighterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starfighterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6498A37A21A5000600AE5CDC /* TutorialScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
-		6498A37E21A5002900AE5CDC /* TutorialScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TutorialScene.sks; sourceTree = "<group>"; };
 		649CBE0B22016EDB00B10BA2 /* playerdown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = playerdown.atlas; sourceTree = "<group>"; };
 		649CBE0D22016EE000B10BA2 /* playerup.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = playerup.atlas; sourceTree = "<group>"; };
 		64A20BC5220BA596008BD8C2 /* blueBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blueBullet.atlas; sourceTree = "<group>"; };
 		64A20BCB220BB3CC008BD8C2 /* greenBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = greenBullet.atlas; sourceTree = "<group>"; };
 		64A20BCD220BB9C1008BD8C2 /* redBullet.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = redBullet.atlas; sourceTree = "<group>"; };
+		64A3428323EDE3E7007AC4EB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/Store.sks"; sourceTree = "<group>"; };
+		64A3428523EDE3ED007AC4EB /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/Store.sks; sourceTree = "<group>"; };
+		64A3428623EDE3F4007AC4EB /* es */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = es; path = es.lproj/Store.sks; sourceTree = "<group>"; };
+		64A3428723EDE3F6007AC4EB /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "vi-VN"; path = "vi-VN.lproj/Store.sks"; sourceTree = "<group>"; };
+		64A3428823EDE3FA007AC4EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Base; path = Base.lproj/Store.sks; sourceTree = "<group>"; };
 		64AB250921DAB47B00F0E7D6 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
+		64B152A923EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64B152AA23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/AboutScene.sks; sourceTree = "<group>"; };
+		64B152AB23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/GameScene.sks; sourceTree = "<group>"; };
+		64B152AD23EB766D00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/OptionsScene.sks; sourceTree = "<group>"; };
+		64B152AE23EB766E00C57F27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = ja; path = ja.lproj/TutorialScene.sks; sourceTree = "<group>"; };
+		64B152AF23EB929F00C57F27 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		64B906A02207A66D00CAAA66 /* enemyExhaust6.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust6.atlas; sourceTree = "<group>"; };
 		64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyExhaust.atlas; sourceTree = "<group>"; };
-		64DB6FCD2124FE1E009D00CF /* StoryScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScene.swift; sourceTree = "<group>"; };
-		64DB6FD12124FE57009D00CF /* StoryScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StoryScene.sks; sourceTree = "<group>"; };
 		64DC866F21FE9BF000566AED /* enemy8.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy8.atlas; sourceTree = "<group>"; };
 		64DC867121FE9E4F00566AED /* enemy9.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy9.atlas; sourceTree = "<group>"; };
+		64E2498723C7E98B00EFE2B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64E2498923C7E98D00EFE2B9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		64E2498A23C7E98F00EFE2B9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64E2498B23C7E99000EFE2B9 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		64EA7B1221DAAD9800229688 /* music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = music; sourceTree = "<group>"; };
 		64EA7B1821DAB12B00229688 /* lightningUp.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningUp.atlas; sourceTree = "<group>"; };
 		64EA7B1A21DAB13000229688 /* lightningDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningDown.atlas; sourceTree = "<group>"; };
@@ -157,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				013FD39B82618B5280A82BC1 /* Pods_starfighter.framework in Frameworks */,
+				640C9B3423FE128F0030532F /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +215,7 @@
 		1198A9996CB19A6056A0A1E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				640C9B3323FE128F0030532F /* StoreKit.framework */,
 				A9E5B5EB182AB7AE9C60C3C3 /* Pods_starfighter.framework */,
 			);
 			name = Frameworks;
@@ -208,28 +244,30 @@
 		6497436D2123A7C4008D74BB /* starfighter */ = {
 			isa = PBXGroup;
 			children = (
-				643D6B372124EE8800EF8B6F /* AboutScene.sks */,
+				64E2498823C7E98B00EFE2B9 /* Localizable.strings */,
+				642679B123B3F237006E9925 /* AboutScene.sks */,
 				643D6B3F2124F46100EF8B6F /* AboutScene.swift */,
 				649743722123A7C4008D74BB /* Actions.sks */,
 				6497436E2123A7C4008D74BB /* AppDelegate.swift */,
+				6420339723FE2BF900062E4F /* IAPHelper.swift */,
 				6497437B2123A7C5008D74BB /* Assets.xcassets */,
 				64FEDAF221F64F1B0014C9D4 /* atlases */,
-				643D6B392124F36800EF8B6F /* GameScene.sks */,
+				642679B623B3F2D9006E9925 /* GameScene.sks */,
 				643D6B3D2124F45300EF8B6F /* GameScene.swift */,
 				649743762123A7C4008D74BB /* GameViewController.swift */,
 				649743802123A7C5008D74BB /* Info.plist */,
 				6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */,
 				649743782123A7C4008D74BB /* Main.storyboard */,
-				649743702123A7C4008D74BB /* MenuScene.sks */,
+				642679BB23B3F440006E9925 /* MenuScene.sks */,
 				649743742123A7C4008D74BB /* MenuScene.swift */,
 				64EA7B1221DAAD9800229688 /* music */,
-				643D6B3B2124F38B00EF8B6F /* OptionsScene.sks */,
+				642679C023B3F4DA006E9925 /* OptionsScene.sks */,
 				643D6B412124F46C00EF8B6F /* OptionsScene.swift */,
 				64AB250921DAB47B00F0E7D6 /* sounds */,
-				64DB6FD12124FE57009D00CF /* StoryScene.sks */,
-				64DB6FCD2124FE1E009D00CF /* StoryScene.swift */,
-				6498A37E21A5002900AE5CDC /* TutorialScene.sks */,
+				642679AC23B3EF6F006E9925 /* TutorialScene.sks */,
 				6498A37A21A5000600AE5CDC /* TutorialScene.swift */,
+				64B152AF23EB929F00C57F27 /* Store.swift */,
+				64A3428423EDE3E7007AC4EB /* Store.sks */,
 			);
 			path = starfighter;
 			sourceTree = "<group>";
@@ -237,7 +275,9 @@
 		64FEDAF221F64F1B0014C9D4 /* atlases */ = {
 			isa = PBXGroup;
 			children = (
-				64386D642384D6A500C9C93E /* explode.atlas */,
+				64199147240EC7650070E479 /* explode.atlas */,
+				643B1CD423EA1AC70047BF6C /* coins.atlas */,
+				644A378023C80D1B00195A25 /* missileExhaust.atlas */,
 				641D6840237CEEFA00E8C5EA /* buzzBossAttack.atlas */,
 				641D6841237CEEFA00E8C5EA /* buzzBossNorm.atlas */,
 				641D683C237CEC8E00E8C5EA /* brainBossAttack.atlas */,
@@ -375,6 +415,10 @@
 			knownRegions = (
 				en,
 				Base,
+				"vi-VN",
+				"zh-Hans",
+				es,
+				ja,
 			);
 			mainGroup = 649743622123A7C4008D74BB;
 			productRefGroup = 6497436C2123A7C4008D74BB /* Products */;
@@ -395,24 +439,25 @@
 			files = (
 				6497437A2123A7C4008D74BB /* Main.storyboard in Resources */,
 				64F8D31422092AE8000DCBDE /* boss2Exhaust.atlas in Resources */,
-				643D6B3C2124F38B00EF8B6F /* OptionsScene.sks in Resources */,
+				642679BE23B3F4DA006E9925 /* OptionsScene.sks in Resources */,
 				649CBE0E22016EE000B10BA2 /* playerup.atlas in Resources */,
 				64ECA9ED21FD6F9B000B015D /* enemy4.atlas in Resources */,
 				64EA7B1B21DAB13100229688 /* lightningDown.atlas in Resources */,
 				641D683E237CEC8F00E8C5EA /* brainBossAttack.atlas in Resources */,
 				641D683F237CEC8F00E8C5EA /* brainBossNorm.atlas in Resources */,
-				6498A37F21A5002900AE5CDC /* TutorialScene.sks in Resources */,
+				642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */,
+				64A3428223EDE3E7007AC4EB /* Store.sks in Resources */,
 				64AB250A21DAB47C00F0E7D6 /* sounds in Resources */,
+				64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */,
 				6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */,
 				64EA7B1321DAAD9800229688 /* music in Resources */,
-				649743712123A7C4008D74BB /* MenuScene.sks in Resources */,
+				642679B923B3F440006E9925 /* MenuScene.sks in Resources */,
 				6403D8E222069BD200BD27DF /* enemyExhaust4.atlas in Resources */,
 				641457C121E1B82900EE98DA /* enemyLightningDown.atlas in Resources */,
 				6497437C2123A7C5008D74BB /* Assets.xcassets in Resources */,
 				641457C221E1B82900EE98DA /* enemyLightningUp.atlas in Resources */,
 				64401C792207D51C0090C30A /* enemy2.atlas in Resources */,
 				64F8D31622093140000DCBDE /* boss3.atlas in Resources */,
-				64386D652384D6A500C9C93E /* explode.atlas in Resources */,
 				64401C802207D5EF0090C30A /* shipexhaust.atlas in Resources */,
 				6422729521FD863C00685076 /* enemy7.atlas in Resources */,
 				6403D8E0220692A400BD27DF /* enemyExhaust3.atlas in Resources */,
@@ -425,7 +470,7 @@
 				649CBE0C22016EDB00B10BA2 /* playerdown.atlas in Resources */,
 				6403D8DE220672CC00BD27DF /* enemyExhaust2.atlas in Resources */,
 				641D6842237CEEFA00E8C5EA /* buzzBossAttack.atlas in Resources */,
-				643D6B3A2124F36800EF8B6F /* GameScene.sks in Resources */,
+				642679B423B3F2D9006E9925 /* GameScene.sks in Resources */,
 				64401C842207D66D0090C30A /* player.atlas in Resources */,
 				64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */,
 				6403D8E422069CAF00BD27DF /* enemyExhaust5.atlas in Resources */,
@@ -435,13 +480,15 @@
 				64DC867221FE9E5000566AED /* enemy9.atlas in Resources */,
 				64F8D3182209423F000DCBDE /* star.atlas in Resources */,
 				64DC867021FE9BF000566AED /* enemy8.atlas in Resources */,
-				643D6B382124EE8800EF8B6F /* AboutScene.sks in Resources */,
+				644A378123C80D1B00195A25 /* missileExhaust.atlas in Resources */,
+				642679AF23B3F237006E9925 /* AboutScene.sks in Resources */,
 				649743732123A7C4008D74BB /* Actions.sks in Resources */,
 				64B906A12207A66D00CAAA66 /* enemyExhaust6.atlas in Resources */,
 				6422729321FD82E000685076 /* enemy6.atlas in Resources */,
 				647F573221FEAE600060A3A7 /* blob.atlas in Resources */,
-				64DB6FD22124FE57009D00CF /* StoryScene.sks in Resources */,
+				64199148240EC7650070E479 /* explode.atlas in Resources */,
 				64A20BCC220BB3CC008BD8C2 /* greenBullet.atlas in Resources */,
+				643B1CD523EA1AC70047BF6C /* coins.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,8 +541,9 @@
 				649743752123A7C4008D74BB /* MenuScene.swift in Sources */,
 				649743772123A7C4008D74BB /* GameViewController.swift in Sources */,
 				643D6B402124F46100EF8B6F /* AboutScene.swift in Sources */,
+				64B152B023EB929F00C57F27 /* Store.swift in Sources */,
+				6420339823FE2BF900062E4F /* IAPHelper.swift in Sources */,
 				643D6B3E2124F45300EF8B6F /* GameScene.swift in Sources */,
-				64DB6FCE2124FE1E009D00CF /* StoryScene.swift in Sources */,
 				6498A37B21A5000600AE5CDC /* TutorialScene.swift in Sources */,
 				6497436F2123A7C4008D74BB /* AppDelegate.swift in Sources */,
 				643D6B422124F46C00EF8B6F /* OptionsScene.swift in Sources */,
@@ -532,10 +580,66 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		642679AC23B3EF6F006E9925 /* TutorialScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679AB23B3EF6F006E9925 /* Base */,
+				642679AE23B3EF82006E9925 /* vi-VN */,
+				643E143323C6C22B00CC41EE /* zh-Hans */,
+				643E143823C6C24200CC41EE /* es */,
+				64B152AE23EB766E00C57F27 /* ja */,
+			);
+			name = TutorialScene.sks;
+			sourceTree = "<group>";
+		};
+		642679B123B3F237006E9925 /* AboutScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679B023B3F237006E9925 /* Base */,
+				642679B323B3F23C006E9925 /* vi-VN */,
+				643E142F23C6C22A00CC41EE /* zh-Hans */,
+				643E143423C6C24200CC41EE /* es */,
+				64B152AA23EB766D00C57F27 /* ja */,
+			);
+			name = AboutScene.sks;
+			sourceTree = "<group>";
+		};
+		642679B623B3F2D9006E9925 /* GameScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679B523B3F2D9006E9925 /* Base */,
+				642679B823B3F2E3006E9925 /* vi-VN */,
+				643E143023C6C22A00CC41EE /* zh-Hans */,
+				643E143523C6C24200CC41EE /* es */,
+				64B152AB23EB766D00C57F27 /* ja */,
+			);
+			name = GameScene.sks;
+			sourceTree = "<group>";
+		};
+		642679BB23B3F440006E9925 /* MenuScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679BA23B3F440006E9925 /* Base */,
+			);
+			name = MenuScene.sks;
+			sourceTree = "<group>";
+		};
+		642679C023B3F4DA006E9925 /* OptionsScene.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				642679BF23B3F4DA006E9925 /* Base */,
+				642679C223B3F4E3006E9925 /* vi-VN */,
+				643E143223C6C22A00CC41EE /* zh-Hans */,
+				643E143723C6C24200CC41EE /* es */,
+				64B152AD23EB766D00C57F27 /* ja */,
+			);
+			name = OptionsScene.sks;
+			sourceTree = "<group>";
+		};
 		649743782123A7C4008D74BB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				649743792123A7C4008D74BB /* Base */,
+				643E141F23C6B20300CC41EE /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -543,9 +647,33 @@
 		6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6497437E2123A7C5008D74BB /* Base */,
+				643E141E23C6B1EE00CC41EE /* en */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		64A3428423EDE3E7007AC4EB /* Store.sks */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64A3428323EDE3E7007AC4EB /* zh-Hans */,
+				64A3428523EDE3ED007AC4EB /* ja */,
+				64A3428623EDE3F4007AC4EB /* es */,
+				64A3428723EDE3F6007AC4EB /* vi-VN */,
+				64A3428823EDE3FA007AC4EB /* Base */,
+			);
+			name = Store.sks;
+			sourceTree = "<group>";
+		};
+		64E2498823C7E98B00EFE2B9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64E2498723C7E98B00EFE2B9 /* en */,
+				64E2498923C7E98D00EFE2B9 /* zh-Hans */,
+				64E2498A23C7E98F00EFE2B9 /* es */,
+				64E2498B23C7E99000EFE2B9 /* vi-VN */,
+				64B152A923EB766D00C57F27 /* ja */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -555,6 +683,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -615,6 +744,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -671,7 +801,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
 				INFOPLIST_FILE = "$(SRCROOT)/starfighter/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -679,7 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.starfight;
 				PRODUCT_NAME = "Star Fighter";
 				SWIFT_VERSION = 5.0;
@@ -693,7 +823,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
 				INFOPLIST_FILE = "$(SRCROOT)/starfighter/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -701,7 +831,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.starfight;
 				PRODUCT_NAME = "Star Fighter";
 				SWIFT_VERSION = 5.0;
