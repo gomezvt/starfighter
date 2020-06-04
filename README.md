@@ -3,3 +3,5 @@ This repository manages code for the Star Fighter: Galaxy Wars app, available on
 
 ## Support
 This project is supported on the iPhone only, with a deployment target of iOS 11.
+
+© 2019 Greg Gomez
