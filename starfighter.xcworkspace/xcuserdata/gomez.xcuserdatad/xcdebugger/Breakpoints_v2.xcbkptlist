@@ -30,8 +30,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3860"
             endingLineNumber = "3860"
-            landmarkName = "setHiScore()"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -46,8 +46,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "943"
             endingLineNumber = "943"
-            landmarkName = "didMove(to:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
