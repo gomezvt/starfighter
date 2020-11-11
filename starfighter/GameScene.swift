@@ -186,7 +186,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lives = Int(3)
     var score = Int(0)
     var level = Int(1)
-    var minute = Int(2)
+    var minute = Int(1)
     var wepCount: Int = 1
     var seconds = Int(00)
     var bossLife = Int(100)
@@ -223,6 +223,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lifeLabel = SKLabelNode()
     var sentinelLabel = SKLabelNode()
     var tomahawkLabel = SKLabelNode()
+
+    var timerLabel = SKLabelNode()
 
     var shieldLabel = SKLabelNode()
     var coinIcon: SKSpriteNode!
@@ -305,6 +307,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         returnToMenuLabel = self.childNode(withName: "//returnToMenuLabel") as! SKLabelNode
         bg = self.childNode(withName: "//bg") as? SKSpriteNode
         hiScoreLabel = self.childNode(withName: "//hiScoreLabel") as! SKLabelNode
+        timerLabel = self.childNode(withName: "//timerLabel") as! SKLabelNode
         hiLabel = self.childNode(withName: "//hiLabel") as! SKLabelNode
         bar = self.childNode(withName: "//bar") as? SKSpriteNode
         headerView = self.childNode(withName: "//headerView") as? SKSpriteNode
@@ -966,7 +969,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         setBG()
         isRequestingReview = false
-        
+
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.playMusic(isMenu: false, isBoss: false, level: self.level)
         }
@@ -999,18 +1002,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             let incrementCounter = SKAction.run { [weak self] in
                                                 self?.timer()
                                             }
-
+                                            
                                             let sequence = SKAction.sequence([wait1Second, incrementCounter])
                                             self.run(SKAction.repeatForever(sequence), withKey: "timer")
                                             
-                                            // Create a life
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 150) {
-                                                let createLifeAction = SKAction.sequence([SKAction.run(self.createLife), SKAction.wait(forDuration: 150)])
-                                                self.run(SKAction.repeatForever(createLifeAction), withKey: "createlife")
+                                            if self.level == 2 || self.level == 4 || self.level == 6 || self.level == 8 {
+                                                // Create a life
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 40) {
+                                                    let createLifeAction = SKAction.sequence([SKAction.run(self.createLife), SKAction.wait(forDuration: 40)])
+                                                    self.run(SKAction.repeatForever(createLifeAction), withKey: "createlife")
+                                                }
                                             }
+                                            
                                             // Create a weapon
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
-                                                let createWeaponAction = SKAction.sequence([SKAction.run(self.createWeapon), SKAction.wait(forDuration: 30)])
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+                                                let createWeaponAction = SKAction.sequence([SKAction.run(self.createWeapon), SKAction.wait(forDuration: 20)])
                                                 self.run(SKAction.repeatForever(createWeaponAction), withKey: "createweapon")
                                             }
                                             self.setEnemyActions()
@@ -1195,58 +1201,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bg.texture = SKTexture(image: i)
     }
     
-//    func setEnemyLightning(enemy: SKSpriteNode!) {
-//        guard let enemySpeed = enemy.action(forKey: "enemyMoveAction")?.duration else { return }
-//
-//        // Create top lightning node
-//        let fire = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningUp").textureNamed("enemyLightningUp1"))
-//        fire.size = CGSize(width: 50, height: 50)
-//
-//        setEnemyAndBossFirePhysics(for: fire)
-//        fire.name = self.boss != nil ? "bossfire" : "enemyfire"
-//        fire.zPosition = 2
-//        self.addChild(fire)
-//
-//        let toppoint = CGPoint(x: -size.width * 2, y: enemy.position.y + 150)
-//        fire.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY + 50)
-//
-//        let topmoveAction = SKAction.move(to: toppoint, duration: enemySpeed - 6)
-//        topmoveAction.timingMode = .linear
-//
-//        let animateTop = SKAction.animate(with: self.enemyLightningUpSprites, timePerFrame: 0.1)
-//        let animateTopForever = SKAction.repeatForever(animateTop)
-//        setTracer(node: fire, action: topmoveAction, isEnemy: true, isLightning: true)
-//        let actions = SKAction.group([topmoveAction, animateTopForever])
-//        fire.run(actions, withKey: "enemyLightningAction")
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-//            fire.removeFromParent()
-//        }
-//
-//        // Create bottom lightning node
-//        let fire2 = SKSpriteNode(texture: SKTextureAtlas(named:"enemyLightningDown").textureNamed("enemyLightningDown1"))
-//        fire2.size = CGSize(width: 50, height: 50)
-//
-//        setEnemyAndBossFirePhysics(for: fire2)
-//        fire2.name = "enemyfire"
-//        fire2.zPosition = 2
-//        self.addChild(fire2)
-//
-//        let bottomPoint = CGPoint(x: -size.width * 2, y: enemy.position.y - 150)
-//        fire2.position = CGPoint(x: enemy.frame.minX, y: enemy.frame.midY - 50)
-//
-//        let bottomMoveAction = SKAction.move(to: bottomPoint, duration: enemySpeed - 6)
-//        bottomMoveAction.timingMode = .linear
-//
-//        let animateBottom = SKAction.animate(with: self.enemyLightningDownSprites, timePerFrame: 0.1)
-//        let animateBottomForever = SKAction.repeatForever(animateBottom)
-//        setTracer(node: fire2, action: bottomMoveAction, isEnemy: true, isLightning: true)
-//        let actions2 = SKAction.group([bottomMoveAction, animateBottomForever])
-//        fire2.run(actions2, withKey: "enemyLightningAction")
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-//            fire2.removeFromParent()
-//        }
-//    }
-    
     @objc func fireEnemyAndBossWeapon(_ enemy: SKSpriteNode) {
         let width = UIScreen.main.bounds.width
         var fire = SKSpriteNode(imageNamed: "gun2")
@@ -1300,9 +1254,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let actions = SKAction.group([action, rotateAction])
                 fire.run(actions)
             }
-//            else if weapon == .Lightning {
-//                setEnemyLightning(enemy: enemy)
-//            }
             
             if let app = UIApplication.shared.delegate as? AppDelegate {
                 if let _ = self.boss {
@@ -3002,10 +2953,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let action = action(forKey: "createweapon") {
             action.speed = 0
         }
-        
-//        if let action = action(forKey: "createlife") {
-//            action.speed = 0
-//        }
     }
     
     func startActions() {
@@ -3057,10 +3004,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let action = self.action(forKey: "createweapon") {
             action.speed = 1
         }
-        
-//        if let action = self.action(forKey: "createlife") {
-//            action.speed = 1
-//        }
     }
     
     func showAsteroids() {
@@ -3207,10 +3150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func timer() {
         if seconds == 00 {
-            if minute == 2 {
-                minute = 1
-                seconds = 59
-            } else if minute == 1 {
+            if minute == 1 {
                 minute = 0
                 seconds = 59
             } else if minute == 0 {
@@ -3289,18 +3229,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-//        if let app = UIApplication.shared.delegate as? AppDelegate {
-//            if app.musicPlayer?.isPlaying == false,
-//                lives > 0 {
-//                app.playMusic(isMenu: false, isBoss: (boss != nil), level: level)
-//            }
-//        }
+        if seconds < 10 {
+            timerLabel.text = "\(minute):0\(seconds)"
+        } else {
+            timerLabel.text = "\(minute):\(seconds)"
+        }
+        
         for s in children {
-//            if s.name == "megaBombIconShell",
-//                megaBombCount == 0 {
-//                s.removeFromParent()
-//            }
-            
             if s.name == "coin" {
                 let move = SKAction.move(to: ship.position, duration: 0.5)
                 s.run(move)
@@ -3749,6 +3684,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     } else {
                                         // END OF GAME!
                                         self.stopActions()
+                                        self.timerLabel.isHidden = true
                                         self.shieldIcon.isHidden = true
                                         self.shieldLabel.isHidden = true
                                         self.tomahawkIcon.isHidden = true
