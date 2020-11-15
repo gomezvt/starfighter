@@ -223,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lifeLabel = SKLabelNode()
     var sentinelLabel = SKLabelNode()
     var tomahawkLabel = SKLabelNode()
-
+    var levelCompleteLabel = SKLabelNode()
     var timerLabel = SKLabelNode()
 
     var shieldLabel = SKLabelNode()
@@ -270,7 +270,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func adWasDismissed(_ notification: Notification) {
         if let menuScene = GKScene(fileNamed: "MenuScene"),
             let _ = menuScene.rootNode as? MenuScene,
-            lives <= 0, isRequestingReview == false {
+            lives <= 0, isRequestingReview == false, level > 1 {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
         }
@@ -331,6 +331,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         selectedWeapon = self.childNode(withName: "//weapon") as? SKSpriteNode
         coinIcon = self.childNode(withName: "//coinIcon") as? SKSpriteNode
         coinlabel = self.childNode(withName: "//coinlabel") as! SKLabelNode
+        levelCompleteLabel = self.childNode(withName: "//levelCompleteLabel") as! SKLabelNode
 
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroidtexture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid2texture))
@@ -971,7 +972,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isRequestingReview = false
 
         if let app = UIApplication.shared.delegate as? AppDelegate {
-            app.playMusic(isMenu: false, isBoss: false, level: self.level)
+            app.playMusic(isLevelComplete: false, isMenu: false, isBoss: false, level: self.level)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -3035,7 +3036,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.redBG.run(fadeOut, completion: {
                                 self.bossAlertLabel.run(fadeOut)
                                 if let app = UIApplication.shared.delegate as? AppDelegate {
-                                    app.playMusic(isMenu: false, isBoss: true, level: self.level)
+                                    app.playMusic(isLevelComplete: false, isMenu: false, isBoss: true, level: self.level)
                                 }
                                 
                                 self.bg.removeAction(forKey: "shake")
@@ -3098,7 +3099,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 self.bg.removeAction(forKey: "shake")
                                 self.bossAlertLabel.run(fadeOut)
                                 if let app = UIApplication.shared.delegate as? AppDelegate {
-                                    app.playMusic(isMenu: false, isBoss: true, level: self.level)
+                                    app.playMusic(isLevelComplete: false, isMenu: false, isBoss: true, level: self.level)
                                 }
                                 self.bg.alpha = 0.2
                                 self.presentBoss()
@@ -3148,7 +3149,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func displayLevelCompleteLabel() {
+        let fadeIn = SKAction.fadeAlpha(to: 0.7 , duration: 0.5)
+        if let complete = self.childNode(withName: "//levelCompleteLabel") {
+            complete.run(fadeIn, completion: {
+            })
+        }
+    }
+    
+    func hideLevelCompleteLabel() {
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+        if let complete = self.childNode(withName: "//levelCompleteLabel") {
+            complete.run(fadeOut, completion: {
+            })
+        }
+    }
+    
     func timer() {
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
+        
+        if !isAsteroidBoss {
+            if minute == 0 {
+                if seconds == 04,
+                    let three = self.childNode(withName: "//3") {
+                    three.run(fadeIn, completion: {
+                        three.run(fadeOut, completion: {
+                        })
+                    })
+                } else if seconds == 03,
+                    let two = self.childNode(withName: "//2") {
+                    two.run(fadeIn, completion: {
+                        two.run(fadeOut, completion: {
+                        })
+                    })
+                } else if seconds == 02,
+                    let one = self.childNode(withName: "//1") {
+                    one.run(fadeIn, completion: {
+                        one.run(fadeOut, completion: {
+                        })
+                    })
+                }
+            }
+        }
+        
+        if seconds == 01 && minute == 0 && !isAsteroidBoss {
+            if self.level == 3 || self.level == 6 || self.level == 9 {
+                self.showAsteroids()
+            } else {
+                self.showRedBossBG()
+            }
+        }
+        
         if seconds == 00 {
             if minute == 1 {
                 minute = 0
@@ -3166,6 +3218,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if let _ = self.ship {
                         self.ship.removeAction(forKey: "launchTomahawkAction")
                     }
+                    if let app = UIApplication.shared.delegate as? AppDelegate {
+                        app.playMusic(isLevelComplete: true, isMenu: false, isBoss: false, level: level)
+                    }
+                    displayLevelCompleteLabel()
                     animateShipAfterLevel()
                     DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
                         if self.level != 10 {
@@ -3175,10 +3231,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if self.level == 3 || self.level == 6 || self.level == 9 {
                     self.isAsteroidBoss = true
                     self.stopActions()
-                    self.showAsteroids()
                 } else {
                     self.stopActions()
-                    self.showRedBossBG()
                 }
             }
         } else {
@@ -3637,7 +3691,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         self.ship.run(one) {
             app.playMissileSound()
-            self.ship.run(two)
+            self.ship.run(two) {
+                self.hideLevelCompleteLabel()
+            }
         }
     }
     
@@ -3675,7 +3731,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.score += 500
                             self.giveCoins(enemy: boss)
                             self.setHiScore()
-                            
+                            if let app = UIApplication.shared.delegate as? AppDelegate {
+                                app.playMusic(isLevelComplete: true, isMenu: false, isBoss: false, level: self.level)
+                            }
+                            self.displayLevelCompleteLabel()
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
                                 self.animateShipAfterLevel()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
