@@ -223,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lifeLabel = SKLabelNode()
     var sentinelLabel = SKLabelNode()
     var tomahawkLabel = SKLabelNode()
-
+    var levelCompleteLabel = SKLabelNode()
     var timerLabel = SKLabelNode()
 
     var shieldLabel = SKLabelNode()
@@ -331,6 +331,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         selectedWeapon = self.childNode(withName: "//weapon") as? SKSpriteNode
         coinIcon = self.childNode(withName: "//coinIcon") as? SKSpriteNode
         coinlabel = self.childNode(withName: "//coinlabel") as! SKLabelNode
+        levelCompleteLabel = self.childNode(withName: "//levelCompleteLabel") as! SKLabelNode
 
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroidtexture))
         asteroidSprites.append(SKSpriteNode(texture: Textures.asteroid2texture))
@@ -3148,6 +3149,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func displayLevelCompleteLabel() {
+        let fadeIn = SKAction.fadeAlpha(to: 0.7 , duration: 0.5)
+        if let complete = self.childNode(withName: "//levelCompleteLabel") {
+            complete.run(fadeIn, completion: {
+            })
+        }
+    }
+    
+    func hideLevelCompleteLabel() {
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+        if let complete = self.childNode(withName: "//levelCompleteLabel") {
+            complete.run(fadeOut, completion: {
+            })
+        }
+    }
+    
     func timer() {
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
         let fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
@@ -3201,6 +3218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if let _ = self.ship {
                         self.ship.removeAction(forKey: "launchTomahawkAction")
                     }
+                    displayLevelCompleteLabel()
                     animateShipAfterLevel()
                     DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
                         if self.level != 10 {
@@ -3670,7 +3688,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         self.ship.run(one) {
             app.playMissileSound()
-            self.ship.run(two)
+            self.ship.run(two) {
+                self.hideLevelCompleteLabel()
+            }
         }
     }
     
@@ -3708,7 +3728,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.score += 500
                             self.giveCoins(enemy: boss)
                             self.setHiScore()
-                            
+                            self.displayLevelCompleteLabel()
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
                                 self.animateShipAfterLevel()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
