@@ -3149,6 +3149,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func timer() {
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.5)
+        
+        if !isAsteroidBoss {
+            if minute == 0 {
+                if seconds == 04,
+                    let three = self.childNode(withName: "//3") {
+                    three.run(fadeIn, completion: {
+                        three.run(fadeOut, completion: {
+                        })
+                    })
+                } else if seconds == 03,
+                    let two = self.childNode(withName: "//2") {
+                    two.run(fadeIn, completion: {
+                        two.run(fadeOut, completion: {
+                        })
+                    })
+                } else if seconds == 02,
+                    let one = self.childNode(withName: "//1") {
+                    one.run(fadeIn, completion: {
+                        one.run(fadeOut, completion: {
+                        })
+                    })
+                }
+            }
+        }
+        
+        if seconds == 01 && minute == 0 && !isAsteroidBoss {
+            if self.level == 3 || self.level == 6 || self.level == 9 {
+                self.showAsteroids()
+            } else {
+                self.showRedBossBG()
+            }
+        }
+        
         if seconds == 00 {
             if minute == 1 {
                 minute = 0
@@ -3175,10 +3210,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if self.level == 3 || self.level == 6 || self.level == 9 {
                     self.isAsteroidBoss = true
                     self.stopActions()
-                    self.showAsteroids()
                 } else {
                     self.stopActions()
-                    self.showRedBossBG()
                 }
             }
         } else {
