@@ -270,7 +270,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func adWasDismissed(_ notification: Notification) {
         if let menuScene = GKScene(fileNamed: "MenuScene"),
             let _ = menuScene.rootNode as? MenuScene,
-            lives <= 0, isRequestingReview == false {
+            lives <= 0, isRequestingReview == false, level > 1 {
             isRequestingReview = true
             SKStoreReviewController.requestReview()
         }
@@ -972,7 +972,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isRequestingReview = false
 
         if let app = UIApplication.shared.delegate as? AppDelegate {
-            app.playMusic(isMenu: false, isBoss: false, level: self.level)
+            app.playMusic(isLevelComplete: false, isMenu: false, isBoss: false, level: self.level)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -3036,7 +3036,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.redBG.run(fadeOut, completion: {
                                 self.bossAlertLabel.run(fadeOut)
                                 if let app = UIApplication.shared.delegate as? AppDelegate {
-                                    app.playMusic(isMenu: false, isBoss: true, level: self.level)
+                                    app.playMusic(isLevelComplete: false, isMenu: false, isBoss: true, level: self.level)
                                 }
                                 
                                 self.bg.removeAction(forKey: "shake")
@@ -3099,7 +3099,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 self.bg.removeAction(forKey: "shake")
                                 self.bossAlertLabel.run(fadeOut)
                                 if let app = UIApplication.shared.delegate as? AppDelegate {
-                                    app.playMusic(isMenu: false, isBoss: true, level: self.level)
+                                    app.playMusic(isLevelComplete: false, isMenu: false, isBoss: true, level: self.level)
                                 }
                                 self.bg.alpha = 0.2
                                 self.presentBoss()
@@ -3217,6 +3217,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     if let _ = self.ship {
                         self.ship.removeAction(forKey: "launchTomahawkAction")
+                    }
+                    if let app = UIApplication.shared.delegate as? AppDelegate {
+                        app.playMusic(isLevelComplete: true, isMenu: false, isBoss: false, level: level)
                     }
                     displayLevelCompleteLabel()
                     animateShipAfterLevel()
@@ -3728,6 +3731,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.score += 500
                             self.giveCoins(enemy: boss)
                             self.setHiScore()
+                            if let app = UIApplication.shared.delegate as? AppDelegate {
+                                app.playMusic(isLevelComplete: true, isMenu: false, isBoss: false, level: self.level)
+                            }
                             self.displayLevelCompleteLabel()
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
                                 self.animateShipAfterLevel()
