@@ -16,6 +16,7 @@ class MenuScene: SKScene {
     var graphs = [String : GKGraph]()
     var lastUpdateTime : TimeInterval = 0
     var titleLabel : SKLabelNode?
+    var titleLabel2 : SKLabelNode?
     var newGameLabel : SKLabelNode?
     var optionsLabel : SKLabelNode?
     var aboutLabel : SKLabelNode?
@@ -44,6 +45,7 @@ class MenuScene: SKScene {
 
         lastUpdateTime = 0
         titleLabel = self.childNode(withName: "//titleLabel") as? SKLabelNode
+        titleLabel2 = self.childNode(withName: "//titleLabel2") as? SKLabelNode
         newGameLabel = self.childNode(withName: "//newGameLabel") as? SKLabelNode
         optionsLabel = self.childNode(withName: "//optionsLabel") as? SKLabelNode
         aboutLabel = self.childNode(withName: "//aboutLabel") as? SKLabelNode
@@ -51,6 +53,8 @@ class MenuScene: SKScene {
         storeLabel?.text = NSLocalizedString("Store", comment: "")
         aboutLabel?.text = NSLocalizedString("About", comment: "")
         optionsLabel?.text = NSLocalizedString("Options", comment: "")
+        titleLabel?.text = NSLocalizedString("Title", comment: "")
+        titleLabel2?.text = NSLocalizedString("Title", comment: "")
         
         if let willContinue = UserDefaults.standard.object(forKey: "willContinue") as? Bool,
             willContinue == true {
