@@ -970,6 +970,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         setBG()
         isRequestingReview = false
+        minute = 0
+        seconds = 10
 
         if let app = UIApplication.shared.delegate as? AppDelegate {
             app.playMusic(isLevelComplete: false, isMenu: false, isBoss: false, level: self.level)
