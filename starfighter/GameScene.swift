@@ -3719,6 +3719,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 app.playBossPlayerDeathSound()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(0.25)) {
                                     app.playBossPlayerDeathSound()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(0.5)) {
+                                        if let app = UIApplication.shared.delegate as? AppDelegate {
+                                            app.playMusic(isLevelComplete: true, isMenu: false, isBoss: false, level: self.level)
+                                        }
+                                        self.displayLevelCompleteLabel()
+                                    }
                                 }
                             }
                             if let fire = self.ship.action(forKey: "playerFireAction") {
@@ -3731,10 +3737,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.score += 500
                             self.giveCoins(enemy: boss)
                             self.setHiScore()
-                            if let app = UIApplication.shared.delegate as? AppDelegate {
-                                app.playMusic(isLevelComplete: true, isMenu: false, isBoss: false, level: self.level)
-                            }
-                            self.displayLevelCompleteLabel()
+
                             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(3)) {
                                 self.animateShipAfterLevel()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(6)) {
