@@ -32,6 +32,7 @@
 		643D6B3E2124F45300EF8B6F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3D2124F45300EF8B6F /* GameScene.swift */; };
 		643D6B402124F46100EF8B6F /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B3F2124F46100EF8B6F /* AboutScene.swift */; };
 		643D6B422124F46C00EF8B6F /* OptionsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643D6B412124F46C00EF8B6F /* OptionsScene.swift */; };
+		643FBD5C256443DB0038BE88 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64E2498823C7E98B00EFE2B9 /* Localizable.strings */; };
 		64401C792207D51C0090C30A /* enemy2.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C772207D51C0090C30A /* enemy2.atlas */; };
 		64401C7A2207D51C0090C30A /* enemy3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C782207D51C0090C30A /* enemy3.atlas */; };
 		64401C7C2207D59C0090C30A /* enemy1.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64401C7B2207D59B0090C30A /* enemy1.atlas */; };
@@ -62,7 +63,7 @@
 		64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */; };
 		64DC867021FE9BF000566AED /* enemy8.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC866F21FE9BF000566AED /* enemy8.atlas */; };
 		64DC867221FE9E5000566AED /* enemy9.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC867121FE9E4F00566AED /* enemy9.atlas */; };
-		64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64E2498823C7E98B00EFE2B9 /* Localizable.strings */; };
+		64E806CA256484A6001069D8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 649573B7256439C5007A5BB5 /* InfoPlist.strings */; };
 		64EA7B1321DAAD9800229688 /* music in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1221DAAD9800229688 /* music */; };
 		64EA7B1921DAB12B00229688 /* lightningUp.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1821DAB12B00229688 /* lightningUp.atlas */; };
 		64EA7B1B21DAB13100229688 /* lightningDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1A21DAB13000229688 /* lightningDown.atlas */; };
@@ -118,7 +119,6 @@
 		643D6B3D2124F45300EF8B6F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		643D6B3F2124F46100EF8B6F /* AboutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		643D6B412124F46C00EF8B6F /* OptionsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsScene.swift; sourceTree = "<group>"; };
-		643E141E23C6B1EE00CC41EE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		643E141F23C6B20300CC41EE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		643E142F23C6C22A00CC41EE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/AboutScene.sks"; sourceTree = "<group>"; };
 		643E143023C6C22A00CC41EE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "zh-Hans"; path = "zh-Hans.lproj/GameScene.sks"; sourceTree = "<group>"; };
@@ -138,6 +138,12 @@
 		644A378023C80D1B00195A25 /* missileExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = missileExhaust.atlas; sourceTree = "<group>"; };
 		6470382A21C35F8E00EC53B3 /* fireballwep.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fireballwep.atlas; sourceTree = "<group>"; };
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
+		649573B6256439C5007A5BB5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		649573B8256439C7007A5BB5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		649573B9256439CA007A5BB5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		649573BA256439CB007A5BB5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		649573BB256439CC007A5BB5 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		649573C325643C34007A5BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6497436B2123A7C4008D74BB /* Star Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6497436E2123A7C4008D74BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		649743722123A7C4008D74BB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -173,6 +179,7 @@
 		64E2498923C7E98D00EFE2B9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		64E2498A23C7E98F00EFE2B9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		64E2498B23C7E99000EFE2B9 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		64E806D925648607001069D8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/GameScene.sks; sourceTree = "<group>"; };
 		64EA7B1221DAAD9800229688 /* music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = music; sourceTree = "<group>"; };
 		64EA7B1821DAB12B00229688 /* lightningUp.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningUp.atlas; sourceTree = "<group>"; };
 		64EA7B1A21DAB13000229688 /* lightningDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningDown.atlas; sourceTree = "<group>"; };
@@ -244,7 +251,6 @@
 		6497436D2123A7C4008D74BB /* starfighter */ = {
 			isa = PBXGroup;
 			children = (
-				64E2498823C7E98B00EFE2B9 /* Localizable.strings */,
 				642679B123B3F237006E9925 /* AboutScene.sks */,
 				643D6B3F2124F46100EF8B6F /* AboutScene.swift */,
 				649743722123A7C4008D74BB /* Actions.sks */,
@@ -255,6 +261,7 @@
 				642679B623B3F2D9006E9925 /* GameScene.sks */,
 				643D6B3D2124F45300EF8B6F /* GameScene.swift */,
 				649743762123A7C4008D74BB /* GameViewController.swift */,
+				64E2498823C7E98B00EFE2B9 /* Localizable.strings */,
 				649743802123A7C5008D74BB /* Info.plist */,
 				6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */,
 				649743782123A7C4008D74BB /* Main.storyboard */,
@@ -268,6 +275,7 @@
 				6498A37A21A5000600AE5CDC /* TutorialScene.swift */,
 				64B152AF23EB929F00C57F27 /* Store.swift */,
 				64A3428423EDE3E7007AC4EB /* Store.sks */,
+				649573B7256439C5007A5BB5 /* InfoPlist.strings */,
 			);
 			path = starfighter;
 			sourceTree = "<group>";
@@ -391,7 +399,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Caveman Games";
 				TargetAttributes = {
 					6497436A2123A7C4008D74BB = {
@@ -437,6 +445,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				643FBD5C256443DB0038BE88 /* Localizable.strings in Resources */,
 				6497437A2123A7C4008D74BB /* Main.storyboard in Resources */,
 				64F8D31422092AE8000DCBDE /* boss2Exhaust.atlas in Resources */,
 				642679BE23B3F4DA006E9925 /* OptionsScene.sks in Resources */,
@@ -448,7 +457,6 @@
 				642679AA23B3EF6F006E9925 /* TutorialScene.sks in Resources */,
 				64A3428223EDE3E7007AC4EB /* Store.sks in Resources */,
 				64AB250A21DAB47C00F0E7D6 /* sounds in Resources */,
-				64E2498623C7E98B00EFE2B9 /* Localizable.strings in Resources */,
 				6470382B21C35F8E00EC53B3 /* fireballwep.atlas in Resources */,
 				64EA7B1321DAAD9800229688 /* music in Resources */,
 				642679B923B3F440006E9925 /* MenuScene.sks in Resources */,
@@ -467,6 +475,7 @@
 				64401C7A2207D51C0090C30A /* enemy3.atlas in Resources */,
 				64401C822207D6140090C30A /* enemy5.atlas in Resources */,
 				64A20BCE220BB9C1008BD8C2 /* redBullet.atlas in Resources */,
+				64E806CA256484A6001069D8 /* InfoPlist.strings in Resources */,
 				649CBE0C22016EDB00B10BA2 /* playerdown.atlas in Resources */,
 				6403D8DE220672CC00BD27DF /* enemyExhaust2.atlas in Resources */,
 				641D6842237CEEFA00E8C5EA /* buzzBossAttack.atlas in Resources */,
@@ -612,6 +621,7 @@
 				643E143023C6C22A00CC41EE /* zh-Hans */,
 				643E143523C6C24200CC41EE /* es */,
 				64B152AB23EB766D00C57F27 /* ja */,
+				64E806D925648607001069D8 /* en */,
 			);
 			name = GameScene.sks;
 			sourceTree = "<group>";
@@ -636,6 +646,18 @@
 			name = OptionsScene.sks;
 			sourceTree = "<group>";
 		};
+		649573B7256439C5007A5BB5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				649573B6256439C5007A5BB5 /* en */,
+				649573B8256439C7007A5BB5 /* zh-Hans */,
+				649573B9256439CA007A5BB5 /* ja */,
+				649573BA256439CB007A5BB5 /* es */,
+				649573BB256439CC007A5BB5 /* vi-VN */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		649743782123A7C4008D74BB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -647,7 +669,7 @@
 		6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				643E141E23C6B1EE00CC41EE /* en */,
+				649573C325643C34007A5BB5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -706,6 +728,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -731,7 +754,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -767,6 +790,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -786,7 +810,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -801,10 +825,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
 				INFOPLIST_FILE = "$(SRCROOT)/starfighter/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -823,10 +847,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 58K3LSSQL5;
 				INFOPLIST_FILE = "$(SRCROOT)/starfighter/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
