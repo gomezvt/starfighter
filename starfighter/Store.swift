@@ -160,9 +160,14 @@ class Store: SKScene, SKPhysicsContactDelegate {
             coinIcon3?.run(SKAction.repeatForever(animate), withKey: "coinaction")
         }
         
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: coinlabel)
-        let userDefaults = UserDefaults.standard
-        userDefaults.set(encodedData, forKey: "coinLabel")
+        do {
+            let encodedData = try NSKeyedArchiver.archivedData(withRootObject: coinlabel, requiringSecureCoding: false)
+            let userDefaults = UserDefaults.standard
+            userDefaults.set(encodedData, forKey: "coinLabel")
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
         
         if let tomahawkDur = UserDefaults.standard.object(forKey: "tomahawkDur") as? Int {
             self.tomahawkDur = tomahawkDur

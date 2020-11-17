@@ -1,9 +1,10 @@
 /* 
   InfoPlist.strings
-  
+  starfighter
 
   Created by Greg on 11/17/20.
-  
+  Copyright © 2020 Caveman Games. All rights reserved.
 */
+
 "CFBundleDisplayName" = "Star Fighter";
 "CFBundleName" = "Star Fighter";
