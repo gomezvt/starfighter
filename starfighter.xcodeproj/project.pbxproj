@@ -63,6 +63,7 @@
 		64BEE0642202AC0D00E09985 /* enemyExhaust.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64BEE0632202AC0C00E09985 /* enemyExhaust.atlas */; };
 		64DC867021FE9BF000566AED /* enemy8.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC866F21FE9BF000566AED /* enemy8.atlas */; };
 		64DC867221FE9E5000566AED /* enemy9.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64DC867121FE9E4F00566AED /* enemy9.atlas */; };
+		64E806CA256484A6001069D8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 649573B7256439C5007A5BB5 /* InfoPlist.strings */; };
 		64EA7B1321DAAD9800229688 /* music in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1221DAAD9800229688 /* music */; };
 		64EA7B1921DAB12B00229688 /* lightningUp.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1821DAB12B00229688 /* lightningUp.atlas */; };
 		64EA7B1B21DAB13100229688 /* lightningDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 64EA7B1A21DAB13000229688 /* lightningDown.atlas */; };
@@ -183,6 +184,7 @@
 		64E2498923C7E98D00EFE2B9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		64E2498A23C7E98F00EFE2B9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		64E2498B23C7E99000EFE2B9 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		64E806D925648607001069D8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = en; path = en.lproj/GameScene.sks; sourceTree = "<group>"; };
 		64EA7B1221DAAD9800229688 /* music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = music; sourceTree = "<group>"; };
 		64EA7B1821DAB12B00229688 /* lightningUp.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningUp.atlas; sourceTree = "<group>"; };
 		64EA7B1A21DAB13000229688 /* lightningDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = lightningDown.atlas; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 				64401C7A2207D51C0090C30A /* enemy3.atlas in Resources */,
 				64401C822207D6140090C30A /* enemy5.atlas in Resources */,
 				64A20BCE220BB9C1008BD8C2 /* redBullet.atlas in Resources */,
+				64E806CA256484A6001069D8 /* InfoPlist.strings in Resources */,
 				649CBE0C22016EDB00B10BA2 /* playerdown.atlas in Resources */,
 				6403D8DE220672CC00BD27DF /* enemyExhaust2.atlas in Resources */,
 				641D6842237CEEFA00E8C5EA /* buzzBossAttack.atlas in Resources */,
@@ -623,6 +626,7 @@
 				643E143023C6C22A00CC41EE /* zh-Hans */,
 				643E143523C6C24200CC41EE /* es */,
 				64B152AB23EB766D00C57F27 /* ja */,
+				64E806D925648607001069D8 /* en */,
 			);
 			name = GameScene.sks;
 			sourceTree = "<group>";
