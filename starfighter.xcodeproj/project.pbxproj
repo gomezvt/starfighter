@@ -138,6 +138,11 @@
 		644A378023C80D1B00195A25 /* missileExhaust.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = missileExhaust.atlas; sourceTree = "<group>"; };
 		6470382A21C35F8E00EC53B3 /* fireballwep.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fireballwep.atlas; sourceTree = "<group>"; };
 		647F573121FEAE600060A3A7 /* blob.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = blob.atlas; sourceTree = "<group>"; };
+		649573AC256432CB007A5BB5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		649573AE256432D1007A5BB5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		649573AF256432D3007A5BB5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		649573B0256432D4007A5BB5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		649573B1256432D5007A5BB5 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6497436B2123A7C4008D74BB /* Star Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6497436E2123A7C4008D74BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		649743722123A7C4008D74BB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -244,7 +249,6 @@
 		6497436D2123A7C4008D74BB /* starfighter */ = {
 			isa = PBXGroup;
 			children = (
-				64E2498823C7E98B00EFE2B9 /* Localizable.strings */,
 				642679B123B3F237006E9925 /* AboutScene.sks */,
 				643D6B3F2124F46100EF8B6F /* AboutScene.swift */,
 				649743722123A7C4008D74BB /* Actions.sks */,
@@ -255,6 +259,8 @@
 				642679B623B3F2D9006E9925 /* GameScene.sks */,
 				643D6B3D2124F45300EF8B6F /* GameScene.swift */,
 				649743762123A7C4008D74BB /* GameViewController.swift */,
+				64E2498823C7E98B00EFE2B9 /* Localizable.strings */,
+				649573AD256432CB007A5BB5 /* InfoPlist.strings */,
 				649743802123A7C5008D74BB /* Info.plist */,
 				6497437D2123A7C5008D74BB /* LaunchScreen.storyboard */,
 				649743782123A7C4008D74BB /* Main.storyboard */,
@@ -635,6 +641,19 @@
 			);
 			name = OptionsScene.sks;
 			sourceTree = "<group>";
+		};
+		649573AD256432CB007A5BB5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				649573AC256432CB007A5BB5 /* en */,
+				649573AE256432D1007A5BB5 /* zh-Hans */,
+				649573AF256432D3007A5BB5 /* ja */,
+				649573B0256432D4007A5BB5 /* es */,
+				649573B1256432D5007A5BB5 /* vi-VN */,
+			);
+			name = InfoPlist.strings;
+			path = /Users/gomez/Developer/starfighter/starfighter;
+			sourceTree = "<absolute>";
 		};
 		649743782123A7C4008D74BB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
