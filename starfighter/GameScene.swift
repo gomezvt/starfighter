@@ -237,6 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyExhaust2: SKSpriteNode!
     var bossStar: SKSpriteNode?
     
+    var fireButton: SKSpriteNode!
     var headerView: SKSpriteNode!
     var pauseBtn: SKSpriteNode!
     var sentinel: SKSpriteNode?
@@ -291,6 +292,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(adWasPresented), name: NSNotification.Name(rawValue: "adWasPresented"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(adWasDismissed), name: NSNotification.Name(rawValue: "adWasDismissed"), object: nil)
         
+        fireButton = self.childNode(withName: "//fireButton") as? SKSpriteNode
         bombCountLabel = self.childNode(withName: "//bombLabel") as! SKLabelNode
         megaBomb = self.childNode(withName: "//bomb") as? SKSpriteNode
         shipIcon = self.childNode(withName: "//shipIcon") as? SKSpriteNode
@@ -975,6 +977,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playMusic(isLevelComplete: false, isMenu: false, isBoss: false, level: self.level)
         }
         
+        if let _ = self.fireButton {
+            let rotateAction = SKAction.rotate(byAngle: -15, duration: 25)
+            self.fireButton.run(SKAction.repeatForever(rotateAction), withKey: "fireButtonRotation")
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if let three = self.childNode(withName: "//3"),
                 let two = self.childNode(withName: "//2"),
@@ -996,8 +1003,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             }
                                             
                                             self.shipPan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
+                                            self.shipPan.cancelsTouchesInView = false
                                             view.addGestureRecognizer(self.shipPan)
-                                            self.setFireRate();
                                             
                                             let wait1Second = SKAction.wait(forDuration: 1)
                                             let incrementCounter = SKAction.run { [weak self] in
@@ -1032,13 +1039,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func setFireRate() {
-        ship.removeAction(forKey: "playerFireAction")
-        let rate = weaponType == .Gun || weaponType == .Fireball ? 2.0 : 3.5
-        let fireWeaponAction = SKAction.sequence([SKAction.run {
-            self.fireShipWeapon()
-            }, SKAction.wait(forDuration: TimeInterval(rate))])
-        ship.run(SKAction.repeatForever(fireWeaponAction), withKey: "playerFireAction")
+    // MARK: - Ship pan and manual shoot routines
+    
+    @objc func fireShipWeapon() {
+        guard let app = UIApplication.shared.delegate as? AppDelegate,
+              let fireButton = self.fireButton,
+              isPaused == false else { return }
+        
+        isAddingSentinelFire = false
+        let size = UIScreen.main.bounds
+        let rotateAction = SKAction.rotate(byAngle: -45, duration: 10)
+        let moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
+        moveAction.timingMode = .linear
+        if weaponType == .Spread {
+            setSpreadAction()
+            app.playSpread()
+        } else if weaponType == .Lightning {
+            setLightningAction()
+            app.playLightningSound()
+        } else if let node = getNode() {
+            if weaponType == .Fireball {
+                app.playFireballSound()
+            } else {
+                app.playWeaponShot()
+            }
+            self.addChild(node)
+            setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
+            
+            let actions = SKAction.group([rotateAction, moveAction])
+            node.run(actions)
+        }
+        
+        if var _ = self.sentinel {
+            isAddingSentinelFire = true
+            if weaponType == .Spread {
+                setSpreadAction()
+            } else if weaponType == .Lightning {
+                setLightningAction()
+            } else if let node = getNode() {
+                self.addChild(node)
+                setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
+                
+                let actions = SKAction.group([rotateAction, moveAction])
+                node.run(actions)
+            }
+            
+            sentinelDur -= 1
+            sentinelLabel.text = "\(sentinelDur)"
+            if sentinelDur == 0 {
+                self.sentinel?.removeFromParent()
+                self.sentinel = nil
+            }
+        }
+        
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.25)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.25)
+        fireButton.run(fadeOut, completion: {
+            fireButton.run(fadeIn, completion: {
+            })
+        })
     }
     
     @objc func handleShipPan(gestureReconizer: UIPanGestureRecognizer) {
@@ -1719,57 +1778,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nextNode.run(actions)
         }
     }
-    
-    @objc func fireShipWeapon() {
-        guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        isAddingSentinelFire = false
-        let size = UIScreen.main.bounds
-        let rotateAction = SKAction.rotate(byAngle: -45, duration: 10)
-        let moveAction = SKAction.moveTo(x: size.width * 2, duration: 6)
-        moveAction.timingMode = .linear
-        if weaponType == .Spread {
-            setSpreadAction()
-            app.playSpread()
-        } else if weaponType == .Lightning {
-            setLightningAction()
-            app.playLightningSound()
-        } else if let node = getNode() {
-            if weaponType == .Fireball {
-                app.playFireballSound()
-            } else {
-                app.playWeaponShot()
-            }
-            self.addChild(node)
-            setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
-            
-            let actions = SKAction.group([rotateAction, moveAction])
-            node.run(actions)
-        }
-        
-        if var _ = self.sentinel {
-            isAddingSentinelFire = true
-            if weaponType == .Spread {
-                setSpreadAction()
-            } else if weaponType == .Lightning {
-                setLightningAction()
-            } else if let node = getNode() {
-                self.addChild(node)
-                setTracer(node: node, action: moveAction, isEnemy: false, isLightning: false)
 
-                let actions = SKAction.group([rotateAction, moveAction])
-                node.run(actions)
-            }
-            
-            sentinelDur -= 1
-            sentinelLabel.text = "\(sentinelDur)"
-            if sentinelDur == 0 {
-                self.sentinel?.removeFromParent()
-                self.sentinel = nil
-            }
-        }
-    }
-    
     func setTracer(node: SKSpriteNode, action: SKAction, isEnemy: Bool, isLightning: Bool) {
         if let tracer = node.copy() as? SKSpriteNode {
             self.addChild(tracer)
@@ -3277,9 +3286,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UserDefaults.standard.removeObject(forKey: "bombs")
         UserDefaults.standard.removeObject(forKey: "sentinelDur")
         UserDefaults.standard.removeObject(forKey: "tomahawkDur")
-        if lives <= 0 {
-            UserDefaults.standard.setValue(0, forKey: "score")
-        }
+        UserDefaults.standard.setValue(0, forKey: "score")
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -3493,7 +3500,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let positionInScene = touch.location(in: self)
             let touchedNode = self.atPoint(positionInScene)
             if gameStarted {
-                if touchedNode == endGameReturnMenuLabel,
+                if touchedNode == fireButton,
+                   let _ = self.fireButton {
+                    fireShipWeapon()
+                } else if touchedNode == endGameReturnMenuLabel,
                     let view = self.view as SKView?,
                     let menuScene = SKScene(fileNamed: "MenuScene") as? MenuScene {
                     clearDefaults()
@@ -3746,6 +3756,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                     } else {
                                         // END OF GAME!
                                         self.stopActions()
+                                        self.levelCompleteLabel.isHidden = true
+                                        self.fireButton.isHidden = true
                                         self.timerLabel.isHidden = true
                                         self.shieldIcon.isHidden = true
                                         self.shieldLabel.isHidden = true
@@ -3980,7 +3992,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             UserDefaults.standard.setValue(wepCount, forKey: "weaponCount")
             bar.texture = SKTexture(imageNamed: "bar\(wepCount)")
         }
-        setFireRate()
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
