@@ -3470,10 +3470,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if sprite.name == "player" {
-                if sprite.position.y <= frame.minY + 160 {
-                    sprite.position.y = frame.minY + 160
-                } else if sprite.position.y >= frame.maxY - 135 {
-                    sprite.position.y = frame.maxY - 135
+                guard let headerView = self.headerView, let grayBar = self.grayBar else {return}
+                
+                if sprite.position.y >= headerView.frame.origin.y - 30 {
+                    sprite.position.y = headerView.frame.origin.y - 30
+                } else if sprite.position.y <= grayBar.frame.maxY + 30 {
+                    sprite.position.y = grayBar.frame.maxY + 30
                 }
             }
             
@@ -3564,6 +3566,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     view.presentScene(menuScene, transition: transition)
                     app.level = 0
                     app.playIntro()
+                    if let _ = self.bannerView {
+                        self.bannerView.removeFromSuperview()
+                    }
                 } else if touchedNode == megaBomb,
                     megaBombCount > 0 {
                     megaBombCount -= 1
