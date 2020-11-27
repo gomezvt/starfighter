@@ -10,6 +10,7 @@ import SpriteKit
 import GameplayKit
 import AVFoundation
 import StoreKit
+import GoogleMobileAds
 
 enum WeaponType: Int {
     case Gun
@@ -193,8 +194,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var isAsteroidBoss: Bool = false
     var didBeatGame: Bool = false
-    var didMoveUp: Bool = false
-    var didMoveDown: Bool = false
     var gameStarted = Bool(false)
     var died = Bool(false)
     var playerHit: Bool = false
@@ -259,6 +258,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fadeOut = SKAction()
     var fadeIn = SKAction()
     var shipPan = UIPanGestureRecognizer()
+    
+    var bannerView: GADBannerView!
 
     @objc func adWasPresented(_ notification: Notification) {
         if let app = UIApplication.shared.delegate as? AppDelegate,
@@ -283,6 +284,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         scene?.scaleMode = SKSceneScaleMode.aspectFit
+        
+        if let v = self.view,
+           let window = v.window,
+           let root = window.rootViewController,
+           root.isKind(of: GameViewController.self),
+           let gameVC = root as? GameViewController {
+            bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerLandscape)
+            gameVC.initializeBanner(banner:bannerView)
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            v.addSubview(bannerView)
+        }
+        
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0, fadeDuration: 3)
@@ -3376,6 +3389,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let menuNode = menuScene.rootNode as? MenuScene,
                     let app = UIApplication.shared.delegate as? AppDelegate,
                     let player = app.musicPlayer {
+                    if let _ = self.bannerView {
+                        self.bannerView.removeFromSuperview()
+                    }
                     clearDefaults()
                     player.setVolume(0, fadeDuration: 3)
                     menuNode.entities = menuScene.entities
@@ -3684,6 +3700,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playIntro()
             store.gameStarted = true
             store.scaleMode = .aspectFit
+            if let _ = self.bannerView {
+                self.bannerView.removeFromSuperview()
+            }
             let transition = SKTransition.fade(withDuration: 1.5)
             view.presentScene(store, transition: transition)
         }
@@ -3795,6 +3814,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         self.bossStaticLifeLabel.isHidden = true
                                         self.shipExhaust.isHidden = true
                                         self.headerView.isHidden = true
+                                        if let _ = self.bannerView {
+                                            self.bannerView.removeFromSuperview()
+                                        }
                                         app.playIntro()
                                     }
                                 }
