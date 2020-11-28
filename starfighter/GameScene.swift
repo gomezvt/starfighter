@@ -1472,10 +1472,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func launchTomahawk() {
-        guard let app = UIApplication.shared.delegate as? AppDelegate, let _ = ship else { return }
-        
-        app.playMissileSound()
-        
+        guard let _ = ship else { return }
+                
         let m1 = SKSpriteNode(imageNamed: "tomahawk")
         m1.accessibilityLabel = "tomahawk"
         m1.size = CGSize(width: 50, height: 30)
@@ -3580,6 +3578,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.25)
                     let fadeIn = SKAction.fadeAlpha(to: 0.8 , duration: 0.25)
                     bombButton.run(fadeOut, completion: {
+                        app.playMegabomb()
                         self.bombButton.run(fadeIn, completion: {
                             self.dropMegaBomb()
                         })
@@ -3594,6 +3593,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.25)
                     let fadeIn = SKAction.fadeAlpha(to: 0.8 , duration: 0.25)
                     missileButton.run(fadeOut, completion: {
+                        app.playMissileSound()
                         self.missileButton.run(fadeIn, completion: {
                             self.launchTomahawk()
                         })
@@ -3942,7 +3942,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.3)
         self.bossAlertLabel.text = NSLocalizedString("Bomb", comment: "")
         redBG.run(fadeIn, completion: {
-            app.playMegabomb()
             self.bossAlertLabel.run(bossfadeIn) {
                 self.redBG.run(fadeOut, completion: {
                     self.bossAlertLabel.run(fadeOut)
