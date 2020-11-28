@@ -296,6 +296,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameVC.initializeBanner(banner:bannerView)
             bannerView.translatesAutoresizingMaskIntoConstraints = false
             v.addSubview(bannerView)
+            
+            v.addConstraints(
+                [NSLayoutConstraint(item: bannerView as GADBannerView,
+                                    attribute: .top,
+                                    relatedBy: .equal,
+                                    toItem: v,
+                                    attribute: .top,
+                                    multiplier: 1,
+                                    constant: 0),
+                 NSLayoutConstraint(item: bannerView as GADBannerView,
+                                    attribute: .centerX,
+                                    relatedBy: .equal,
+                                    toItem: v,
+                                    attribute: .centerX,
+                                    multiplier: 1,
+                                    constant: 0)
+                ])
         }
         
         if let app = UIApplication.shared.delegate as? AppDelegate,
