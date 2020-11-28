@@ -10,6 +10,7 @@ import SpriteKit
 import GameplayKit
 import AVFoundation
 import StoreKit
+import GoogleMobileAds
 
 enum WeaponType: Int {
     case Gun
@@ -193,8 +194,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var isAsteroidBoss: Bool = false
     var didBeatGame: Bool = false
-    var didMoveUp: Bool = false
-    var didMoveDown: Bool = false
     var gameStarted = Bool(false)
     var died = Bool(false)
     var playerHit: Bool = false
@@ -238,6 +237,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bossStar: SKSpriteNode?
     
     var fireButton: SKSpriteNode!
+    var bombButton: SKSpriteNode!
+    var missileButton: SKSpriteNode!
     var headerView: SKSpriteNode!
     var pauseBtn: SKSpriteNode!
     var sentinel: SKSpriteNode?
@@ -259,6 +260,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fadeOut = SKAction()
     var fadeIn = SKAction()
     var shipPan = UIPanGestureRecognizer()
+    
+    var bannerView: GADBannerView!
 
     @objc func adWasPresented(_ notification: Notification) {
         if let app = UIApplication.shared.delegate as? AppDelegate,
@@ -283,6 +286,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         scene?.scaleMode = SKSceneScaleMode.aspectFit
+        
+        if let v = self.view,
+           let window = v.window,
+           let root = window.rootViewController,
+           root.isKind(of: GameViewController.self),
+           let gameVC = root as? GameViewController {
+            bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerLandscape)
+            gameVC.initializeBanner(banner:bannerView)
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            v.addSubview(bannerView)
+            
+            v.addConstraints(
+                [NSLayoutConstraint(item: bannerView as GADBannerView,
+                                    attribute: .top,
+                                    relatedBy: .equal,
+                                    toItem: v,
+                                    attribute: .top,
+                                    multiplier: 1,
+                                    constant: 0),
+                 NSLayoutConstraint(item: bannerView as GADBannerView,
+                                    attribute: .centerX,
+                                    relatedBy: .equal,
+                                    toItem: v,
+                                    attribute: .centerX,
+                                    multiplier: 1,
+                                    constant: 0)
+                ])
+        }
+        
         if let app = UIApplication.shared.delegate as? AppDelegate,
             let gameMusicPlayer = app.musicPlayer {
             gameMusicPlayer.setVolume(0, fadeDuration: 3)
@@ -292,6 +324,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(adWasPresented), name: NSNotification.Name(rawValue: "adWasPresented"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(adWasDismissed), name: NSNotification.Name(rawValue: "adWasDismissed"), object: nil)
         
+        bombButton = self.childNode(withName: "//bombButton") as? SKSpriteNode
+        missileButton = self.childNode(withName: "//missileButton") as? SKSpriteNode
         fireButton = self.childNode(withName: "//fireButton") as? SKSpriteNode
         bombCountLabel = self.childNode(withName: "//bombLabel") as! SKLabelNode
         megaBomb = self.childNode(withName: "//bomb") as? SKSpriteNode
@@ -860,33 +894,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
         UserDefaults.standard.setValue(true, forKey: "willContinue")
-        
+
         createShip()
         
         weaponType = .Gun
-        
+
         if let tomahawkDur = UserDefaults.standard.object(forKey: "tomahawkDur") as? Int,
-            tomahawkDur > 0 {
+           tomahawkDur > 0, let _ = self.missileButton {
             self.tomahawkDur = tomahawkDur
             tomahawkLabel.text = "\(tomahawkDur)"
+            let fIn = SKAction.fadeAlpha(to: 0.8, duration: 0.5)
+            self.missileButton.run(fIn)
         }
         
         if let sentinelDur = UserDefaults.standard.object(forKey: "sentinelDur") as? Int,
-            sentinelDur > 0 {
+           sentinelDur > 0 {
             self.sentinelDur = sentinelDur
             sentinelLabel.text = "\(sentinelDur)"
             applySentinel()
         }
         
-        if let bombs = UserDefaults.standard.object(forKey: "bombs") as? Int {
+        if let bombs = UserDefaults.standard.object(forKey: "bombs") as? Int,
+           bombs > 0, let _ = self.bombButton {
             megaBombCount = bombs
             bombCountLabel.text = "\(megaBombCount)"
-            if let _ = megaBomb, bombs > 0 {
-                let fOut = SKAction.fadeAlpha(to: 0.2, duration: 0.5)
-                let fIn = SKAction.fadeAlpha(to: 1.0, duration: 0.5)
-                let actions = SKAction.sequence([fOut, fIn])
-                megaBomb.run(SKAction.repeatForever(actions))
-            }
+            let fIn = SKAction.fadeAlpha(to: 0.8, duration: 0.5)
+            self.bombButton.run(fIn)
         }
         
         if let coins = UserDefaults.standard.object(forKey: "coins") as? Int {
@@ -969,7 +1002,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let shield = self.playerShield {
             shield.physicsBody?.isDynamic = true
         }
-
         setBG()
         isRequestingReview = false
 
@@ -980,6 +1012,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let _ = self.fireButton {
             let rotateAction = SKAction.rotate(byAngle: -15, duration: 25)
             self.fireButton.run(SKAction.repeatForever(rotateAction), withKey: "fireButtonRotation")
+        }
+        
+        if let _ = self.missileButton {
+            let rotateAction = SKAction.rotate(byAngle: -15, duration: 25)
+            self.missileButton.run(SKAction.repeatForever(rotateAction), withKey: "missileButtonRotation")
+        }
+        
+        if let _ = self.bombButton {
+            let rotateAction = SKAction.rotate(byAngle: -15, duration: 25)
+            self.bombButton.run(SKAction.repeatForever(rotateAction), withKey: "bombButtonRotation")
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -997,11 +1039,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                             self.gameStarted = true
                                             self.fadeIn.duration = 0.15
                                             self.fadeOut.duration = 0.15
-                                            
-                                            if (self.tomahawkDur > 0) {
-                                                self.setTomahawkAction()
-                                            }
-                                            
+
                                             self.shipPan = UIPanGestureRecognizer(target: self, action: #selector(self.handleShipPan(gestureReconizer:)))
                                             self.shipPan.cancelsTouchesInView = false
                                             view.addGestureRecognizer(self.shipPan)
@@ -1451,45 +1489,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func launchTomahawk() {
-        guard let app = UIApplication.shared.delegate as? AppDelegate, let _ = ship else { return }
+        guard let _ = ship else { return }
+                
+        let m1 = SKSpriteNode(imageNamed: "tomahawk")
+        m1.accessibilityLabel = "tomahawk"
+        m1.size = CGSize(width: 50, height: 30)
+        m1.position = ship.position
+        m1.name = "playerfire"
+        setShipFirePhysics(for: m1)
         
-        if tomahawkDur > 0 {
-            app.playMissileSound()
-            tomahawkDur -= 1
-            UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
-            
-            let m1 = SKSpriteNode(imageNamed: "tomahawk")
-            m1.accessibilityLabel = "tomahawk"
-            m1.size = CGSize(width: 50, height: 30)
-            m1.position = ship.position
-            m1.name = "playerfire"
-            setShipFirePhysics(for: m1)
-            
-            let missileExhaust1 = SKSpriteNode(texture: SKTextureAtlas(named:"missileExhaust").textureNamed("redthrust"))
-            missileExhaust1.size = CGSize(width: 60, height: 40)
-            missileExhaust1.position = CGPoint(x: -40, y: 0)
-            let toppoint = CGPoint(x: ship.position.x, y: ship.position.y + 150)
-            let topmoveAction = SKAction.move(to: toppoint, duration: 3)
-            m1.run(topmoveAction, withKey: "tomahawkLaunched")
-            
-            m1.addChild(missileExhaust1)
-            
-            let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
-            missileExhaust1.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
-            addChild(m1)
-            m1.alpha = 1.0
-            m1.zPosition = 4
-            
-            let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.3)])
-            m1.run(SKAction.repeatForever(sparks), withKey: "shipWeaponSpark")
-        } else {
-            ship.removeAction(forKey: "launchTomahawkAction")
+        let missileExhaust1 = SKSpriteNode(texture: SKTextureAtlas(named:"missileExhaust").textureNamed("redthrust"))
+        missileExhaust1.size = CGSize(width: 60, height: 40)
+        missileExhaust1.position = CGPoint(x: -40, y: 0)
+        let toppoint = CGPoint(x: ship.position.x, y: ship.position.y + 150)
+        let topmoveAction = SKAction.move(to: toppoint, duration: 3)
+        m1.run(topmoveAction, withKey: "tomahawkLaunched")
+        
+        m1.addChild(missileExhaust1)
+        
+        let animateexhaust = SKAction.animate(with: self.missileExhaustArray, timePerFrame: 0.1)
+        missileExhaust1.run(SKAction.repeatForever(animateexhaust), withKey: "exhaustAction")
+        addChild(m1)
+        m1.alpha = 1.0
+        m1.zPosition = 4
+        
+        let sparks = SKAction.sequence([SKAction.run(self.createSpark), SKAction.wait(forDuration: 0.3)])
+        m1.run(SKAction.repeatForever(sparks), withKey: "shipWeaponSpark")
+                
+        if tomahawkDur == 0, let _ = self.missileButton {
+            let fOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+            self.missileButton.run(fOut)
         }
-    }
-    
-    func setTomahawkAction() {
-        let launchTomahawk = SKAction.sequence([SKAction.wait(forDuration: TimeInterval(3)), SKAction.run { self.launchTomahawk() }, SKAction.wait(forDuration: TimeInterval(3))])
-        self.ship.run(SKAction.repeatForever(launchTomahawk), withKey: "launchTomahawkAction")
     }
     
     func setSpreadAction() {
@@ -3127,7 +3157,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if node.isKind(of: SKSpriteNode.self),
                 let sprite = node as? SKSpriteNode,
                 sprite.accessibilityLabel == "tomahawk" {
-                if sprite.action(forKey: "tomahawkLaunched") == nil {
+                if sprite.action(forKey: "tomahawkLaunched") == nil,
+                   let _ = self.missileButton {
                     var moveAction = SKAction.moveTo(x: size.width * 2, duration: 5) as SKAction?
                     let onScreen = size.width - 50
                     
@@ -3223,9 +3254,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     if let fire = ship.action(forKey: "playerFireAction") {
                         fire.speed = 0
-                    }
-                    if let _ = self.ship {
-                        self.ship.removeAction(forKey: "launchTomahawkAction")
                     }
                     if let app = UIApplication.shared.delegate as? AppDelegate {
                         app.playMusic(isLevelComplete: true, isMenu: false, isBoss: false, level: level)
@@ -3376,6 +3404,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let menuNode = menuScene.rootNode as? MenuScene,
                     let app = UIApplication.shared.delegate as? AppDelegate,
                     let player = app.musicPlayer {
+                    if let _ = self.bannerView {
+                        self.bannerView.removeFromSuperview()
+                    }
                     clearDefaults()
                     player.setVolume(0, fadeDuration: 3)
                     menuNode.entities = menuScene.entities
@@ -3454,10 +3485,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if sprite.name == "player" {
-                if sprite.position.y <= frame.minY + 160 {
-                    sprite.position.y = frame.minY + 160
-                } else if sprite.position.y >= frame.maxY - 135 {
-                    sprite.position.y = frame.maxY - 135
+                guard let headerView = self.headerView, let grayBar = self.grayBar else {return}
+                
+                if sprite.position.y >= headerView.frame.origin.y - 30 {
+                    sprite.position.y = headerView.frame.origin.y - 30
+                } else if sprite.position.y <= grayBar.frame.maxY + 30 {
+                    sprite.position.y = grayBar.frame.maxY + 30
                 }
             }
             
@@ -3548,13 +3581,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     view.presentScene(menuScene, transition: transition)
                     app.level = 0
                     app.playIntro()
-                } else if touchedNode == megaBomb,
-                    megaBombCount > 0 {
+                    if let _ = self.bannerView {
+                        self.bannerView.removeFromSuperview()
+                    }
+                } else if touchedNode == bombButton, megaBombCount > 0 {
                     megaBombCount -= 1
+                    if megaBombCount <= 0 {
+                        megaBombCount = 0
+                    }
                     bombCountLabel.text = "\(megaBombCount)"
                     UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
-
-                    dropMegaBomb()
+                    
+                    let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.25)
+                    let fadeIn = SKAction.fadeAlpha(to: 0.8 , duration: 0.25)
+                    bombButton.run(fadeOut, completion: {
+                        app.playMegabomb()
+                        self.bombButton.run(fadeIn, completion: {
+                            self.dropMegaBomb()
+                        })
+                    })
+                } else if touchedNode == missileButton, tomahawkDur > 0 {
+                    tomahawkDur -= 1
+                    if tomahawkDur <= 0 {
+                        tomahawkDur = 0
+                    }
+                    UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
+                    
+                    let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.25)
+                    let fadeIn = SKAction.fadeAlpha(to: 0.8 , duration: 0.25)
+                    missileButton.run(fadeOut, completion: {
+                        app.playMissileSound()
+                        self.missileButton.run(fadeIn, completion: {
+                            self.launchTomahawk()
+                        })
+                    })
                 }
             }
         }
@@ -3684,6 +3744,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             app.playIntro()
             store.gameStarted = true
             store.scaleMode = .aspectFit
+            if let _ = self.bannerView {
+                self.bannerView.removeFromSuperview()
+            }
             let transition = SKTransition.fade(withDuration: 1.5)
             view.presentScene(store, transition: transition)
         }
@@ -3740,7 +3803,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             if let fire = self.ship.action(forKey: "playerFireAction") {
                                 fire.speed = 0
                             }
-                            self.ship.removeAction(forKey: "launchTomahawkAction")
                             boss.removeFromParent()
                             self.boss = nil
                             
@@ -3764,6 +3826,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         self.tomahawkIcon.isHidden = true
                                         self.tomahawkLabel.isHidden = true
                                         self.bombCountLabel.isHidden = true
+                                        self.bombButton.isHidden = true
+                                        self.missileButton.isHidden = true
                                         self.megaBomb.isHidden = true
                                         self.ship.removeAllActions()
                                         self.coinIcon.isHidden = true
@@ -3795,6 +3859,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         self.bossStaticLifeLabel.isHidden = true
                                         self.shipExhaust.isHidden = true
                                         self.headerView.isHidden = true
+                                        if let _ = self.bannerView {
+                                            self.bannerView.removeFromSuperview()
+                                        }
                                         app.playIntro()
                                     }
                                 }
@@ -3886,8 +3953,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func dropMegaBomb() {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        app.playMegabomb()
+
         let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
         let fadeIn = SKAction.fadeAlpha(to: 0.3 , duration: 0.3)
         let bossfadeIn = SKAction.fadeAlpha(to: 1.0 , duration: 0.3)
@@ -3903,9 +3969,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                     app.playKill()
-                    if self.megaBombCount == 0 {
-                        self.megaBomb.alpha = 1.0
-                        self.megaBomb.removeAllActions()
+                    if self.megaBombCount == 0, let _ = self.bombButton {
+                        let fOut = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+                        self.bombButton.run(fOut)
                     }
                 })
             }
@@ -3925,14 +3991,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setWeapon(_ weapon: SKSpriteNode) {
         guard let app = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        guard weapon.texture != Textures.megabombtexture else {
+        guard weapon.texture != Textures.megabombtexture, let _ = self.bombButton else {
             app.playNewWeapon()
             megaBombCount += 1
             bombCountLabel.text = "\(megaBombCount)"
-            let fOut = SKAction.fadeAlpha(to: 0.2, duration: 0.5)
-            let fIn = SKAction.fadeAlpha(to: 1.0, duration: 0.5)
-            let actions = SKAction.sequence([fOut, fIn])
-            megaBomb.run(SKAction.repeatForever(actions))
+            let fIn = SKAction.fadeAlpha(to: 0.8, duration: 0.5)
+            self.bombButton.run(fIn)
             UserDefaults.standard.setValue(megaBombCount, forKey: "bombs")
             
             return
@@ -3953,14 +4017,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        guard weapon.texture != Textures.tomahawktexture else {
+        guard weapon.texture != Textures.tomahawktexture, let _ = self.missileButton else {
             if let app = UIApplication.shared.delegate as? AppDelegate {
                 app.playNewWeapon()
             }
             tomahawkDur = 30
             tomahawkLabel.text = "\(tomahawkDur)"
+            let fIn = SKAction.fadeAlpha(to: 0.8, duration: 0.5)
+            self.missileButton.run(fIn)
             UserDefaults.standard.setValue(tomahawkDur, forKey: "tomahawkDur")
-            setTomahawkAction()
             
             return
         }
